@@ -25,6 +25,8 @@ public class Game : MonoBehaviour
         m_paused = false;
 
         Time.timeScale = 1;
+
+        m_State = GameState.Testing;
     }
 
     public GameState getState()

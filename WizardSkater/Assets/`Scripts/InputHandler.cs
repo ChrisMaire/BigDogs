@@ -20,7 +20,7 @@ public class InputHandler : MonoBehaviour
     public bool inp_Trick1;
     public bool inp_Trick2;
     public bool inp_Trick3;
-    public bool inp_Grind;
+    public bool inp_Push;
     
     void Update()
     {
@@ -70,14 +70,14 @@ public class InputHandler : MonoBehaviour
                 inp_D_Left = false;
         }
 
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Olli"))
             inp_Jump = true;
         else
             inp_Jump = false;
-        if (Input.GetButton("Grind") || Input.GetButton("Grind2"))
-            inp_Grind = true;
+        if (Input.GetButton("Push") || Input.GetButton("Push2"))
+            inp_Push = true;
         else
-            inp_Grind = false;
+            inp_Push = false;
 
         if (Input.GetButton("Trick1"))
             inp_Trick1 = true;
