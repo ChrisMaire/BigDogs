@@ -70,29 +70,29 @@ public class InputHandler : MonoBehaviour
                 inp_D_Left = false;
         }
 
-        if (Input.GetButton("Olli"))
+        if (Input.GetButtonDown("Olli"))
             inp_Jump = true;
         else
             inp_Jump = false;
-        if (Input.GetButton("Push") || Input.GetButton("Push2"))
+        if (Input.GetButtonDown("Push") || Input.GetButtonDown("Push2"))
             inp_Push = true;
         else
             inp_Push = false;
 
-        if (Input.GetButton("Trick1"))
+        if (Input.GetButtonDown("Trick1"))
             inp_Trick1 = true;
         else
             inp_Trick1 = false;
-        if (Input.GetButton("Trick2"))
+        if (Input.GetButtonDown("Trick2"))
             inp_Trick2 = true;
         else
             inp_Trick2 = false;
-        if (Input.GetButton("Trick3"))
+        if (Input.GetButtonDown("Trick3"))
             inp_Trick3 = true;
         else
             inp_Trick3 = false;
 
-        if (Input.GetButtonUp("Pause"))
+        if (Input.GetButtonDown("Pause"))
             inp_Pause = true;
         else
             inp_Pause = false;

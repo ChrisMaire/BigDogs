@@ -53,4 +53,9 @@ public class SystemsManager : MonoBehaviour
         Player = m_Player;
         Player.name = "Wizard!";
     }
+
+    void Update()
+    {
+        transform.position = m_Camera.transform.position;
+    }
 }

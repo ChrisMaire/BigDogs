@@ -22,8 +22,8 @@ public class Player : MonoBehaviour
 
     [Header("Collision")]
 
-    private bool m_grounded;
     public bool m_hitObject;
+    private bool m_grounded;
 
     [Header("Jump")]
 
@@ -33,11 +33,12 @@ public class Player : MonoBehaviour
     private bool m_jumpReady;
 
     [Header("Speed")]
-
-    private bool m_pushed = false;
+    
     public float m_moveSpeedCurrent = 0.0F;
     public float m_moveSpeedAccel = 0.5F;
     public bool m_moveChangeReady = false;
+    [Range(0.1f, 0.55f)] public float m_moveChangeAgainTime = 0.15f;
+    private float m_moveChangeAgainTimer;
     public float m_moveSpeed1 = 5.0F;
     public float m_moveSpeed2 = 10.0F;
     public float m_moveSpeed3 = 15.0F;
@@ -51,7 +52,7 @@ public class Player : MonoBehaviour
         Canter,
         Gallop
     }
-    private Speed m_speedCurrent = Speed.Idle;
+    public Speed m_speedCurrent = Speed.Idle;
 
     [Header("Lanes")]
 
@@ -86,43 +87,62 @@ public class Player : MonoBehaviour
     private void Update()
     {
         //CORE MOVEMENT
-        transform.position = new Vector3(transform.position.x + m_moveSpeedCurrent, transform.position.y + m_gravity, m_laneDepthCurrent);
+        var tempVect = transform.position;
+        tempVect.x += (m_moveSpeedCurrent*Time.deltaTime);
+        tempVect.y += (m_gravity*Time.deltaTime);
+        tempVect.z = m_laneDepthCurrent;
+        transform.position = tempVect;
 
-        if (m_speedCurrent != Speed.Gallop)
+        if (m_moveChangeReady)
         {
-            if (SystemsManager.m_Input.inp_Push && !m_pushed)
+            if (SystemsManager.m_Input.inp_Push && m_speedCurrent != Speed.Gallop)
             {
                 //SPEED & ACCELERATION
-                if (m_speedCurrent == Speed.Trot && m_moveSpeedCurrent < m_moveSpeed1 ||
-                    m_speedCurrent == Speed.Canter && m_moveSpeedCurrent < m_moveSpeed2 ||
-                    m_speedCurrent == Speed.Gallop && m_moveSpeedCurrent < m_moveSpeed3)
+                if (m_speedCurrent == Speed.Idle && m_moveSpeedCurrent <= 0f ||
+                    m_speedCurrent == Speed.Trot && m_moveSpeedCurrent <= m_moveSpeed1 ||
+                    m_speedCurrent == Speed.Canter && m_moveSpeedCurrent <= m_moveSpeed2 ||
+                    m_speedCurrent == Speed.Gallop && m_moveSpeedCurrent <= m_moveSpeed3)
                 {
-                    m_moveSpeedCurrent += m_moveSpeedAccel;
+                    //SPEED CHANGE
+                    Debug.Log("push " + m_speedCurrent);
+                    if (m_speedCurrent == Speed.Idle)
+                        m_speedCurrent = Speed.Trot;
+                    else if (m_speedCurrent == Speed.Trot)
+                        m_speedCurrent = Speed.Canter;
+                    else if (m_speedCurrent == Speed.Canter)
+                        m_speedCurrent = Speed.Gallop;
 
-                    if (m_speedCurrent == Speed.Trot && m_moveSpeedCurrent > m_moveSpeed1)
-                        m_moveSpeedCurrent = m_moveSpeed1;
-                    if (m_speedCurrent == Speed.Canter && m_moveSpeedCurrent > m_moveSpeed2)
-                        m_moveSpeedCurrent = m_moveSpeed2;
-                    if (m_speedCurrent == Speed.Gallop && m_moveSpeedCurrent > m_moveSpeed3)
-                        m_moveSpeedCurrent = m_moveSpeed3;
-
-                    if (SystemsManager.m_Input.inp_Push && m_moveChangeReady == true)
-                    {
-                        if (m_speedCurrent == Speed.Idle)
-                            m_speedCurrent = Speed.Trot;
-                        else if (m_speedCurrent == Speed.Trot)
-                            m_speedCurrent = Speed.Canter;
-                        else if (m_speedCurrent == Speed.Canter)
-                            m_speedCurrent = Speed.Gallop;
-                    }
-                }
-                else if (m_moveSpeedCurrent <= 0f && m_speedCurrent != Speed.Idle)
-                {
-                    m_speedCurrent = Speed.Idle;
-                    m_moveChangeReady = true;
+                    m_moveChangeReady = false;
                 }
             }
         }
+        else
+        {
+            //lane spam prevention
+            if (m_moveChangeAgainTimer < m_moveChangeAgainTime)
+                m_moveChangeAgainTimer += Time.deltaTime;
+            else if (SystemsManager.m_Input.inp_D_Up == false && SystemsManager.m_Input.inp_D_Down == false)
+            {
+                m_moveChangeReady = true;
+                m_moveChangeAgainTimer = 0;
+            }
+        }
+
+        m_moveSpeedCurrent += m_moveSpeedAccel;
+
+        if (m_speedCurrent == Speed.Trot && m_moveSpeedCurrent > m_moveSpeed1)
+            m_moveSpeedCurrent = m_moveSpeed1;
+        if (m_speedCurrent == Speed.Canter && m_moveSpeedCurrent > m_moveSpeed2)
+            m_moveSpeedCurrent = m_moveSpeed2;
+        if (m_speedCurrent == Speed.Gallop && m_moveSpeedCurrent > m_moveSpeed3)
+            m_moveSpeedCurrent = m_moveSpeed3;
+        if (m_moveSpeedCurrent <= 0f && m_speedCurrent != Speed.Idle)
+        {
+            m_speedCurrent = Speed.Idle;
+            m_moveChangeReady = true;
+        }
+        if (m_speedCurrent == Speed.Idle)
+            m_moveSpeedCurrent = 0f;
 
         //LANE CORRECTION
         if (m_laneCurrent == Lanes.Lane1 && m_laneDepthCurrent != m_laneDepth1)
