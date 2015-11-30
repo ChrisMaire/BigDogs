@@ -154,42 +154,60 @@ public class Player : MonoBehaviour
         else if (m_laneCurrent == Lanes.Lane4 && m_laneDepthCurrent != m_laneDepth4)
             m_laneDepthCurrent = m_laneDepth4;
 
-        //LANE CHANGE
-        if (m_laneChangeReady)
-        {
-            if(SystemsManager.m_Input.inp_D_Up)
-            { 
-            Debug.Log("Lane Change up");
-            var ChangedLane = true;
-            if (m_laneCurrent == Lanes.Lane1)
-                m_laneCurrent = Lanes.Lane2;
-            else if (m_laneCurrent == Lanes.Lane2)
-                m_laneCurrent = Lanes.Lane3;
-            else if (m_laneCurrent == Lanes.Lane3)
-                m_laneCurrent = Lanes.Lane4;
-            else
-                ChangedLane = false;
-
-            if (ChangedLane)
-                m_laneChangeReady = false;
-            }
-            else if (SystemsManager.m_Input.inp_D_Down)
-            {
-                Debug.Log("Lane Change down");
-                var ChangedLane = true;
-                if (m_laneCurrent == Lanes.Lane4)
-                    m_laneCurrent = Lanes.Lane3;
-                else if (m_laneCurrent == Lanes.Lane3)
-                    m_laneCurrent = Lanes.Lane2;
-                else if (m_laneCurrent == Lanes.Lane2)
-                    m_laneCurrent = Lanes.Lane1;
-                else
-                    ChangedLane = false;
-
-                if (ChangedLane)
-                    m_laneChangeReady = false;
-            }
-        }
+		//LANE CHANGE
+		if (m_laneChangeReady)
+		{
+			if(SystemsManager.m_Input.inp_D_Up)
+			{ 
+				Debug.Log("Lane Change up");
+				var ChangedLane = true;
+				if (m_laneCurrent == Lanes.Lane1)
+				{
+					m_laneCurrent = Lanes.Lane2;
+					m_laneChangePenalty =true;
+				}
+				else if (m_laneCurrent == Lanes.Lane2)
+				{
+					m_laneCurrent = Lanes.Lane3;
+					m_landeChangePenalty = true;
+				}
+				else if (m_laneCurrent == Lanes.Lane3)
+				{
+					m_laneCurrent = Lanes.Lane4;
+					m_landeChangePenalty = true;
+				}
+				else
+					ChangedLane = false;
+				
+				if (ChangedLane)
+					m_laneChangeReady = false;
+			}
+			else if (SystemsManager.m_Input.inp_D_Down)
+			{
+				Debug.Log("Lane Change down");
+				var ChangedLane = true;
+				if (m_laneCurrent == Lanes.Lane4)
+				{
+					m_laneCurrent = Lanes.Lane3;
+					m_landeChangePenalty = true;
+				}
+				else if (m_laneCurrent == Lanes.Lane3)
+				{
+					m_laneCurrent = Lanes.Lane2;
+					m_landeChangePenalty = true;
+				}
+				else if (m_laneCurrent == Lanes.Lane2)
+				{
+					m_laneCurrent = Lanes.Lane1;
+					m_landeChangePenalty = true;
+				}
+				else
+					ChangedLane = false;
+				
+				if (ChangedLane)
+					m_laneChangeReady = false;
+			}
+		}
         else
         {
             //lane spam prevention
