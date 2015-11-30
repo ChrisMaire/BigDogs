@@ -22,6 +22,8 @@ public class Camera_Wizard : MonoBehaviour
              m_player != null)
         {
             var target = m_player.transform.position + m_followDistance;
+            target.z = m_followDistance.z;
+            target.y = m_followDistance.y;
             transform.position = Vector3.Lerp(transform.position,target,m_followSpeed);
         }
     }
