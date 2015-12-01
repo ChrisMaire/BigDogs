@@ -1,0 +1,6 @@
+The Wiz - 12fps (80ms per frame)
+
+Skate
+Hold Wizard_Skate_1 for 8 frames (approximately 2/3 of a second)
+The whole motion should last 1 second in total
+
