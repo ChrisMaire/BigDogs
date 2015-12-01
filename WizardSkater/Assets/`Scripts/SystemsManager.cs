@@ -48,10 +48,10 @@ public class SystemsManager : MonoBehaviour
     void Start()
     {
         //Particles.InitObjectPools();
+        Game.InitGame();
 
         m_Player = FindObjectOfType<Player>();
         Player = m_Player;
-        Player.name = "Wizard!";
     }
 
     void Update()

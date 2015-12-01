@@ -721,9 +721,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45be8c319e265ab4f8658829bb189283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  empty: {fileID: 0}
-  player: {fileID: 0}
-  ramp: {fileID: 0}
+  m_empty: {fileID: 137792, guid: 4e53b462c75556841a8ef8e70219d692, type: 2}
+  m_player: {fileID: 120752, guid: e206e0f59877eef4e83fb13de849f1df, type: 2}
+  m_ramp: {fileID: 0}
+  m_laneTile: {fileID: 165184, guid: 5902abcba3b0ebd4b99c436d0f602c51, type: 2}
+  m_groundTile: {fileID: 180922, guid: 22b52bf0c5a51c44d94abc7ed84ea6a4, type: 2}
 --- !u!114 &11499016
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,50 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &120752
+--- !u!1 &165184
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 487854}
-  - 33: {fileID: 3374630}
-  - 64: {fileID: 6483086}
-  - 23: {fileID: 2324496}
-  - 114: {fileID: 11474286}
+  - 4: {fileID: 429914}
+  - 33: {fileID: 3348450}
+  - 64: {fileID: 6433074}
+  - 23: {fileID: 2368754}
   m_Layer: 0
-  m_Name: Player
+  m_Name: LaneTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &487854
+--- !u!4 &429914
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120752}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_GameObject: {fileID: 165184}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4, y: .599999905, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2324496
+--- !u!23 &2368754
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120752}
+  m_GameObject: {fileID: 165184}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 0
+  m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: b637d87dc7a0e5440b1e9bd4e7b453db, type: 2}
+  - {fileID: 2100000, guid: 2359b0e87d8773b499f21c20100fb2b4, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
+  m_UseLightProbes: 1
   m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
@@ -57,62 +56,25 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3374630
+--- !u!33 &3348450
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120752}
+  m_GameObject: {fileID: 165184}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6483086
+--- !u!64 &6433074
 MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120752}
+  m_GameObject: {fileID: 165184}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &11474286
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5666791d1352dab4ebf97143f580867e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_State: 0
-  m_gravityGround: 0
-  m_gravityMultiplier: .899999976
-  m_hitObject: 0
-  m_jump: 8
-  m_jumpAgainTime: .5
-  m_moveSpeedCurrent: 0
-  m_moveSpeedAccel: .0250000004
-  m_moveChangeReady: 0
-  m_moveChangeAgainTime: .150000006
-  m_moveSpeed1: 1
-  m_moveSpeed2: 2
-  m_moveSpeed3: 5
-  m_TurboOnC: 0
-  m_speedTurbo: 3
-  m_speedCurrent: 0
-  m_laneDepthCurrent: 0
-  m_laneDepth1: -1.25
-  m_laneDepth2: -.5
-  m_laneDepth3: .25
-  m_laneDepth4: 1
-  m_laneChangeReady: 0
-  m_laneChangeAgainTime: .100000001
-  m_laneChangePenalty: 1
-  m_speedLossLaneChange: 5
-  m_laneCurrent: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -126,17 +88,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.y
-      value: .5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_laneChangePenalty
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 120752}
+  m_RootGameObject: {fileID: 165184}
   m_IsPrefabParent: 1

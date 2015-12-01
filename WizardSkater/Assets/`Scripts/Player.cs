@@ -81,7 +81,6 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         m_animator = GetComponentInChildren<Animator>();
-
     }
 
     private void Update()
@@ -104,7 +103,6 @@ public class Player : MonoBehaviour
                     m_speedCurrent == Speed.Gallop && m_moveSpeedCurrent <= m_moveSpeed3)
                 {
                     //SPEED CHANGE
-                    Debug.Log("push " + m_speedCurrent);
                     if (m_speedCurrent == Speed.Idle)
                         m_speedCurrent = Speed.Trot;
                     else if (m_speedCurrent == Speed.Trot)
@@ -144,7 +142,7 @@ public class Player : MonoBehaviour
         if (m_speedCurrent == Speed.Idle)
             m_moveSpeedCurrent = 0f;
 
-        //LANE CORRECTION
+        //LANE CORRECTION & z depth
         if (m_laneCurrent == Lanes.Lane1 && m_laneDepthCurrent != m_laneDepth1)
             m_laneDepthCurrent = m_laneDepth1;
         else if (m_laneCurrent == Lanes.Lane2 && m_laneDepthCurrent != m_laneDepth2)
@@ -164,18 +162,21 @@ public class Player : MonoBehaviour
 				if (m_laneCurrent == Lanes.Lane1)
 				{
 					m_laneCurrent = Lanes.Lane2;
-					m_laneChangePenalty =true;
+				    if (m_laneChangePenalty)
+				        m_moveSpeedCurrent *= 0.3f;
 				}
 				else if (m_laneCurrent == Lanes.Lane2)
 				{
 					m_laneCurrent = Lanes.Lane3;
-					m_landeChangePenalty = true;
-				}
+                    if (m_laneChangePenalty)
+                        m_moveSpeedCurrent *= 0.3f;
+                }
 				else if (m_laneCurrent == Lanes.Lane3)
 				{
 					m_laneCurrent = Lanes.Lane4;
-					m_landeChangePenalty = true;
-				}
+                    if (m_laneChangePenalty)
+                        m_moveSpeedCurrent *= 0.3f;
+                }
 				else
 					ChangedLane = false;
 				
@@ -189,18 +190,21 @@ public class Player : MonoBehaviour
 				if (m_laneCurrent == Lanes.Lane4)
 				{
 					m_laneCurrent = Lanes.Lane3;
-					m_landeChangePenalty = true;
-				}
+                    if (m_laneChangePenalty)
+                        m_moveSpeedCurrent *= 0.3f;
+                }
 				else if (m_laneCurrent == Lanes.Lane3)
 				{
 					m_laneCurrent = Lanes.Lane2;
-					m_landeChangePenalty = true;
-				}
+                    if (m_laneChangePenalty)
+                        m_moveSpeedCurrent *= 0.3f;
+                }
 				else if (m_laneCurrent == Lanes.Lane2)
 				{
 					m_laneCurrent = Lanes.Lane1;
-					m_landeChangePenalty = true;
-				}
+                    if (m_laneChangePenalty)
+                        m_moveSpeedCurrent *= 0.3f;
+                }
 				else
 					ChangedLane = false;
 				

@@ -18,7 +18,7 @@ public class Game : MonoBehaviour
     public bool m_paused;
     private bool m_inputFreeze;
 
-    private void Awake()
+    public void InitGame()
     {
         m_startedTheGame = false;
 
@@ -27,6 +27,19 @@ public class Game : MonoBehaviour
         Time.timeScale = 1;
 
         m_State = GameState.Testing;
+
+        SpawnPlayer();
+    }
+
+    private void SpawnPlayer()
+    {
+        GameObject player = GameObject.Find("Player");
+        if(player == null)
+            player = Instantiate(SystemsManager.m_Prefabs.m_player);
+        else
+            Debug.Log("player already in scene!!");
+
+        player.name = "Wizard!";
     }
 
     public GameState getState()
