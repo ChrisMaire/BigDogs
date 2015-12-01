@@ -94,11 +94,11 @@ MonoBehaviour:
   m_jump: 8
   m_jumpAgainTime: .5
   m_moveSpeedCurrent: 0
-  m_moveSpeedAccel: .0250000004
+  m_moveSpeedAccel: .0149999997
   m_moveChangeReady: 0
   m_moveChangeAgainTime: .150000006
-  m_moveSpeed1: 1
-  m_moveSpeed2: 2
+  m_moveSpeed1: 1.5
+  m_moveSpeed2: 3
   m_moveSpeed3: 5
   m_TurboOnC: 0
   m_speedTurbo: 3
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_laneChangeReady: 0
   m_laneChangeAgainTime: .100000001
   m_laneChangePenalty: 1
-  m_speedLossLaneChange: 5
+  m_laneChangePenaltyMultiplier: .850000024
   m_laneCurrent: 1
 --- !u!1001 &100100000
 Prefab:
@@ -135,6 +135,30 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_laneChangePenalty
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_speedLossLaneChange
+      value: .699999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_laneChangePenaltyMultiplier
+      value: .850000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_moveSpeedAccel
+      value: .0149999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_moveSpeed3
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_moveSpeed1
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_moveSpeed2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
