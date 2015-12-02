@@ -102,13 +102,25 @@ public class Player : MonoBehaviour
                     m_speedCurrent == Speed.Canter && m_moveSpeedCurrent <= m_moveSpeed2 ||
                     m_speedCurrent == Speed.Gallop && m_moveSpeedCurrent <= m_moveSpeed3)
                 {
+                    m_animator.SetTrigger("skate");
+
                     //SPEED CHANGE
                     if (m_speedCurrent == Speed.Idle)
+                    {
+                        m_State = CharacterState.Accel;
                         m_speedCurrent = Speed.Trot;
-                    else if (m_speedCurrent == Speed.Trot)
+                        m_animator.speed = 3f;
+                    }
+                    else if (m_speedCurrent == Speed.Trot && m_moveSpeedCurrent > m_moveSpeed1-m_moveSpeed1/6f)
+                    {
                         m_speedCurrent = Speed.Canter;
-                    else if (m_speedCurrent == Speed.Canter)
+                        m_animator.speed = 2f;
+                    }
+                    else if (m_speedCurrent == Speed.Canter && m_moveSpeedCurrent > m_moveSpeed2-m_moveSpeed2/6f)
+                    {
                         m_speedCurrent = Speed.Gallop;
+                        m_animator.speed = 1f;
+                    }
 
                     m_moveChangeReady = false;
                 }
@@ -132,6 +144,7 @@ public class Player : MonoBehaviour
         {
             m_speedCurrent = Speed.Idle;
             m_moveChangeReady = true;
+            m_animator.SetTrigger("idle");
         }
 
         if (m_speedCurrent == Speed.Trot)
@@ -154,7 +167,10 @@ public class Player : MonoBehaviour
                 m_speedCurrent = Speed.Canter;
         }
         else if (m_speedCurrent == Speed.Idle)
+        {
+            m_State = CharacterState.Idle;
             m_moveSpeedCurrent = 0f;
+        }
 
         //LANE CORRECTION & z depth
         if (m_laneCurrent == Lanes.Lane1 && m_laneDepthCurrent != m_laneDepth1)
@@ -171,9 +187,7 @@ public class Player : MonoBehaviour
 		{
             var ChangedLane = true;
             if (SystemsManager.m_Input.inp_D_Up)
-			{ 
-				Debug.Log("Lane Change up");
-				
+			{ 				
 				if (m_laneCurrent == Lanes.Lane1)
 				{
 					m_laneCurrent = Lanes.Lane2;
@@ -192,7 +206,6 @@ public class Player : MonoBehaviour
 			}
 			else if (SystemsManager.m_Input.inp_D_Down)
 			{
-				Debug.Log("Lane Change down");
 				if (m_laneCurrent == Lanes.Lane4)
 				{
 					m_laneCurrent = Lanes.Lane3;
