@@ -314,6 +314,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_lengths: 16
+  m_fileName: Level1.xml
+  m_data:
+    Size: 0
+    Lengths: []
 --- !u!114 &11478618
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -7,6 +7,8 @@ public class SystemsManager : MonoBehaviour
     public Game Game;
     public static Prefabs m_Prefabs;
     public Prefabs Prefabs;
+    public static Sprites m_Sprites;
+    public Sprites Sprites;
     public static InputHandler m_Input;
     public InputHandler InputHandler;
     public static Timer m_Timer;
@@ -37,6 +39,7 @@ public class SystemsManager : MonoBehaviour
         m_Music = Music;
         m_Particles = Particles;
         m_Prefabs = Prefabs;
+        m_Sprites = Sprites;
         m_Score = Score;
         m_SoundFX = SoundFX;
         m_Timer = Timer;

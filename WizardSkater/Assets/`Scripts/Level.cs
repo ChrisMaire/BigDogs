@@ -1,30 +1,88 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using UnityEngine; 
+using System.Collections; 
+using System.Xml; 
+using System.Xml.Serialization; 
+using System.IO; 
+using System.Text; 
 using System.Collections.Generic;
 using System.Linq;
 
 public class Level : MonoBehaviour
 {
-    public int m_lengths;
-
+    private int m_lengths;
     protected GameObject m_ground;
-    protected List<Lane> m_lanes;
+    protected List<Lane> m_laneObjects;
     
+    private string m_filePath;
+    public string m_fileName = "Level1.xml";
+    private string m_xmlString;
+
+    private LevelData m_data;
+    public List<List<int>> m_lanes;
+    protected List<int> m_lane1;
+    protected List<int> m_lane2;
+    protected List<int> m_lane3;
+    protected List<int> m_lane4;
+
     private void Start()
     {
-        m_lanes = gameObject.GetComponentsInChildren<Lane>().ToList();
-        for (int i = 0; i < m_lanes.Count; i++)
+        m_lanes = new List<List<int>>();
+        m_lane1 = new List<int>();
+        m_lane2 = new List<int>();
+        m_lane3 = new List<int>();
+        m_lane4 = new List<int>();
+
+        m_filePath = Application.dataPath + "\\Levels";
+        m_data = new LevelData();
+        LoadXML();
+        if (m_xmlString != "")
+        {
+            m_data = (LevelData)DeserializeObject(m_xmlString);
+            m_lengths = m_data.Size;
+            for (int i = 0; i < m_lengths; i++)
+            {
+                m_lane1.Add(m_data.Lengths[i].Lane1Contents);
+                m_lane2.Add(m_data.Lengths[i].Lane2Contents);
+                m_lane3.Add(m_data.Lengths[i].Lane3Contents);
+                m_lane4.Add(m_data.Lengths[i].Lane4Contents);
+            }
+            m_lanes.Add(m_lane1);
+            m_lanes.Add(m_lane2);
+            m_lanes.Add(m_lane3);
+            m_lanes.Add(m_lane4);
+            Debug.Log("level is go");
+        }
+
+        m_laneObjects = gameObject.GetComponentsInChildren<Lane>().ToList();
+        for (int i = 0; i < m_laneObjects.Count; i++)
         {
             for (int j = -2; j < m_lengths+2; j++) //2 on each side for visibility
             {
                 GameObject laneTile = Instantiate(SystemsManager.m_Prefabs.m_laneTile);
                 laneTile.name = "Lane" + (i+1) + "." + j;
                 
-                Vector3 tempVect = m_lanes[i].transform.position;
+                Vector3 tempVect = m_laneObjects[i].transform.position;
                 tempVect.x = (j - 1)*laneTile.transform.localScale.x;
                 laneTile.transform.position = tempVect;
 
-                laneTile.transform.parent = m_lanes[i].transform;
+                laneTile.transform.parent = m_laneObjects[i].transform;
+
+                
+                Lane lane = laneTile.GetComponent<Lane>();
+                if(lane == null)
+                    Debug.Log("lane is null!");
+                else
+                {
+                    if (j >= 0 && j < m_lengths)
+                    {
+                        //Debug.Log("i= " + i + ", j = " + j + "| type = " + (Lane.LaneType) m_lanes[i][j]);
+                        lane.Init((Lane.LaneType) m_lanes[i][j]);
+                    }
+                    else
+                    {
+                        lane.Init(0);
+                    }
+                }
             }
         }
 
@@ -41,4 +99,63 @@ public class Level : MonoBehaviour
             groundTile.transform.parent = m_ground.transform;
         }
     }
+
+    void LoadXML()
+    {
+        StreamReader r = File.OpenText(m_filePath + "\\" + m_fileName);
+        string info = r.ReadToEnd();
+        r.Close();
+        m_xmlString = info;
+    }
+
+    string UTF8ByteArrayToString(byte[] characters)
+    {
+        UTF8Encoding encoding = new UTF8Encoding();
+        string constructedString = encoding.GetString(characters);
+        return (constructedString);
+    }
+
+    byte[] StringToUTF8ByteArray(string pXmlString)
+    {
+        UTF8Encoding encoding = new UTF8Encoding();
+        byte[] byteArray = encoding.GetBytes(pXmlString);
+        return byteArray;
+    }
+
+    string SerializeObject(object pObject)
+    {
+        string XmlizedString = null;
+        MemoryStream memoryStream = new MemoryStream();
+        XmlSerializer xs = new XmlSerializer(typeof(LevelData));
+        XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+        xs.Serialize(xmlTextWriter, pObject);
+        memoryStream = (MemoryStream)xmlTextWriter.BaseStream;
+        XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray());
+        return XmlizedString;
+    }
+
+    object DeserializeObject(string pXmlizedString)
+    {
+        XmlSerializer xs = new XmlSerializer(typeof(LevelData));
+        MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(pXmlizedString));
+        XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+        return xs.Deserialize(memoryStream);
+    }
+}
+
+[System.Serializable]
+public struct LaneData
+{
+    public int Number;
+    public int Lane1Contents;
+    public int Lane2Contents;
+    public int Lane3Contents;
+    public int Lane4Contents;
+}
+
+[System.Serializable]
+public struct LevelData
+{
+    public int Size;
+    public LaneData[] Lengths;
 }

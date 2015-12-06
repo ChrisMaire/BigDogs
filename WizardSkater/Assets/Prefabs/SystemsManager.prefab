@@ -16,6 +16,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &102830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 431230}
+  - 114: {fileID: 11433762}
+  m_Layer: 0
+  m_Name: Sprites
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &104032
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +293,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 463966}
-  m_RootOrder: 9
+  m_RootOrder: 10
+--- !u!4 &431230
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 102830}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 463966}
+  m_RootOrder: 7
 --- !u!4 &442834
 Transform:
   m_ObjectHideFlags: 1
@@ -289,7 +317,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 463966}
-  m_RootOrder: 7
+  m_RootOrder: 8
 --- !u!4 &454516
 Transform:
   m_ObjectHideFlags: 1
@@ -319,6 +347,7 @@ Transform:
   - {fileID: 499720}
   - {fileID: 454516}
   - {fileID: 408886}
+  - {fileID: 431230}
   - {fileID: 442834}
   - {fileID: 472478}
   - {fileID: 430196}
@@ -348,7 +377,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 463966}
-  m_RootOrder: 10
+  m_RootOrder: 11
 --- !u!4 &469064
 Transform:
   m_ObjectHideFlags: 1
@@ -372,7 +401,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 463966}
-  m_RootOrder: 8
+  m_RootOrder: 9
 --- !u!4 &499720
 Transform:
   m_ObjectHideFlags: 1
@@ -699,6 +728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Game: {fileID: 11466938}
   Prefabs: {fileID: 11493344}
+  Sprites: {fileID: 11433762}
   InputHandler: {fileID: 11409772}
   Timer: {fileID: 11428226}
   Score: {fileID: 11436716}
@@ -720,6 +750,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timePause: 0
+--- !u!114 &11433762
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 102830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08aa7f0a2db0244409846c33362ccdfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LaneNormal:
+  - {fileID: 21300000, guid: 2adb41f1180aa894485dbc0f29d8ae7f, type: 3}
+  - {fileID: 21300000, guid: a9c2e232984e4884eb769ed90cc7a853, type: 3}
+  - {fileID: 21300000, guid: 5624d30b80b455046a80cda3b21fb81f, type: 3}
+  - {fileID: 21300000, guid: f2717f0b581648640906f097b6298540, type: 3}
+  m_LaneRamp: {fileID: 0}
+  m_LanePatchy: {fileID: 0}
+  m_LaneObstacle: {fileID: 0}
+  m_LaneFinishLine: {fileID: 0}
 --- !u!114 &11436716
 MonoBehaviour:
   m_ObjectHideFlags: 1
