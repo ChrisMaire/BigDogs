@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Lane : MonoBehaviour
 {
-    public SpriteRenderer m_sprite;
+    private SpriteRenderer m_sprite;
 
     public enum LaneNumbers
     {
@@ -24,13 +24,14 @@ public class Lane : MonoBehaviour
         FinishLine
     }
 
-    public LaneType m_type;
+    public LaneType m_type = LaneType.Normal;
 
-    public void Init(LaneType type)
+    public void Init()
     {
-        m_type = type;
-        m_sprite = GetComponent<SpriteRenderer>();
+        m_sprite = GetComponentInChildren<SpriteRenderer>();
 
+        m_sprite.sprite = SystemsManager.m_Sprites.m_LaneNormal[(int)m_number];
+        
         switch (m_type)
         {
             case LaneType.Patchy:
@@ -40,23 +41,36 @@ public class Lane : MonoBehaviour
             break;
             case LaneType.Obstacle:
             {
-            m_sprite.sprite = SystemsManager.m_Sprites.m_LaneObstacle;
+                GameObject obstacle = Instantiate(SystemsManager.m_Prefabs.m_empty);
+                obstacle.transform.parent = transform;
+                Vector3 tempVect = transform.position;
+                tempVect.y += 1;
+                obstacle.transform.position = tempVect;
+                obstacle.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Obstacle;
             }
             break;
             case LaneType.Ramp:
             {
-            m_sprite.sprite = SystemsManager.m_Sprites.m_LaneRamp;
+                GameObject ramp = Instantiate(SystemsManager.m_Prefabs.m_empty);
+                ramp.transform.parent = transform;
+                Vector3 tempVect = transform.position;
+                tempVect.y += 1;
+                ramp.transform.position = tempVect;
+                ramp.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Ramp;
             }
             break;
             case LaneType.FinishLine:
             {
-            m_sprite.sprite = SystemsManager.m_Sprites.m_LaneFinishLine;
+                GameObject finishLine = Instantiate(SystemsManager.m_Prefabs.m_empty);
+                finishLine.transform.parent = transform;
+                Vector3 tempVect = transform.position;
+                tempVect.y += 1;
+                finishLine.transform.position = tempVect;
+                finishLine.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_FinishLine;
             }
             break;
             default:
             {
-            int rando = Random.Range(0, SystemsManager.m_Sprites.m_LaneNormal.Count);
-            m_sprite.sprite = SystemsManager.m_Sprites.m_LaneNormal[rando];
             }
             break;
         }

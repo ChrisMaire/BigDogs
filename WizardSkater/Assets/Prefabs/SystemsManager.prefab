@@ -766,10 +766,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a9c2e232984e4884eb769ed90cc7a853, type: 3}
   - {fileID: 21300000, guid: 5624d30b80b455046a80cda3b21fb81f, type: 3}
   - {fileID: 21300000, guid: f2717f0b581648640906f097b6298540, type: 3}
-  m_LaneRamp: {fileID: 0}
+  m_Ramp: {fileID: 21300000, guid: 73cfcb7857e6abe44b1ac1bce5d3473d, type: 3}
   m_LanePatchy: {fileID: 0}
-  m_LaneObstacle: {fileID: 0}
-  m_LaneFinishLine: {fileID: 0}
+  m_Obstacle: {fileID: 21300000, guid: b2ef79aa1841e5949bbac6cc5300cc55, type: 3}
+  m_FinishLine: {fileID: 0}
 --- !u!114 &11436716
 MonoBehaviour:
   m_ObjectHideFlags: 1

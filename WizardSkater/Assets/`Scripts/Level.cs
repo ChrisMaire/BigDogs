@@ -54,46 +54,57 @@ public class Level : MonoBehaviour
         }
 
         m_laneObjects = gameObject.GetComponentsInChildren<Lane>().ToList();
+        LayTrackTiles();
+        LayGroundTiles();
+    }
+
+    private void LayTrackTiles()
+    {
         for (int i = 0; i < m_laneObjects.Count; i++)
         {
-            for (int j = -2; j < m_lengths+2; j++) //2 on each side for visibility
+            for (int j = -2; j < m_lengths + 2; j++) //2 on each side for visibility
             {
                 GameObject laneTile = Instantiate(SystemsManager.m_Prefabs.m_laneTile);
-                laneTile.name = "Lane" + (i+1) + "." + j;
-                
+                laneTile.name = "Lane" + (i + 1) + "." + j;
+
                 Vector3 tempVect = m_laneObjects[i].transform.position;
                 tempVect.x = (j - 1)*laneTile.transform.localScale.x;
                 laneTile.transform.position = tempVect;
 
                 laneTile.transform.parent = m_laneObjects[i].transform;
 
-                
+
                 Lane lane = laneTile.GetComponent<Lane>();
-                if(lane == null)
+                if (lane == null)
                     Debug.Log("lane is null!");
                 else
                 {
                     if (j >= 0 && j < m_lengths)
                     {
                         //Debug.Log("i= " + i + ", j = " + j + "| type = " + (Lane.LaneType) m_lanes[i][j]);
-                        lane.Init((Lane.LaneType) m_lanes[i][j]);
+                        lane.m_number = (Lane.LaneNumbers)i;
+                        lane.m_type = (Lane.LaneType) m_lanes[i][j];
+                        lane.Init();
                     }
                     else
                     {
-                        lane.Init(0);
+                        lane.Init();
                     }
                 }
             }
         }
+    }
 
+    private void LayGroundTiles()
+    {
         m_ground = gameObject.transform.FindChild("Ground").gameObject;
-        for (int i = -2; i < m_lengths+2; i++) //2 on each side for visibility
+        for (int i = -2; i < m_lengths + 2; i++) //2 on each side for visibility
         {
             GameObject groundTile = Instantiate(SystemsManager.m_Prefabs.m_groundTile);
             groundTile.name = "Ground." + i;
 
             Vector3 tempVect = m_ground.transform.position;
-            tempVect.x = (i - 1) * groundTile.transform.localScale.x;
+            tempVect.x = (i - 1)*groundTile.transform.localScale.x;
             groundTile.transform.position = tempVect;
 
             groundTile.transform.parent = m_ground.transform;
