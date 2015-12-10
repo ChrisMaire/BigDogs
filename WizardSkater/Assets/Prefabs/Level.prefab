@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 468056}
   - 114: {fileID: 11478618}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Lane2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 428950}
   - 114: {fileID: 11401896}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Lane1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 439808}
   - 114: {fileID: 11433716}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Lane3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 453014}
   - 114: {fileID: 11496850}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Lane4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,8 +72,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 410320}
-  - 114: {fileID: 11487002}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +88,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 448350}
   - 114: {fileID: 11434648}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +101,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190630}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
@@ -225,20 +224,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_number: 1
   m_type: 0
---- !u!114 &11487002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 190630}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deb6260f0dba7704c9fd3dee1e7ed03e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followX: 1
-  followY: 0
-  followZ: 0
 --- !u!114 &11496850
 MonoBehaviour:
   m_ObjectHideFlags: 1

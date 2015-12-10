@@ -671,9 +671,8 @@ MonoBehaviour:
   inp_D_Up: 0
   inp_Pause: 0
   inp_Jump: 0
-  inp_Trick1: 0
-  inp_Trick2: 0
-  inp_Trick3: 0
+  inp_Trick: 0
+  inp_Turbo: 0
   inp_Push: 0
 --- !u!114 &11411452
 MonoBehaviour:
