@@ -146,11 +146,11 @@ public class Level : MonoBehaviour
         string file = m_filePath;
         if (Application.platform == RuntimePlatform.OSXDashboardPlayer || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXWebPlayer)
         {
-            m_filePath += "/";
+            file += "/";
         }
         else
         {
-            m_filePath += "\\";
+            file += "\\";
         }
         file += m_fileName;
         StreamReader r = File.OpenText(file);
