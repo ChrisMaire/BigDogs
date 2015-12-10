@@ -849,7 +849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_empty: {fileID: 137792, guid: 4e53b462c75556841a8ef8e70219d692, type: 2}
   m_player: {fileID: 120752, guid: e206e0f59877eef4e83fb13de849f1df, type: 2}
-  m_ramp: {fileID: 0}
+  m_rampCollider: {fileID: 143604, guid: 4ffaf0b6c1a83444b90394f2b0050457, type: 2}
+  m_obstacleCollider: {fileID: 132810, guid: d1aa0001df1a8564b9f8ca6ea8adf2e9, type: 2}
   m_laneTile: {fileID: 165184, guid: 5902abcba3b0ebd4b99c436d0f602c51, type: 2}
   m_groundTile: {fileID: 180922, guid: 22b52bf0c5a51c44d94abc7ed84ea6a4, type: 2}
 --- !u!114 &11499016

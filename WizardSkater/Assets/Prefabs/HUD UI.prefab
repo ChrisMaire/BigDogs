@@ -261,10 +261,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15537c56eb7838340ba6de4e71c22734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: {fileID: 0}
+  Timer: {fileID: 0}
   Score: {fileID: 0}
   Speed: {fileID: 11465970}
-  Player: {fileID: 0}
+  Action: {fileID: 0}
 --- !u!114 &11465970
 MonoBehaviour:
   m_ObjectHideFlags: 1

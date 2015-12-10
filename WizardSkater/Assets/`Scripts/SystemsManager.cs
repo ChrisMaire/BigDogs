@@ -30,7 +30,8 @@ public class SystemsManager : MonoBehaviour
 
     private Player Player;
     public static Player m_Player;
-
+    private Level Level;
+    public static Level m_Level;
 
     void Awake()
     {
@@ -51,14 +52,18 @@ public class SystemsManager : MonoBehaviour
     void Start()
     {
         //Particles.InitObjectPools();
-        Game.InitGame();
+        m_Level = FindObjectOfType<Level>();
+        Level = m_Level;
+        Level.InitLevel();
 
+        Game.InitGame();
         m_Player = FindObjectOfType<Player>();
         Player = m_Player;
     }
 
     void Update()
     {
-        transform.position = m_Camera.transform.position;
+        m_SoundFX.transform.position = m_Camera.transform.position;
+        m_Music.transform.position = m_Camera.transform.position;
     }
 }

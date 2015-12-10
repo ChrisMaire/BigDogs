@@ -10,49 +10,53 @@ public class Player : MonoBehaviour
         Accel,
         LaneChange
     }
+
+    [Header("State")]
+    
     public CharacterState m_State;
 
     private Animator m_animator;
 
-    [Header("Movement")]
-
-    public float m_gravityGround = -0.7f;
-    private float m_gravity;
-    public float m_gravityMultiplier = 0.9f;
-
     [Header("Collision")]
 
-    public bool m_hitObject;
-    private bool m_grounded;
+    private Rigidbody m_body;
+    //private CharacterController m_controller;
+    private CapsuleCollider m_collider;
+    public bool m_grounded;
+    public float m_groundCheckLength = 0.3f;
 
-    [Header("Jump")]
+    private string m_layerRamp = "Ramp";
+    private string m_layerGround = "Ground";
 
+    [Header("Movement")]
+
+    public Vector3 m_move;
+    public float m_accel = 0.15f;
+    public float m_moveSpeed;
+    public float m_moveFriction = 0.05f;
+    public float m_maxSpeed = 5f;
+    public float m_maxSpeedTotal = 9f;
+
+    public bool m_moveChangeReady = false;
+    [Range(0.1f, 0.55f)]
+    public float m_moveChangeAgainTime = 0.15f;
+    private float m_moveChangeAgainTimer;
+
+    public float m_gravity;
+    public float m_gravityGround = -0.7f;
+    public float m_gravityMultiplier = 0.9f;
+    public float m_gravityMax = -10f;
+
+    public float m_rampBoost = 1.5F;
+    public bool m_ramping = false;
+    
     public float m_jump = 8.0F;
-    [Range(0.15f, 2.0f)] public float m_jumpAgainTime = 0.5f;
+    [Range(0.15f, 2.0f)]
+    public float m_jumpAgainTime = 0.5f;
     private float m_jumpAgainTimer;
     private bool m_jumpReady;
-
-    [Header("Speed")]
     
-    public float m_moveSpeedCurrent = 0.0F;
-    public float m_moveSpeedAccel = 0.5F;
-    public bool m_moveChangeReady = false;
-    [Range(0.1f, 0.55f)] public float m_moveChangeAgainTime = 0.15f;
-    private float m_moveChangeAgainTimer;
-    public float m_moveSpeed1 = 5.0F;
-    public float m_moveSpeed2 = 10.0F;
-    public float m_moveSpeed3 = 15.0F;
-    public bool m_TurboOnC = false;
     public float m_speedTurbo = 20.0F;
-
-    public enum Speed
-    {
-        Idle,
-        Trot,
-        Canter,
-        Gallop
-    }
-    public Speed m_speedCurrent = Speed.Idle;
 
     [Header("Lanes")]
 
@@ -66,6 +70,7 @@ public class Player : MonoBehaviour
     private float m_laneChangeAgainTimer;
     public bool m_laneChangePenalty = false;
     public float m_laneChangePenaltyMultiplier = 0.75f;
+    public float m_obstacleHitPenaltyMultiplier = 0.65f;
 
     public enum Lanes
     {
@@ -75,210 +80,217 @@ public class Player : MonoBehaviour
         Lane4
     }
     public Lanes m_laneCurrent = Lanes.Lane2;
-    
-    /// CORE
-    
+        
     private void Awake()
     {
-        m_animator = GetComponentInChildren<Animator>();
+        m_animator = GetComponent<Animator>();
+        //m_controller = GetComponent<CharacterController>();
+        m_collider = GetComponent<CapsuleCollider>();
+        m_body = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    void FixedUpdate()
     {
-        //CORE MOVEMENT
-        var tempVect = transform.position;
-        tempVect.x += (m_moveSpeedCurrent*Time.deltaTime);
-        tempVect.y += (m_gravity*Time.deltaTime);
-        tempVect.z = m_laneDepthCurrent;
-        transform.position = tempVect;
-
-        if (m_moveChangeReady)
+        if (transform.position.z != m_laneDepthCurrent)  //Reset Z Axis should it change for whatever reason
         {
-            if (SystemsManager.m_Input.inp_Push && m_speedCurrent != Speed.Gallop)
+            Debug.Log("resetting z");
+            Vector3 tempVect = transform.position;
+            tempVect.z = m_laneDepthCurrent;
+            m_body.MovePosition(tempVect);
+            transform.position = tempVect;
+        }
+
+        //m_move = Vector3.zero;
+
+        //if (m_moveChangeReady)
+        //{
+            if (SystemsManager.m_Input.inp_Push)// && m_speedState != Speed.Gallop)
             {
-                //SPEED & ACCELERATION
-                if (m_speedCurrent == Speed.Idle && m_moveSpeedCurrent <= 0f ||
-                    m_speedCurrent == Speed.Trot && m_moveSpeedCurrent <= m_moveSpeed1 ||
-                    m_speedCurrent == Speed.Canter && m_moveSpeedCurrent <= m_moveSpeed2 ||
-                    m_speedCurrent == Speed.Gallop && m_moveSpeedCurrent <= m_moveSpeed3)
-                {
-                    m_animator.SetTrigger("skate");
-
-                    //SPEED CHANGE
-                    if (m_speedCurrent == Speed.Idle)
-                    {
-                        m_State = CharacterState.Accel;
-                        m_speedCurrent = Speed.Trot;
-                        m_animator.speed = 3f;
-                    }
-                    else if (m_speedCurrent == Speed.Trot && m_moveSpeedCurrent > m_moveSpeed1-m_moveSpeed1/6f)
-                    {
-                        m_speedCurrent = Speed.Canter;
-                        m_animator.speed = 2f;
-                    }
-                    else if (m_speedCurrent == Speed.Canter && m_moveSpeedCurrent > m_moveSpeed2-m_moveSpeed2/6f)
-                    {
-                        m_speedCurrent = Speed.Gallop;
-                        m_animator.speed = 1f;
-                    }
-
-                    m_moveChangeReady = false;
-                }
+                //ChangeTopSpeed();
+                m_moveSpeed += m_accel;
+                if (m_moveSpeed > m_maxSpeed)
+                    m_moveSpeed = m_maxSpeed;
             }
-        }
-        else
-        {
-            //lane spam prevention
-            if (m_moveChangeAgainTimer < m_moveChangeAgainTime)
-                m_moveChangeAgainTimer += Time.deltaTime;
-            else if (SystemsManager.m_Input.inp_D_Up == false && SystemsManager.m_Input.inp_D_Down == false)
+
+        if (SystemsManager.m_Input.inp_Turbo)
+            m_moveSpeed += m_speedTurbo;
+
+            //LANE CHANGE
+            if (m_laneChangeReady)
             {
-                m_moveChangeReady = true;
-                m_moveChangeAgainTimer = 0;
-            }
-        }
-
-        m_moveSpeedCurrent += m_moveSpeedAccel;
-
-        if (m_moveSpeedCurrent <= 0f && m_speedCurrent != Speed.Idle)
-        {
-            m_speedCurrent = Speed.Idle;
-            m_moveChangeReady = true;
-            m_animator.SetTrigger("idle");
-        }
-
-        if (m_speedCurrent == Speed.Trot)
-        {
-            if (m_moveSpeedCurrent > m_moveSpeed1)
-                m_moveSpeedCurrent = m_moveSpeed1;
-        }
-        else if (m_speedCurrent == Speed.Canter)
-        {
-            if (m_moveSpeedCurrent > m_moveSpeed2)
-                m_moveSpeedCurrent = m_moveSpeed2;
-            else if (m_moveSpeedCurrent < m_moveSpeed1)
-                m_speedCurrent = Speed.Trot;
-        }
-        else if (m_speedCurrent == Speed.Gallop)
-        {
-            if (m_moveSpeedCurrent > m_moveSpeed3)
-                m_moveSpeedCurrent = m_moveSpeed3;
-            else if(m_moveSpeedCurrent < m_moveSpeed2)
-                m_speedCurrent = Speed.Canter;
-        }
-        else if (m_speedCurrent == Speed.Idle)
-        {
-            m_State = CharacterState.Idle;
-            m_moveSpeedCurrent = 0f;
-        }
-
-        //LANE CORRECTION & z depth
-        if (m_laneCurrent == Lanes.Lane1 && m_laneDepthCurrent != m_laneDepth1)
-            m_laneDepthCurrent = m_laneDepth1;
-        else if (m_laneCurrent == Lanes.Lane2 && m_laneDepthCurrent != m_laneDepth2)
-            m_laneDepthCurrent = m_laneDepth2;
-        else if (m_laneCurrent == Lanes.Lane3 && m_laneDepthCurrent != m_laneDepth3)
-            m_laneDepthCurrent = m_laneDepth3;
-        else if (m_laneCurrent == Lanes.Lane4 && m_laneDepthCurrent != m_laneDepth4)
-            m_laneDepthCurrent = m_laneDepth4;
-
-		//LANE CHANGE
-		if (m_laneChangeReady)
-		{
-            var ChangedLane = true;
-            if (SystemsManager.m_Input.inp_D_Up)
-			{ 				
-				if (m_laneCurrent == Lanes.Lane1)
-				{
-					m_laneCurrent = Lanes.Lane2;
-				}
-				else if (m_laneCurrent == Lanes.Lane2)
-				{
-					m_laneCurrent = Lanes.Lane3;
-                }
-				else if (m_laneCurrent == Lanes.Lane3)
-				{
-					m_laneCurrent = Lanes.Lane4;
-                    
-                }
-                else // no lane change possible
-                    ChangedLane = false;
-			}
-			else if (SystemsManager.m_Input.inp_D_Down)
-			{
-				if (m_laneCurrent == Lanes.Lane4)
-				{
-					m_laneCurrent = Lanes.Lane3;
-                }
-				else if (m_laneCurrent == Lanes.Lane3)
-				{
-					m_laneCurrent = Lanes.Lane2;
-                }
-				else if (m_laneCurrent == Lanes.Lane2)
-				{
-					m_laneCurrent = Lanes.Lane1;
-                }
-				else // no lane change possible
-					ChangedLane = false;
-			}
-            else // no input
-                ChangedLane = false;
-
-		    if (ChangedLane)
-		    {
-		        m_laneChangeReady = false;
-
-                if (m_laneChangePenalty)
-                    m_moveSpeedCurrent *= m_laneChangePenaltyMultiplier;
-            }
-		}
-        else
-        {
-            //lane spam prevention
-            if (m_laneChangeAgainTimer < m_laneChangeAgainTime)
-                m_laneChangeAgainTimer += Time.deltaTime;
-            else if (SystemsManager.m_Input.inp_D_Up == false && SystemsManager.m_Input.inp_D_Down == false)
-            {
-                m_laneChangeReady = true;
-                m_laneChangeAgainTimer = 0;
-            }
-        }
-
-        //JUMPING
-        if (m_grounded)
-        {
-            if (m_jumpReady)
-            {
-                if (SystemsManager.m_Input.inp_Jump)
-                {
-                    m_gravity += m_jump;
-                    //m_speedMax = m_speedAir;
-                    SystemsManager.m_SoundFX.OneShot_Jump();
-
-                    m_jumpReady = false;
-                }
+                CheckForLaneChange();
             }
             else
             {
-                m_gravity = m_gravityGround;
-
-                //bunny hop prevention
-                if (m_jumpAgainTimer < m_jumpAgainTime)
-                    m_jumpAgainTimer += Time.deltaTime;
-                else if (SystemsManager.m_Input.inp_Jump == false)
+                //lane spam prevention
+                if (m_laneChangeAgainTimer < m_laneChangeAgainTime)
+                    m_laneChangeAgainTimer += Time.deltaTime;
+                else if (SystemsManager.m_Input.inp_D_Up == false && SystemsManager.m_Input.inp_D_Down == false)
                 {
-                    m_jumpReady = true;
-                    m_jumpAgainTimer = 0;
+                    m_laneChangeReady = true;
+                    m_laneChangeAgainTimer = 0;
                 }
             }
-        }
-        else ////////////////////FALLING
+
+            CheckForJump();
+        //}
+        //else
+        //{
+        //    if (m_moveChangeAgainTimer < m_moveChangeAgainTime)
+        //        m_moveChangeAgainTimer += Time.deltaTime;
+        //    else if (SystemsManager.m_Input.inp_D_Up == false && SystemsManager.m_Input.inp_D_Down == false)
+        //    {
+        //        m_moveChangeReady = true;
+        //        m_moveChangeAgainTimer = 0;
+        //    }
+        //}
+        m_moveSpeed -= m_moveFriction;
+        if (m_moveSpeed < 0f)
+            m_moveSpeed = 0f;
+
+        if (m_grounded == true && m_ramping == false)
         {
-            //m_gravity += Physics.gravity.y * m_gravityMultiplier;
+            m_gravity = m_gravityGround;
+
+            //LANE CORRECTION & z depth
+            if (m_laneCurrent == Lanes.Lane1 && m_laneDepthCurrent != m_laneDepth1)
+                m_laneDepthCurrent = m_laneDepth1;
+            else if (m_laneCurrent == Lanes.Lane2 && m_laneDepthCurrent != m_laneDepth2)
+                m_laneDepthCurrent = m_laneDepth2;
+            else if (m_laneCurrent == Lanes.Lane3 && m_laneDepthCurrent != m_laneDepth3)
+                m_laneDepthCurrent = m_laneDepth3;
+            else if (m_laneCurrent == Lanes.Lane4 && m_laneDepthCurrent != m_laneDepth4)
+                m_laneDepthCurrent = m_laneDepth4;
+        }
+        else if (m_grounded == false && m_ramping == false)
+        {
+            Debug.Log("falling at " + Physics.gravity.y * m_gravityMultiplier);
+            m_gravity += Physics.gravity.y * m_gravityMultiplier;
+            if (m_gravity < m_gravityMax)
+                m_gravity = m_gravityMax;
+        }
+
+        m_ramping = false;
+        m_grounded = false;
+
+        Vector3 checkFrom = transform.position;
+        Vector3 checkTo = -transform.up * m_groundCheckLength;
+        var mask = (1 << LayerMask.NameToLayer("Ramp")) | (1 << LayerMask.NameToLayer("Ground"));
+        Debug.DrawRay(checkFrom, checkTo, Color.magenta);
+        RaycastHit hit;
+        if (Physics.Raycast(checkFrom, checkTo, out hit, m_groundCheckLength, mask))
+        {
+            Debug.Log("hit " + hit.collider.name + ", " + hit.collider.gameObject.layer);
+            if (hit.collider.name != "GroundCollider")
+            {
+                Debug.Log("rampo!");
+                m_ramping = true;
+                m_moveSpeed += m_rampBoost;
+            }
+            else
+            {
+                Debug.Log("g-round");
+                m_grounded = true;
+            }
+        }
+
+        if (m_moveSpeed > m_maxSpeedTotal)
+            m_moveSpeed = m_maxSpeedTotal;
+
+        Vector3 force = (transform.right*m_moveSpeed)+(transform.up * m_gravity);
+        //Debug.Log("adding force " + force);
+        m_body.AddForce(force);
+    }
+
+    void OnColliderEnter(Collision collision)
+    {
+        foreach (ContactPoint hit in collision.contacts)
+        {
+            Debug.Log("collider hit " + hit.otherCollider.gameObject.name);
         }
     }
 
-    //FUNCTIONS
+    private void HitObstacle()
+    {
+        Debug.Log("lose mega-time");
+    }
 
+    private void CheckForLaneChange()
+    {
+        var ChangedLane = true;
+        if (SystemsManager.m_Input.inp_D_Up)
+        {
+            if (m_laneCurrent == Lanes.Lane1)
+            {
+                m_laneCurrent = Lanes.Lane2;
+            }
+            else if (m_laneCurrent == Lanes.Lane2)
+            {
+                m_laneCurrent = Lanes.Lane3;
+            }
+            else if (m_laneCurrent == Lanes.Lane3)
+            {
+                m_laneCurrent = Lanes.Lane4;
+            }
+            else // no lane change possible
+                ChangedLane = false;
+        }
+        else if (SystemsManager.m_Input.inp_D_Down)
+        {
+            if (m_laneCurrent == Lanes.Lane4)
+            {
+                m_laneCurrent = Lanes.Lane3;
+            }
+            else if (m_laneCurrent == Lanes.Lane3)
+            {
+                m_laneCurrent = Lanes.Lane2;
+            }
+            else if (m_laneCurrent == Lanes.Lane2)
+            {
+                m_laneCurrent = Lanes.Lane1;
+            }
+            else // no lane change possible
+                ChangedLane = false;
+        }
+        else // no input
+            ChangedLane = false;
 
+        if (ChangedLane)
+        {
+            m_laneChangeReady = false;
+
+            if (m_laneChangePenalty)
+                m_moveSpeed *= m_laneChangePenaltyMultiplier;
+        }
+    }
+
+    private void CheckForJump()
+    {
+        if (m_jumpReady && SystemsManager.m_Input.inp_Jump)
+        {
+            Jump();
+        }
+        else
+        {
+            m_gravity = m_gravityGround;
+
+            //bunny hop prevention
+            if (m_jumpAgainTimer < m_jumpAgainTime)
+                m_jumpAgainTimer += Time.deltaTime;
+            else if (SystemsManager.m_Input.inp_Jump == false)
+            {
+                m_jumpReady = true;
+                m_jumpAgainTimer = 0;
+            }
+        }
+    }
+
+    private void Jump()
+    {
+        m_gravity += m_jump;
+        //m_speedMax = m_speedAir;
+        SystemsManager.m_SoundFX.OneShot_Jump();
+
+        m_jumpReady = false;
+    }
 }

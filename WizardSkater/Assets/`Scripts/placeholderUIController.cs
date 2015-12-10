@@ -33,8 +33,8 @@ public class placeholderUIController : MonoBehaviour {
 		
 		if ((SystemsManager.m_Game.getState () == Game.GameState.Testing || SystemsManager.m_Game.getState () == Game.GameState.Gameplay) &&
 			m_player != null) {
-			speed = m_player.GetComponent<Player> ().m_moveSpeedCurrent;
-			maxspeed = m_player.GetComponent<Player> ().m_speedTurbo + m_player.GetComponent<Player> ().m_moveSpeed3;
+			speed = SystemsManager.m_Player.m_moveSpeed;
+			maxspeed = SystemsManager.m_Player.m_maxSpeedTotal;
 
 			Speed.value = speed / maxspeed;
 

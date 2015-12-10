@@ -7,7 +7,9 @@ public class Prefabs : MonoBehaviour
 
     public GameObject m_player;
 
-    public GameObject m_ramp;
+    public GameObject m_rampCollider;
+
+    public GameObject m_obstacleCollider;
 
     public GameObject m_laneTile;
 

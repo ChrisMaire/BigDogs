@@ -42,22 +42,39 @@ public class Lane : MonoBehaviour
             case LaneType.Obstacle:
             {
                 GameObject obstacle = Instantiate(SystemsManager.m_Prefabs.m_empty);
+                obstacle.name = "Obstacle";
                 obstacle.transform.parent = transform;
                 Vector3 tempVect = transform.position;
                 tempVect.y += 1;
                 obstacle.transform.position = tempVect;
                 obstacle.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Obstacle;
-            }
+
+                GameObject obstacleCollider = Instantiate(SystemsManager.m_Prefabs.m_obstacleCollider);
+                Vector3 storedVect = obstacle.transform.position;
+                obstacleCollider.name = "Collider";
+                obstacleCollider.transform.position = tempVect;
+                obstacleCollider.transform.parent = obstacle.transform;
+                obstacleCollider.transform.localPosition = storedVect;
+                }
             break;
             case LaneType.Ramp:
             {
                 GameObject ramp = Instantiate(SystemsManager.m_Prefabs.m_empty);
+                ramp.name = "Ramp";
                 ramp.transform.parent = transform;
+                
                 Vector3 tempVect = transform.position;
                 tempVect.y += 1;
                 ramp.transform.position = tempVect;
                 ramp.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Ramp;
-            }
+
+                GameObject rampCollider = Instantiate(SystemsManager.m_Prefabs.m_rampCollider);
+                Vector3 storedVect = rampCollider.transform.position;
+                //rampCollider.name = "Collider";
+                rampCollider.transform.position = tempVect;
+                rampCollider.transform.parent = ramp.transform;
+                rampCollider.transform.localPosition = storedVect;
+                }
             break;
             case LaneType.FinishLine:
             {

@@ -8,9 +8,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 429914}
-  - 64: {fileID: 6433074}
   - 114: {fileID: 11482738}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LaneTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,13 +25,41 @@ GameObject:
   m_Component:
   - 4: {fileID: 473144}
   - 212: {fileID: 21293474}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &190856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 424514}
+  - 65: {fileID: 6544570}
+  m_Layer: 12
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &424514
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190856}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: -8.14603425e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 429914}
+  m_RootOrder: 1
 --- !u!4 &429914
 Transform:
   m_ObjectHideFlags: 1
@@ -40,10 +67,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 165184}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
-  m_LocalPosition: {x: -2.875, y: -0, z: .86500001}
+  m_LocalPosition: {x: -7.25, y: -0, z: .86500001}
   m_LocalScale: {x: 4, y: .800000012, z: 1}
   m_Children:
   - {fileID: 473144}
+  - {fileID: 424514}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &473144
@@ -58,18 +86,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 429914}
   m_RootOrder: 0
---- !u!64 &6433074
-MeshCollider:
+--- !u!65 &6544570
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 165184}
+  m_GameObject: {fileID: 190856}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Size: {x: 1, y: .5, z: .00999999978}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11482738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,6 +161,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

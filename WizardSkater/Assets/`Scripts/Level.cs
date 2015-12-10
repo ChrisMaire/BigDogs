@@ -24,8 +24,12 @@ public class Level : MonoBehaviour
     protected List<int> m_lane3;
     protected List<int> m_lane4;
 
-    private void Start()
+    public BoxCollider m_collider;
+
+    public void InitLevel()
     {
+        //m_collider = GetComponentInChildren<BoxCollider>();
+
         m_lanes = new List<List<int>>();
         m_lane1 = new List<int>();
         m_lane2 = new List<int>();
@@ -39,12 +43,30 @@ public class Level : MonoBehaviour
         {
             m_data = (LevelData)DeserializeObject(m_xmlString);
             m_lengths = m_data.Size;
+
+            Vector3 tempVectPos = m_collider.transform.position;
+            tempVectPos.x += ((m_lengths/2-4) * m_collider.size.x);
+            m_collider.transform.position = tempVectPos;
+            Vector3 tempVectSca = m_collider.size;
+            tempVectSca.x *= m_lengths-2;
+            m_collider.size = tempVectSca; 
+
             for (int i = 0; i < m_lengths; i++)
             {
-                m_lane1.Add(m_data.Lengths[i].Lane1Contents);
-                m_lane2.Add(m_data.Lengths[i].Lane2Contents);
-                m_lane3.Add(m_data.Lengths[i].Lane3Contents);
-                m_lane4.Add(m_data.Lengths[i].Lane4Contents);
+                if (i < m_data.Lengths.Length)
+                {
+                    m_lane1.Add(m_data.Lengths[i].Lane1Contents);
+                    m_lane2.Add(m_data.Lengths[i].Lane2Contents);
+                    m_lane3.Add(m_data.Lengths[i].Lane3Contents);
+                    m_lane4.Add(m_data.Lengths[i].Lane4Contents);
+                }
+                else
+                {
+                    m_lane1.Add(0);
+                    m_lane2.Add(0);
+                    m_lane3.Add(0);
+                    m_lane4.Add(0);
+                }
             }
             m_lanes.Add(m_lane1);
             m_lanes.Add(m_lane2);
