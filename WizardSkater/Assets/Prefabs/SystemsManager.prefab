@@ -385,7 +385,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152350}
   m_LocalRotation: {x: 5.57221611e-08, y: .939692616, z: -.342020184, w: -1.53095371e-07}
-  m_LocalPosition: {x: -0, y: .00520563126, z: 8.70269966}
+  m_LocalPosition: {x: -0, y: .119999997, z: 13.3800001}
   m_LocalScale: {x: 1.07000005, y: 1, z: .935000002}
   m_Children: []
   m_Father: {fileID: 407898}
@@ -851,7 +851,7 @@ MonoBehaviour:
   m_rampCollider: {fileID: 143604, guid: 4ffaf0b6c1a83444b90394f2b0050457, type: 2}
   m_obstacleCollider: {fileID: 132810, guid: d1aa0001df1a8564b9f8ca6ea8adf2e9, type: 2}
   m_laneTile: {fileID: 165184, guid: 5902abcba3b0ebd4b99c436d0f602c51, type: 2}
-  m_groundTile: {fileID: 180922, guid: 22b52bf0c5a51c44d94abc7ed84ea6a4, type: 2}
+  m_groundTile: {fileID: 165076, guid: 572174377e0191f44a2484d984f51b74, type: 2}
 --- !u!114 &11499016
 MonoBehaviour:
   m_ObjectHideFlags: 1

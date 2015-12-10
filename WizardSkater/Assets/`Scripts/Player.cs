@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
     [Header("Movement")]
 
-    public Vector3 m_move;
+    //public Vector3 m_move;
     public float m_accel = 0.15f;
     public float m_moveSpeed;
     public float m_moveFriction = 0.05f;
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
         
     private void Awake()
     {
-        m_animator = GetComponent<Animator>();
+        m_animator = GetComponentInChildren<Animator>();
         //m_controller = GetComponent<CharacterController>();
         m_collider = GetComponent<CapsuleCollider>();
         m_body = GetComponent<Rigidbody>();

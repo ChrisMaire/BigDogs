@@ -92,7 +92,7 @@ public class Level : MonoBehaviour
     {
         for (int i = 0; i < m_laneObjects.Count; i++)
         {
-            for (int j = -2; j < m_lengths + 2; j++) //2 on each side for visibility
+            for (int j = 0; j < m_lengths; j++) 
             {
                 GameObject laneTile = Instantiate(SystemsManager.m_Prefabs.m_laneTile);
                 laneTile.name = "Lane" + (i + 1) + "." + j;
@@ -128,13 +128,13 @@ public class Level : MonoBehaviour
     private void LayGroundTiles()
     {
         m_ground = gameObject.transform.FindChild("Ground").gameObject;
-        for (int i = -2; i < m_lengths + 2; i++) //2 on each side for visibility
+        for (int i = 0; i < m_lengths; i++) //2 on each side for visibility
         {
             GameObject groundTile = Instantiate(SystemsManager.m_Prefabs.m_groundTile);
             groundTile.name = "Ground." + i;
 
-            Vector3 tempVect = m_ground.transform.position;
-            tempVect.x = (i - 1)*groundTile.transform.localScale.x;
+            Vector3 tempVect = groundTile.transform.position;
+            tempVect.x = (i-1)*groundTile.transform.localScale.x;
             groundTile.transform.position = tempVect;
 
             groundTile.transform.parent = m_ground.transform;

@@ -41,49 +41,17 @@ public class Lane : MonoBehaviour
             break;
             case LaneType.Obstacle:
             {
-                GameObject obstacle = Instantiate(SystemsManager.m_Prefabs.m_empty);
-                obstacle.name = "Obstacle";
-                obstacle.transform.parent = transform;
-                Vector3 tempVect = transform.position;
-                tempVect.y += 1;
-                obstacle.transform.position = tempVect;
-                obstacle.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Obstacle;
-
-                GameObject obstacleCollider = Instantiate(SystemsManager.m_Prefabs.m_obstacleCollider);
-                Vector3 storedVect = obstacle.transform.position;
-                obstacleCollider.name = "Collider";
-                obstacleCollider.transform.position = tempVect;
-                obstacleCollider.transform.parent = obstacle.transform;
-                obstacleCollider.transform.localPosition = storedVect;
-                }
+                LayObstacleTile();
+            }
             break;
             case LaneType.Ramp:
             {
-                GameObject ramp = Instantiate(SystemsManager.m_Prefabs.m_empty);
-                ramp.name = "Ramp";
-                ramp.transform.parent = transform;
-                
-                Vector3 tempVect = transform.position;
-                tempVect.y += 1;
-                ramp.transform.position = tempVect;
-                ramp.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Ramp;
-
-                GameObject rampCollider = Instantiate(SystemsManager.m_Prefabs.m_rampCollider);
-                Vector3 storedVect = rampCollider.transform.position;
-                //rampCollider.name = "Collider";
-                rampCollider.transform.position = tempVect;
-                rampCollider.transform.parent = ramp.transform;
-                rampCollider.transform.localPosition = storedVect;
-                }
+                LayRampTile();
+            }
             break;
             case LaneType.FinishLine:
             {
-                GameObject finishLine = Instantiate(SystemsManager.m_Prefabs.m_empty);
-                finishLine.transform.parent = transform;
-                Vector3 tempVect = transform.position;
-                tempVect.y += 1;
-                finishLine.transform.position = tempVect;
-                finishLine.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_FinishLine;
+                LayFinishLineTile();
             }
             break;
             default:
@@ -91,6 +59,54 @@ public class Lane : MonoBehaviour
             }
             break;
         }
+    }
+
+    private void LayFinishLineTile()
+    {
+        GameObject finishLine = Instantiate(SystemsManager.m_Prefabs.m_empty);
+        finishLine.transform.parent = transform;
+        Vector3 tempVect = transform.position;
+        tempVect.y += 1;
+        finishLine.transform.position = tempVect;
+        finishLine.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_FinishLine;
+    }
+
+    private void LayRampTile()
+    {
+        GameObject rampCollider = Instantiate(SystemsManager.m_Prefabs.m_rampCollider);
+        Vector3 spriteVect = rampCollider.transform.position;
+        rampCollider.name = "Ramp";
+        
+        Vector3 tempVect = transform.position;
+        //tempVect.y += 1.23f;
+        //rampCollider.transform.position = tempVect;
+        rampCollider.transform.position = tempVect;
+        rampCollider.transform.parent = transform.parent;
+
+        GameObject rampSprite = Instantiate(SystemsManager.m_Prefabs.m_empty);
+        rampSprite.name = "Sprite";
+        rampSprite.transform.parent = rampCollider.transform;
+        rampSprite.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Ramp;
+        spriteVect.y += 1.23f;
+        rampSprite.transform.localPosition = spriteVect;
+    }
+
+    private void LayObstacleTile()
+    {
+        GameObject obstacle = Instantiate(SystemsManager.m_Prefabs.m_empty);
+        obstacle.name = "Obstacle";
+        obstacle.transform.parent = transform;
+        Vector3 tempVect = transform.position;
+        tempVect.y += 0.1f;
+        obstacle.transform.position = tempVect;
+        obstacle.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Obstacle;
+
+        GameObject obstacleCollider = Instantiate(SystemsManager.m_Prefabs.m_obstacleCollider);
+        Vector3 storedVect = obstacle.transform.position;
+        obstacleCollider.name = "Collider";
+        obstacleCollider.transform.position = tempVect;
+        obstacleCollider.transform.parent = obstacle.transform;
+        obstacleCollider.transform.localPosition = storedVect;
     }
 
     private void Update()
