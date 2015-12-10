@@ -36,7 +36,15 @@ public class Level : MonoBehaviour
         m_lane3 = new List<int>();
         m_lane4 = new List<int>();
 
-        m_filePath = Application.dataPath + "\\Levels";
+        m_filePath = Application.dataPath;
+        if(Application.platform == RuntimePlatform.OSXDashboardPlayer || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXWebPlayer)
+        {
+            m_filePath += "/Levels";
+        }
+    else
+        {
+            m_filePath += "\\Levels";
+        }
         m_data = new LevelData();
         LoadXML();
         if (m_xmlString != "")
