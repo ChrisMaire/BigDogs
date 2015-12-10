@@ -41,7 +41,7 @@ public class Level : MonoBehaviour
         {
             m_filePath += "/Levels";
         }
-    else
+        else
         {
             m_filePath += "\\Levels";
         }
@@ -143,7 +143,17 @@ public class Level : MonoBehaviour
 
     void LoadXML()
     {
-        StreamReader r = File.OpenText(m_filePath + "\\" + m_fileName);
+        string file = m_filePath;
+        if (Application.platform == RuntimePlatform.OSXDashboardPlayer || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXWebPlayer)
+        {
+            m_filePath += "/";
+        }
+        else
+        {
+            m_filePath += "\\";
+        }
+        file += m_fileName;
+        StreamReader r = File.OpenText(file);
         string info = r.ReadToEnd();
         r.Close();
         m_xmlString = info;
