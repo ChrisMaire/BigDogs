@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     private CapsuleCollider m_collider;
     public bool m_grounded;
     public float m_groundCheckLength = 0.3f;
+    public bool m_occupiedUp;
+    public bool m_occupiedDown;
 
     private string m_layerRamp = "Ramp";
     private string m_layerGround = "Ground";
@@ -54,7 +56,7 @@ public class Player : MonoBehaviour
     [Range(0.15f, 2.0f)]
     public float m_jumpAgainTime = 0.5f;
     private float m_jumpAgainTimer;
-    private bool m_jumpReady;
+    public bool m_jumpReady;
     
     public float m_speedTurbo = 20.0F;
 
@@ -100,11 +102,11 @@ public class Player : MonoBehaviour
             transform.position = tempVect;
         }
 
-        //m_move = Vector3.zero;
+        RaycastCheck();
 
-        //if (m_moveChangeReady)
-        //{
-            if (SystemsManager.m_Input.inp_Push)// && m_speedState != Speed.Gallop)
+        if (m_grounded)
+        {
+            if (SystemsManager.m_Input.inp_Push) // && m_speedState != Speed.Gallop)
             {
                 //ChangeTopSpeed();
                 m_moveSpeed += m_accel;
@@ -112,10 +114,10 @@ public class Player : MonoBehaviour
                     m_moveSpeed = m_maxSpeed;
             }
 
-        if (SystemsManager.m_Input.inp_Turbo)
-            m_moveSpeed += m_speedTurbo;
+            m_moveSpeed -= m_moveFriction;
+            if (m_moveSpeed < 0f)
+                m_moveSpeed = 0f;
 
-            //LANE CHANGE
             if (m_laneChangeReady)
             {
                 CheckForLaneChange();
@@ -132,27 +134,11 @@ public class Player : MonoBehaviour
                 }
             }
 
-            CheckForJump();
-        //}
-        //else
-        //{
-        //    if (m_moveChangeAgainTimer < m_moveChangeAgainTime)
-        //        m_moveChangeAgainTimer += Time.deltaTime;
-        //    else if (SystemsManager.m_Input.inp_D_Up == false && SystemsManager.m_Input.inp_D_Down == false)
-        //    {
-        //        m_moveChangeReady = true;
-        //        m_moveChangeAgainTimer = 0;
-        //    }
-        //}
-        m_moveSpeed -= m_moveFriction;
-        if (m_moveSpeed < 0f)
-            m_moveSpeed = 0f;
-
-        if (m_grounded == true && m_ramping == false)
-        {
             m_gravity = m_gravityGround;
 
-            //LANE CORRECTION & z depth
+            CheckForJump();
+
+            //LANE CORRECTION
             if (m_laneCurrent == Lanes.Lane1 && m_laneDepthCurrent != m_laneDepth1)
                 m_laneDepthCurrent = m_laneDepth1;
             else if (m_laneCurrent == Lanes.Lane2 && m_laneDepthCurrent != m_laneDepth2)
@@ -162,44 +148,56 @@ public class Player : MonoBehaviour
             else if (m_laneCurrent == Lanes.Lane4 && m_laneDepthCurrent != m_laneDepth4)
                 m_laneDepthCurrent = m_laneDepth4;
         }
-        else if (m_grounded == false && m_ramping == false)
+        else
         {
-            Debug.Log("falling at " + Physics.gravity.y * m_gravityMultiplier);
-            m_gravity += Physics.gravity.y * m_gravityMultiplier;
-            if (m_gravity < m_gravityMax)
-                m_gravity = m_gravityMax;
+            if (m_ramping == false)
+            {
+                Debug.Log("falling at " + Physics.gravity.y * m_gravityMultiplier);
+                m_gravity += Physics.gravity.y * m_gravityMultiplier;
+                if (m_gravity < m_gravityMax)
+                    m_gravity = m_gravityMax;
+            }
         }
 
+        //TURBO
+        if (SystemsManager.m_Input.inp_Turbo)
+            m_moveSpeed += m_speedTurbo;
+
+        if (m_moveSpeed > m_maxSpeedTotal)
+            m_moveSpeed = m_maxSpeedTotal;
+        
+        Vector3 force = (transform.up * m_gravity) + (transform.right * m_moveSpeed); ;
+
+        Debug.Log("velocity is " + m_body.velocity);
+        //Debug.Log("adding force " + force);
+        m_body.AddForce(force);
+    }
+
+    private void RaycastCheck()
+    {
         m_ramping = false;
         m_grounded = false;
 
         Vector3 checkFrom = transform.position;
-        Vector3 checkTo = -transform.up * m_groundCheckLength;
+        Vector3 checkTo = -transform.up*m_groundCheckLength;
         var mask = (1 << LayerMask.NameToLayer("Ramp")) | (1 << LayerMask.NameToLayer("Ground"));
         Debug.DrawRay(checkFrom, checkTo, Color.magenta);
         RaycastHit hit;
         if (Physics.Raycast(checkFrom, checkTo, out hit, m_groundCheckLength, mask))
         {
-            Debug.Log("hit " + hit.collider.name + ", " + hit.collider.gameObject.layer);
+            //Debug.Log("hit " + hit.collider.name + ", " + hit.collider.gameObject.layer);
             if (hit.collider.name != "GroundCollider")
             {
-                Debug.Log("rampo!");
+                //Debug.Log("rampo!");
                 m_ramping = true;
                 m_moveSpeed += m_rampBoost;
             }
             else
             {
-                Debug.Log("g-round");
+                //Debug.Log("g-round");
                 m_grounded = true;
             }
         }
-
-        if (m_moveSpeed > m_maxSpeedTotal)
-            m_moveSpeed = m_maxSpeedTotal;
-
-        Vector3 force = (transform.right*m_moveSpeed)+(transform.up * m_gravity);
-        //Debug.Log("adding force " + force);
-        m_body.AddForce(force);
     }
 
     void OnColliderEnter(Collision collision)
@@ -266,18 +264,19 @@ public class Player : MonoBehaviour
 
     private void CheckForJump()
     {
-        if (m_jumpReady && SystemsManager.m_Input.inp_Jump)
+        if (m_jumpReady)
         {
-            Jump();
+            if (SystemsManager.m_Input.inp_Jump)
+            {
+                Jump();
+            }
         }
         else
         {
-            m_gravity = m_gravityGround;
-
             //bunny hop prevention
             if (m_jumpAgainTimer < m_jumpAgainTime)
                 m_jumpAgainTimer += Time.deltaTime;
-            else if (SystemsManager.m_Input.inp_Jump == false)
+            else
             {
                 m_jumpReady = true;
                 m_jumpAgainTimer = 0;
@@ -288,7 +287,6 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         m_gravity += m_jump;
-        //m_speedMax = m_speedAir;
         SystemsManager.m_SoundFX.OneShot_Jump();
 
         m_jumpReady = false;

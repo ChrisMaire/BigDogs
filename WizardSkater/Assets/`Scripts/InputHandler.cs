@@ -69,7 +69,7 @@ public class InputHandler : MonoBehaviour
                 inp_D_Left = false;
         }
 
-        if (Input.GetButtonDown("Olli"))
+        if (Input.GetButton("Jump"))
             inp_Jump = true;
         else
             inp_Jump = false;
