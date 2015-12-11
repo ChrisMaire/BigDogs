@@ -168,7 +168,7 @@ public class Player : MonoBehaviour
         
         Vector3 force = (transform.up * m_gravity) + (transform.right * m_moveSpeed); ;
 
-        Debug.Log("velocity is " + m_body.velocity);
+        //Debug.Log("velocity is " + m_body.velocity);
         //Debug.Log("adding force " + force);
         m_body.AddForce(force);
     }
@@ -178,6 +178,12 @@ public class Player : MonoBehaviour
         m_ramping = false;
         m_grounded = false;
 
+        RaycastDown();
+        RaycastSides();
+    }
+
+    private void RaycastDown()
+    {
         Vector3 checkFrom = transform.position;
         Vector3 checkTo = -transform.up*m_groundCheckLength;
         var mask = (1 << LayerMask.NameToLayer("Ramp")) | (1 << LayerMask.NameToLayer("Ground"));
@@ -197,6 +203,25 @@ public class Player : MonoBehaviour
                 //Debug.Log("g-round");
                 m_grounded = true;
             }
+        }
+    }
+    private void RaycastSides()
+    {
+        Vector3 checkFrom = transform.position;
+        Vector3 checkTo = transform.forward;
+        var mask = (1 << LayerMask.NameToLayer("Ramp")) | (1 << LayerMask.NameToLayer("Obstacle"));
+        RaycastHit hit;
+
+        Debug.DrawRay(checkFrom, checkTo, Color.cyan);
+        if (Physics.Raycast(checkFrom, checkTo, out hit, 1, mask))
+        {
+            Debug.Log("Deteceted a thing on the next lane up");
+        }
+
+        Debug.DrawRay(checkFrom, -checkTo, Color.cyan);
+        if (Physics.Raycast(checkFrom, -checkTo, out hit, 1, mask))
+        {
+            Debug.Log("Deteceted a thing on the next lane down");
         }
     }
 
