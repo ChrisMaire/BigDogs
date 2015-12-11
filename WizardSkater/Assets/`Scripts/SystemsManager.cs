@@ -52,9 +52,8 @@ public class SystemsManager : MonoBehaviour
     void Start()
     {
         //Particles.InitObjectPools();
-        m_Level = FindObjectOfType<Level>();
-        Level = m_Level;
-        Level.InitLevel();
+        Level = FindObjectOfType<Level>();
+        m_Level = Level;
 
         Game.InitGame();
         m_Player = FindObjectOfType<Player>();

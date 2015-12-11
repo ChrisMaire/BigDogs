@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fileName: Level1.xml
+  m_laneTiles: []
   m_collider: {fileID: 0}
 --- !u!114 &11478618
 MonoBehaviour:

@@ -18,6 +18,8 @@ public class Game : MonoBehaviour
     public bool m_paused;
     private bool m_inputFreeze;
 
+    public Level m_currentLevel;
+
     private void Awake()
     {
         m_startedTheGame = false;
@@ -31,6 +33,9 @@ public class Game : MonoBehaviour
 
     public void InitGame()
     {
+        m_currentLevel = SystemsManager.m_Level;
+        m_currentLevel.InitLevel();
+
         m_State = GameState.Gameplay;
 
         SpawnPlayer();

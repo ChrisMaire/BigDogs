@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_State: 0
+  m_finishedLevel: 0
   m_grounded: 0
   m_groundCheckLength: .550000012
   m_occupiedUp: 0
@@ -146,6 +147,8 @@ MonoBehaviour:
   m_moveFriction: .075000003
   m_maxSpeed: 6
   m_maxSpeedTotal: 10
+  m_onClearIce: 1
+  m_badIcePenaltyMultiplier: .400000006
   m_moveChangeReady: 0
   m_moveChangeAgainTime: .150000006
   m_gravity: 0
@@ -423,6 +426,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_jumpAgainTime
       value: 1.01600003
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_badIcePenaltyMultiplier
+      value: .400000006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

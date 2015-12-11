@@ -24,6 +24,8 @@ public class Level : MonoBehaviour
     protected List<int> m_lane3;
     protected List<int> m_lane4;
 
+    public List<GameObject> m_laneTiles; 
+
     public BoxCollider m_collider;
 
     public void InitLevel()
@@ -121,6 +123,7 @@ public class Level : MonoBehaviour
                         lane.Init();
                     }
                 }
+                m_laneTiles.Add(laneTile);
             }
         }
     }
