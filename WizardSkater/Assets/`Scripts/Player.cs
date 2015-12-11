@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -73,6 +73,8 @@ public class Player : MonoBehaviour
     public bool m_laneChangePenalty = false;
     public float m_laneChangePenaltyMultiplier = 0.75f;
     public float m_obstacleHitPenaltyMultiplier = 0.65f;
+    public bool m_canShiftUp = true;
+    public bool m_canShiftDown = true;
 
     public enum Lanes
     {
@@ -216,12 +218,22 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(checkFrom, checkTo, out hit, 1, mask))
         {
             Debug.Log("Deteceted a thing on the next lane up");
+            m_canShiftUp = false;
+        }
+        else
+        {
+            m_canShiftUp = true;
         }
 
         Debug.DrawRay(checkFrom, -checkTo, Color.cyan);
         if (Physics.Raycast(checkFrom, -checkTo, out hit, 1, mask))
         {
             Debug.Log("Deteceted a thing on the next lane down");
+            m_canShiftDown = false;
+        }
+        else
+        {
+            m_canShiftDown = true;
         }
     }
 
@@ -241,7 +253,7 @@ public class Player : MonoBehaviour
     private void CheckForLaneChange()
     {
         var ChangedLane = true;
-        if (SystemsManager.m_Input.inp_D_Up)
+        if (SystemsManager.m_Input.inp_D_Up && m_canShiftUp)
         {
             if (m_laneCurrent == Lanes.Lane1)
             {
@@ -258,7 +270,7 @@ public class Player : MonoBehaviour
             else // no lane change possible
                 ChangedLane = false;
         }
-        else if (SystemsManager.m_Input.inp_D_Down)
+        else if (SystemsManager.m_Input.inp_D_Down && m_canShiftDown)
         {
             if (m_laneCurrent == Lanes.Lane4)
             {

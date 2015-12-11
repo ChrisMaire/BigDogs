@@ -70,6 +70,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_number: 0
   m_type: 0
+  m_rampSpriteOffset: {x: 0, y: 0, z: 0}
+  m_obstacleSpriteOffset: .100000001
 --- !u!212 &21293474
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -123,11 +125,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.x
-      value: .173648223
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.w
-      value: .984807789
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled

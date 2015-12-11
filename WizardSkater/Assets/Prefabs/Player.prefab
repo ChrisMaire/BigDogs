@@ -143,7 +143,7 @@ MonoBehaviour:
   m_occupiedDown: 0
   m_accel: .25
   m_moveSpeed: 0
-  m_moveFriction: .0250000004
+  m_moveFriction: .075000003
   m_maxSpeed: 6
   m_maxSpeedTotal: 10
   m_moveChangeReady: 0
@@ -154,8 +154,8 @@ MonoBehaviour:
   m_gravityMax: -10
   m_rampBoost: 1
   m_ramping: 0
-  m_jump: 150
-  m_jumpAgainTime: .5
+  m_jump: 200
+  m_jumpAgainTime: 1.01600003
   m_jumpReady: 0
   m_speedTurbo: 8
   m_laneDepthCurrent: 0
@@ -168,6 +168,8 @@ MonoBehaviour:
   m_laneChangePenalty: 1
   m_laneChangePenaltyMultiplier: .850000024
   m_obstacleHitPenaltyMultiplier: .649999976
+  m_canShiftUp: 1
+  m_canShiftDown: 1
   m_laneCurrent: 1
 --- !u!136 &13698930
 CapsuleCollider:
@@ -368,7 +370,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_jump
-      value: 150
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Radius
@@ -396,7 +398,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_moveFriction
-      value: .0250000004
+      value: .075000003
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_rampBoost
@@ -417,6 +419,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_jumpAgainTime
+      value: 1.01600003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

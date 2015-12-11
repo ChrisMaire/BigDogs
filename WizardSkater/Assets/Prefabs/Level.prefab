@@ -185,6 +185,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_number: 0
   m_type: 0
+  m_rampSpriteOffset: {x: .842000008, y: 1.00300002, z: 0}
+  m_obstacleSpriteOffset: .100000001
 --- !u!114 &11433716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,6 +200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_number: 2
   m_type: 0
+  m_rampSpriteOffset: {x: 0, y: 0, z: 0}
+  m_obstacleSpriteOffset: .100000001
 --- !u!114 &11434648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,6 +228,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_number: 1
   m_type: 0
+  m_rampSpriteOffset: {x: 0, y: 0, z: 0}
+  m_obstacleSpriteOffset: .100000001
 --- !u!114 &11496850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -237,6 +243,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_number: 3
   m_type: 0
+  m_rampSpriteOffset: {x: 0, y: 0, z: 0}
+  m_obstacleSpriteOffset: .100000001
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -80,7 +80,7 @@ public class Level : MonoBehaviour
             m_lanes.Add(m_lane2);
             m_lanes.Add(m_lane3);
             m_lanes.Add(m_lane4);
-            Debug.Log("level is go");
+            //Debug.Log("level is go");
         }
 
         m_laneObjects = gameObject.GetComponentsInChildren<Lane>().ToList();

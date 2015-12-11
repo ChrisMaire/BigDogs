@@ -26,9 +26,15 @@ public class Lane : MonoBehaviour
 
     public LaneType m_type = LaneType.Normal;
 
+    public Vector3 m_rampSpriteOffset;
+    public float m_obstacleSpriteOffset = 0.1f;
+
     public void Init()
     {
         m_sprite = GetComponentInChildren<SpriteRenderer>();
+
+        //magic number :(
+        m_rampSpriteOffset = new Vector3(0.65f, 0.775f, 0f);;
 
         m_sprite.sprite = SystemsManager.m_Sprites.m_LaneNormal[(int)m_number];
         
@@ -87,7 +93,7 @@ public class Lane : MonoBehaviour
         rampSprite.name = "Sprite";
         rampSprite.transform.parent = rampCollider.transform;
         rampSprite.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Ramp;
-        spriteVect.y += 1.23f;
+        spriteVect += m_rampSpriteOffset;
         rampSprite.transform.localPosition = spriteVect;
     }
 
@@ -97,7 +103,7 @@ public class Lane : MonoBehaviour
         obstacle.name = "Obstacle";
         obstacle.transform.parent = transform;
         Vector3 tempVect = transform.position;
-        tempVect.y += 0.1f;
+        tempVect.y += m_obstacleSpriteOffset;
         obstacle.transform.position = tempVect;
         obstacle.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Obstacle;
 

@@ -42,7 +42,7 @@ public class Game : MonoBehaviour
         if (player == null)
         {
             player = Instantiate(SystemsManager.m_Prefabs.m_player);
-            Debug.Log("player created");
+            //Debug.Log("player created");
         }
         else
         {
