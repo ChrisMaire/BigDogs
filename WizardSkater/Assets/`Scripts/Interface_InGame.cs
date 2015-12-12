@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class placeholderUIController : MonoBehaviour {
+public class Interface_InGame : MonoBehaviour {
 
 	public Text Timer;
 	public Text Score;

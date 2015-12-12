@@ -5,7 +5,6 @@ public class Game : MonoBehaviour
 {
     public enum GameState
     {
-        MainMenu,
         Interlude,
         Gameplay,
         Pause,
