@@ -5,6 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Animator m_animator;
+    private bool m_animationChangeReady;
+    private float m_animationChangeTimer;
+    public float m_animationChangeTime = 1f;
 
     public enum CharacterState
     {
@@ -83,8 +86,8 @@ public class Player : MonoBehaviour
     private int m_tilesPassed;
 
     public Lane.LaneNumbers m_laneCurrent = Lane.LaneNumbers.Two;
-        
-    private void Awake()
+
+    void Init()
     {
         m_animator = GetComponentInChildren<Animator>();
         //m_controller = GetComponent<CharacterController>();
@@ -94,6 +97,9 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(m_animator == null || m_collider == null || m_body == null)
+            Init();
+
         CorrectZDepth();
 
         if (m_finishedLevel == false)
@@ -118,6 +124,27 @@ public class Player : MonoBehaviour
 
             if (m_grounded)
             {
+                if(m_animationChangeReady)
+                { 
+                    m_animator.SetTrigger("skate");
+                    var animationSpeed = ((5+m_maxSpeedTotal) - m_moveSpeed)/5;
+                    //Debug.Log("animation speed=" + animationSpeed);
+                    m_animator.speed = animationSpeed;
+                    m_animationChangeReady = false;
+                }
+                else
+                {
+                    if (m_animationChangeTimer > m_animationChangeTime)
+                    {
+                        m_animationChangeTimer = 0f;
+                        m_animationChangeReady = true;
+                    }
+                    else
+                    {
+                        m_animationChangeTimer += Time.fixedDeltaTime;
+                    }
+                }
+
                 if (SystemsManager.m_Input.inp_Push) // && m_speedState != Speed.Gallop)
                 {
                     //ChangeTopSpeed();
@@ -161,6 +188,11 @@ public class Player : MonoBehaviour
                 else if (m_laneCurrent == Lane.LaneNumbers.Four && m_laneDepthCurrent != m_laneDepth4)
                     m_laneDepthCurrent = m_laneDepth4;
             }
+            else
+            {
+                m_animator.speed = 0f;
+                m_animator.ResetTrigger("skate");
+            }
 
             //TURBO
             if (SystemsManager.m_Input.inp_Turbo)
@@ -175,6 +207,13 @@ public class Player : MonoBehaviour
             m_moveSpeed = m_maxSpeedTotal;
         else if (m_moveSpeed < 0)
             m_moveSpeed = 0;
+
+        if (m_body.velocity.x < 0.5f)
+        {
+            m_animator.speed = 0f;
+            m_animator.ResetTrigger("skate");
+            m_animator.SetTrigger("idle");
+        }
 
         if (m_grounded == false && m_ramping == false)
         {
@@ -269,11 +308,22 @@ public class Player : MonoBehaviour
     {
         foreach (ContactPoint hit in collision.contacts)
         {
-            Debug.Log("collider hit " + hit.otherCollider.gameObject.name);
+            //Debug.Log("collider hit " + hit.otherCollider.gameObject.name);
         }
     }
 
-    private void HitObstacle()
+    void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log("trigger hit " + other.gameObject.name);
+        var mask = (1 << LayerMask.NameToLayer("Obstacle"));
+        if (other.gameObject.layer == mask)
+        {
+            m_moveSpeed *= m_obstacleHitPenaltyMultiplier;
+        }
+
+    }
+
+    public void HitObstacle()
     {
         Debug.Log("lose mega-time");
     }

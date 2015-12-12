@@ -976,6 +976,7 @@ MonoBehaviour:
   m_startedTheGame: 0
   m_finishedTheGame: 0
   m_paused: 0
+  m_currentLevel: {fileID: 0}
 --- !u!114 &11477316
 MonoBehaviour:
   m_ObjectHideFlags: 1

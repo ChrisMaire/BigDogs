@@ -56,6 +56,7 @@ public class SystemsManager : MonoBehaviour
         m_Level = Level;
 
         Game.InitGame();
+
         m_Player = FindObjectOfType<Player>();
         Player = m_Player;
     }

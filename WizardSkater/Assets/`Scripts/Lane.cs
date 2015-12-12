@@ -99,20 +99,22 @@ public class Lane : MonoBehaviour
 
     private void LayObstacleTile()
     {
-        GameObject obstacle = Instantiate(SystemsManager.m_Prefabs.m_empty);
-        obstacle.name = "Obstacle";
-        obstacle.transform.parent = transform;
-        Vector3 tempVect = transform.position;
-        tempVect.y += m_obstacleSpriteOffset;
-        obstacle.transform.position = tempVect;
-        obstacle.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Obstacle;
-
         GameObject obstacleCollider = Instantiate(SystemsManager.m_Prefabs.m_obstacleCollider);
-        Vector3 storedVect = obstacle.transform.position;
-        obstacleCollider.name = "Collider";
+        Vector3 spriteVect = obstacleCollider.transform.position;
+        obstacleCollider.name = "Obstacle";
+
+        Vector3 tempVect = transform.position;
+        //tempVect.z += 0.1f;
         obstacleCollider.transform.position = tempVect;
-        obstacleCollider.transform.parent = obstacle.transform;
-        obstacleCollider.transform.localPosition = storedVect;
+        obstacleCollider.transform.parent = transform.parent;
+
+        GameObject obstacleSprite = Instantiate(SystemsManager.m_Prefabs.m_empty);
+        obstacleSprite.name = "Sprite";
+        obstacleSprite.transform.parent = obstacleCollider.transform;
+        obstacleSprite.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Obstacle;
+        spriteVect.y += m_obstacleSpriteOffset;
+        obstacleSprite.transform.localPosition = spriteVect;
+        
     }
 
     private void Update()
