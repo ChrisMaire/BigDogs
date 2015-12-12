@@ -103,20 +103,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5666791d1352dab4ebf97143f580867e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animationChangeTime: .75
+  m_blinkInterval: .100000001
+  m_animationChangeTime: .699999988
   m_State: 0
   m_finishedLevel: 0
   m_grounded: 0
   m_groundCheckLength: .550000012
   m_occupiedUp: 0
   m_occupiedDown: 0
-  m_accel: .25
+  m_inputFreeze: 0
+  m_accel: .349999994
   m_moveSpeed: 0
-  m_moveFriction: .075000003
-  m_maxSpeed: 6
-  m_maxSpeedTotal: 10
-  m_onClearIce: 1
-  m_badIcePenaltyMultiplier: .400000006
+  m_moveFriction: .0649999976
+  m_maxSpeed: 7
+  m_maxSpeedTotal: 11
+  m_obstacleFreezeInputTime: .699999988
+  m_obstacleHitPenaltyMultiplier: .150000006
+  m_onClearIce: 0
+  m_badIcePenaltyMultiplier: .550000012
   m_moveChangeReady: 0
   m_moveChangeAgainTime: .150000006
   m_gravity: 0
@@ -136,11 +140,9 @@ MonoBehaviour:
   m_laneDepth4: 1
   m_laneChangeReady: 0
   m_laneChangeAgainTime: .100000001
-  m_laneChangePenalty: 1
   m_laneChangePenaltyMultiplier: .850000024
-  m_obstacleHitPenaltyMultiplier: .649999976
-  m_canShiftUp: 1
-  m_canShiftDown: 1
+  m_canShiftUp: 0
+  m_canShiftDown: 0
   m_laneCurrent: 1
 --- !u!136 &13698930
 CapsuleCollider:
@@ -308,11 +310,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_accel
-      value: .25
+      value: .349999994
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_maxSpeed
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_AngularDrag
@@ -324,7 +326,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_moveFriction
-      value: .075000003
+      value: .0649999976
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_rampBoost
@@ -332,7 +334,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_maxSpeedTotal
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.x
@@ -352,11 +354,31 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_badIcePenaltyMultiplier
-      value: .400000006
+      value: .550000012
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_animationChangeTime
-      value: .75
+      value: .699999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_obstacleHitPenaltyMultiplier
+      value: .150000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_canShiftDown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_canShiftUp
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_onClearIce
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_obstacleFreezeInputTime
+      value: .699999988
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

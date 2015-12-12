@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Visuals")]
+
+    public float m_blinkInterval = 0.1f;
+    private SpriteRenderer m_renderer;
     private Animator m_animator;
     private bool m_animationChangeReady;
     private float m_animationChangeTimer;
@@ -36,12 +40,17 @@ public class Player : MonoBehaviour
 
     [Header("Movement")]
 
-    //public Vector3 m_move;
+    public bool m_inputFreeze;
+    private float m_inputFreezeTimer;
+    private float m_inputFreezeTime;
     public float m_accel = 0.15f;
     public float m_moveSpeed;
     public float m_moveFriction = 0.05f;
     public float m_maxSpeed = 5f;
     public float m_maxSpeedTotal = 9f;
+
+    public float m_obstacleFreezeInputTime = 0.5f;
+    public float m_obstacleHitPenaltyMultiplier = 0.25f;
 
     public bool m_onClearIce = true;
     public float m_badIcePenaltyMultiplier = 0.6f;
@@ -77,9 +86,7 @@ public class Player : MonoBehaviour
     public bool m_laneChangeReady = false;
     [Range(0.05f, 0.35f)] public float m_laneChangeAgainTime = 0.1f;
     private float m_laneChangeAgainTimer;
-    public bool m_laneChangePenalty = false;
     public float m_laneChangePenaltyMultiplier = 0.75f;
-    public float m_obstacleHitPenaltyMultiplier = 0.65f;
     public bool m_canShiftUp = true;
     public bool m_canShiftDown = true;
 
@@ -89,6 +96,7 @@ public class Player : MonoBehaviour
 
     void Init()
     {
+        m_renderer = GetComponentInChildren<SpriteRenderer>();
         m_animator = GetComponentInChildren<Animator>();
         //m_controller = GetComponent<CharacterController>();
         m_collider = GetComponent<CapsuleCollider>();
@@ -97,13 +105,26 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(m_animator == null || m_collider == null || m_body == null)
+        if(m_animator == null || m_collider == null || m_body == null || m_renderer == null)
             Init();
 
         CorrectZDepth();
 
         if (m_finishedLevel == false)
         {
+            if (m_inputFreeze)
+            {
+                if (m_inputFreezeTimer > m_inputFreezeTime)
+                {
+                    m_inputFreeze = false;
+                    m_inputFreezeTimer = 0f;
+                }
+                else
+                {
+                    m_inputFreezeTimer += Time.fixedDeltaTime;
+                }
+            }
+
             m_tilesPassed = 1 + (int) ((transform.position.x + 2)/4);
             int lane = (int) m_laneCurrent;
             Lane.LaneType laneType = (Lane.LaneType) SystemsManager.m_Game.m_currentLevel.m_lanes[lane][m_tilesPassed];
@@ -145,7 +166,7 @@ public class Player : MonoBehaviour
                     }
                 }
 
-                if (SystemsManager.m_Input.inp_Push) // && m_speedState != Speed.Gallop)
+                if (SystemsManager.m_Input.inp_Push && !m_inputFreeze)
                 {
                     //ChangeTopSpeed();
                     m_moveSpeed += m_accel;
@@ -195,13 +216,14 @@ public class Player : MonoBehaviour
             }
 
             //TURBO
-            if (SystemsManager.m_Input.inp_Turbo)
+            if (SystemsManager.m_Input.inp_Turbo && !m_inputFreeze)
                 m_moveSpeed += m_speedTurbo;
         }
         else
         {
             m_moveSpeed -= m_moveFriction*5;
         }
+
 
         if (m_moveSpeed > m_maxSpeedTotal)
             m_moveSpeed = m_maxSpeedTotal;
@@ -284,7 +306,7 @@ public class Player : MonoBehaviour
         Debug.DrawRay(checkFrom, checkTo, Color.cyan);
         if (Physics.Raycast(checkFrom, checkTo, out hit, 1, mask))
         {
-            Debug.Log("Deteceted a thing on the next lane up");
+            //Debug.Log("Deteceted a thing on the next lane up");
             m_canShiftUp = false;
         }
         else
@@ -295,7 +317,7 @@ public class Player : MonoBehaviour
         Debug.DrawRay(checkFrom, -checkTo, Color.cyan);
         if (Physics.Raycast(checkFrom, -checkTo, out hit, 1, mask))
         {
-            Debug.Log("Deteceted a thing on the next lane down");
+            //Debug.Log("Deteceted a thing on the next lane down");
             m_canShiftDown = false;
         }
         else
@@ -314,24 +336,51 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("trigger hit " + other.gameObject.name);
-        var mask = (1 << LayerMask.NameToLayer("Obstacle"));
+        var mask = (LayerMask.NameToLayer("Obstacle"));
         if (other.gameObject.layer == mask)
         {
-            m_moveSpeed *= m_obstacleHitPenaltyMultiplier;
+            HitObstacle();
         }
 
     }
 
     public void HitObstacle()
     {
-        Debug.Log("lose mega-time");
+        //Debug.Log("lose mega-time");
+        m_body.mass = 6f;
+        m_moveSpeed = 0f;
+        if (m_grounded)
+            m_body.AddForce(transform.up * m_jump);
+        StartCoroutine("FlashRenderer");
+        FreezeInput(m_obstacleFreezeInputTime);
+        m_body.mass = 2f;
+    }
+
+    public IEnumerator FlashRenderer()
+    {
+        m_renderer.enabled = false;
+        yield return new WaitForSeconds(Time.fixedDeltaTime * 6);
+        m_renderer.enabled = true;
+        yield return new WaitForSeconds(Time.fixedDeltaTime * 6);
+        m_renderer.enabled = false;
+        yield return new WaitForSeconds(Time.fixedDeltaTime * 6);
+        m_renderer.enabled = true;
+        yield return new WaitForSeconds(Time.fixedDeltaTime * 6);
+        m_renderer.enabled = false;
+        yield return new WaitForSeconds(Time.fixedDeltaTime * 6);
+        m_renderer.enabled = true;
+    }
+
+    public void FreezeInput(float seconds)
+    {
+        m_inputFreeze = true;
+        m_inputFreezeTime = seconds;
     }
 
     private void CheckForLaneChange()
     {
         var ChangedLane = true;
-        if (SystemsManager.m_Input.inp_D_Up && m_canShiftUp)
+        if (SystemsManager.m_Input.inp_D_Up && m_canShiftUp && !m_inputFreeze)
         {
             if (m_laneCurrent == Lane.LaneNumbers.One)
             {
@@ -348,7 +397,7 @@ public class Player : MonoBehaviour
             else // no lane change possible
                 ChangedLane = false;
         }
-        else if (SystemsManager.m_Input.inp_D_Down && m_canShiftDown)
+        else if (SystemsManager.m_Input.inp_D_Down && m_canShiftDown && !m_inputFreeze)
         {
             if (m_laneCurrent == Lane.LaneNumbers.Four)
             {
@@ -372,8 +421,7 @@ public class Player : MonoBehaviour
         {
             m_laneChangeReady = false;
 
-            if (m_laneChangePenalty)
-                m_moveSpeed *= m_laneChangePenaltyMultiplier;
+            m_moveSpeed *= m_laneChangePenaltyMultiplier;
         }
     }
 
@@ -381,7 +429,7 @@ public class Player : MonoBehaviour
     {
         if (m_jumpReady)
         {
-            if (SystemsManager.m_Input.inp_Jump)
+            if (SystemsManager.m_Input.inp_Jump && !m_inputFreeze)
             {
                 Jump();
             }
