@@ -4,3 +4,7 @@ Skate
 Hold Wizard_Skate_1 for 8 frames (approximately 2/3 of a second)
 The whole motion should last 1 second in total
 
+Jump
+Hold Wizard_Jump_3 for 2 frames (approximately 1/6 of a second)
+Repeat Wizard_Jump_6 and 7 back and forth while in midair
+When landing play Wizard_Jump_8 and then revert to the Skate animation.
