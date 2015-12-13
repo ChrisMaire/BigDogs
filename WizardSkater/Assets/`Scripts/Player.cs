@@ -94,6 +94,14 @@ public class Player : MonoBehaviour
 
     public Lane.LaneNumbers m_laneCurrent = Lane.LaneNumbers.Two;
 
+    [Header("MagicBar")]
+
+    public float m_magicCurrent = 0f;
+    public float m_magicMax = 100f;
+    public float m_magicAmtTrick = 3f;
+    public float m_magicAmtTurbo = 1f;
+    public float m_magicAmtRamp = 45f;
+
     void Init()
     {
         m_renderer = GetComponentInChildren<SpriteRenderer>();
@@ -288,6 +296,9 @@ public class Player : MonoBehaviour
                 //Debug.Log("rampo!");
                 m_ramping = true;
                 m_moveSpeed += m_rampBoost;
+                if (m_body.velocity.x < 0.1f)
+                    m_gravity += m_jump/10;
+                Debug.Log("x=" + m_body.velocity.x);
             }
             else
             {

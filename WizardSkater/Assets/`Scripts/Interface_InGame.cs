@@ -4,52 +4,29 @@ using System.Collections;
 
 public class Interface_InGame : MonoBehaviour {
 
-	public Text Timer;
+	public Text Time;
 	public Text Score;
-	public Slider Speed;
-	public Slider Action;
+	public Slider Magic;
 
-	float maxspeed;
-	float speed;
-	float valuehold;
+	float m_magicAmount;
 
-	void Start ()
+    private string m_emptyNum = "00.0";
+
+    void Start ()
     {
         SystemsManager.m_Score.Init();
     }
 	
 	private void LateUpdate()
 	{
-		if ((SystemsManager.m_Game.getState () == Game.GameState.Testing ||
-            SystemsManager.m_Game.getState () == Game.GameState.Gameplay) &&
+		if ((SystemsManager.m_Game.getState () == Game.GameState.Testing || SystemsManager.m_Game.getState () == Game.GameState.Gameplay) &&
             SystemsManager.m_Player != null)
         {
-			speed = SystemsManager.m_Player.m_moveSpeed;
-			maxspeed = SystemsManager.m_Player.m_maxSpeedTotal;
-
-			Speed.value = speed / maxspeed;
-
-			Timer.text = Time.time.ToString();
-
-			Score.text = "00000";
-		}
+			Magic.value = SystemsManager.m_Player.m_magicCurrent / SystemsManager.m_Player.m_magicMax;
+            
+			Time.text = SystemsManager.m_Timer.GetTime().ToString(m_emptyNum);
+            Debug.Log("time is " + SystemsManager.m_Timer.GetTime().ToString());
+			Score.text = SystemsManager.m_Score.m_levelScore.ToString(m_emptyNum);
+        }
 	}
-			/*	if(!m_player.GetComponent<Player>().m_moveChangeReady){
-								ActionBar();
-			}
-		} */
-	
-
-	/*
-	private void ActionBar()
-	{
-	
-		if (active) { valuehold = 1;
-			Action.value = 1;
-		}
-		else {
-			Action.value = valuehold - .1f;
-		}
-
-	}*/ 
 }

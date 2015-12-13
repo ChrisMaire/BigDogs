@@ -43,6 +43,8 @@ public class Score : MonoBehaviour
         {
             m_filePath += "\\Score\\";
         }
+
+        m_levelScore = 0f;
     }
 
     public void Init()

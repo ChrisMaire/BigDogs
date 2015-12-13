@@ -2,44 +2,33 @@
 
 public class Timer : MonoBehaviour
 {
-    private float timeCounter;
-    public bool timePause;
+    private float m_timeCounter;
+    public bool m_timePause;
 
-    public void UpdateTime()
+    void Update()
     {
-        if (SystemsManager.m_Game.getState() == Game.GameState.Gameplay)
+        if (SystemsManager.m_Game.getState() == Game.GameState.Gameplay ||
+            SystemsManager.m_Game.getState() == Game.GameState.Testing)
         {
-            if (timePause)
-                timePause = false;
+            if (m_timePause == false)
+            {
+                m_timeCounter += Time.deltaTime;
+            }
         }
-        else
-        {
-            if (timePause == false)
-                timePause = true;
-        }
+    }
 
-        if (timePause == false)
-        {
-            timeCounter += Time.deltaTime;
-            //SystemsManager.m_Score.ChangeLevelTime(timeCounter);
-            //SystemsManager.m_Interface.ChangeTimeOnHUD(timeCounter.ToString("##.##"));
-        }
+    public void SetTimePause(bool toggle)
+    {
+        m_timePause = toggle;
     }
 
     public void ResetTime()
     {
-        timeCounter = 0;
-
-        //SystemsManager.m_Interface.ChangeTimeOnHUD(timeCounter.ToString("##.##"));
+        m_timeCounter = 0;
     }
 
     public float GetTime()
     {
-        return timeCounter;
-    }
-
-    public float GetTotalTime()
-    {
-        return timeCounter;
+        return m_timeCounter;
     }
 }

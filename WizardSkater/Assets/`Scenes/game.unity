@@ -85,51 +85,7 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &176097912 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 448350, guid: b8d16499818b4d44685078c1222efba5, type: 2}
-  m_PrefabInternal: {fileID: 2110888483}
---- !u!1 &1278309890
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1278309892}
-  - 65: {fileID: 1278309891}
-  m_Layer: 12
-  m_Name: GroundCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &1278309891
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1278309890}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5, y: .100000001, z: 4}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!4 &1278309892
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1278309890}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 176097912}
-  m_RootOrder: 5
---- !u!1001 &1486365588
+--- !u!1001 &2012188764
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -208,7 +164,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 448350, guid: b8d16499818b4d44685078c1222efba5, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -.5
       objectReference: {fileID: 0}
     - target: {fileID: 448350, guid: b8d16499818b4d44685078c1222efba5, type: 2}
       propertyPath: m_LocalRotation.x
@@ -230,10 +186,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11434648, guid: b8d16499818b4d44685078c1222efba5, type: 2}
-      propertyPath: m_collider
-      value: 
-      objectReference: {fileID: 1278309891}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8d16499818b4d44685078c1222efba5, type: 2}
   m_IsPrefabParent: 0

@@ -42,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 182902}
   m_LocalRotation: {x: .342020184, y: 0, z: 0, w: .939692616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 487854}
@@ -127,23 +127,28 @@ MonoBehaviour:
   m_gravityGround: 0
   m_gravityMultiplier: .5
   m_gravityMax: -10
-  m_rampBoost: 1
+  m_rampBoost: 2
   m_ramping: 0
   m_jump: 200
   m_jumpAgainTime: 1.01600003
   m_jumpReady: 0
   m_speedTurbo: 8
   m_laneDepthCurrent: 0
-  m_laneDepth1: -1.25
-  m_laneDepth2: -.5
-  m_laneDepth3: .25
-  m_laneDepth4: 1
+  m_laneDepth1: -1.70000005
+  m_laneDepth2: -.949999988
+  m_laneDepth3: -.150000006
+  m_laneDepth4: .550000012
   m_laneChangeReady: 0
   m_laneChangeAgainTime: .100000001
   m_laneChangePenaltyMultiplier: .850000024
   m_canShiftUp: 0
   m_canShiftDown: 0
   m_laneCurrent: 1
+  m_magicCurrent: 0
+  m_magicMax: 100
+  m_magicAmtTrick: 3
+  m_magicAmtTurbo: 1
+  m_magicAmtRamp: 45
 --- !u!136 &13698930
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -202,7 +207,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -.25
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_laneChangePenalty
@@ -234,19 +239,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_laneDepth1
-      value: -1.25
+      value: -1.70000005
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_laneDepth2
-      value: -.5
+      value: -.949999988
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_laneDepth3
-      value: .25
+      value: -.150000006
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_laneDepth4
-      value: 1
+      value: .550000012
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Size.x
@@ -330,7 +335,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_rampBoost
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_maxSpeedTotal
