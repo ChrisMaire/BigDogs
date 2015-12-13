@@ -9,6 +9,7 @@ using System.Linq;
 
 public class Level : MonoBehaviour
 {
+    public int m_levelOrder = -1;
     private int m_lengths;
     protected GameObject m_ground;
     protected List<Lane> m_laneObjects;

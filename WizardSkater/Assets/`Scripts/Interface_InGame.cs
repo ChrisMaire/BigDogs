@@ -8,31 +8,22 @@ public class Interface_InGame : MonoBehaviour {
 	public Text Score;
 	public Slider Speed;
 	public Slider Action;
-	private GameObject m_player;
-	private bool active;
 
 	float maxspeed;
 	float speed;
 	float valuehold;
 
-	// Use this for initialization
-	void Start () {
-
-		bool active = true;
-	   
-	}
+	void Start ()
+    {
+        SystemsManager.m_Score.Init();
+    }
 	
 	private void LateUpdate()
 	{
-		if (m_player == null) {
-			m_player = SystemsManager.m_Player.gameObject;
-			if (m_player == null) {
-				Debug.Log ("where is pretty baby???");
-			}
-		}
-		
-		if ((SystemsManager.m_Game.getState () == Game.GameState.Testing || SystemsManager.m_Game.getState () == Game.GameState.Gameplay) &&
-			m_player != null) {
+		if ((SystemsManager.m_Game.getState () == Game.GameState.Testing ||
+            SystemsManager.m_Game.getState () == Game.GameState.Gameplay) &&
+            SystemsManager.m_Player != null)
+        {
 			speed = SystemsManager.m_Player.m_moveSpeed;
 			maxspeed = SystemsManager.m_Player.m_maxSpeedTotal;
 

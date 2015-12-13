@@ -28,6 +28,11 @@ public class SystemsManager : MonoBehaviour
     public static Camera_Wizard m_Camera;
     public Camera_Wizard Camera;
 
+    public static Interface_MainMenu m_interMain;
+    public Interface_MainMenu MainMenu;
+    public static Interface_InGame m_interGame;
+    public Interface_InGame HUD;
+
     private Player Player;
     public static Player m_Player;
     private Level Level;
@@ -44,26 +49,37 @@ public class SystemsManager : MonoBehaviour
         m_Score = Score;
         m_SoundFX = SoundFX;
         m_Timer = Timer;
-        m_Camera = Camera;
+        if (!MainMenu)
+            m_Camera = Camera;
         m_Strings = TextStrings;
         m_Input = InputHandler;
+        if (MainMenu)
+            m_interMain = MainMenu;
+        else
+            m_interGame = HUD;
     }
 
     void Start()
     {
-        //Particles.InitObjectPools();
-        Level = FindObjectOfType<Level>();
-        m_Level = Level;
+        if (m_interMain == null)
+        {
+            //Particles.InitObjectPools();
+            Level = FindObjectOfType<Level>();
+            m_Level = Level;
 
-        Game.InitGame();
+            Game.InitGame();
 
-        m_Player = FindObjectOfType<Player>();
-        Player = m_Player;
+            m_Player = FindObjectOfType<Player>();
+            Player = m_Player;
+        }
     }
 
     void Update()
     {
-        m_SoundFX.transform.position = m_Camera.transform.position;
-        m_Music.transform.position = m_Camera.transform.position;
+        if (m_interMain == null)
+        {
+            m_SoundFX.transform.position = m_Camera.transform.position;
+            m_Music.transform.position = m_Camera.transform.position;
+        }
     }
 }
