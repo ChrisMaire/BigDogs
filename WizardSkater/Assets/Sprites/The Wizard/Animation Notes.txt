@@ -8,3 +8,6 @@ Jump
 Hold Wizard_Jump_3 for 2 frames (approximately 1/6 of a second)
 Repeat Wizard_Jump_6 and 7 back and forth while in midair
 When landing play Wizard_Jump_8 and then revert to the Skate animation.
+
+Bump and Trick
+These are simple, each image lasts just one frame
