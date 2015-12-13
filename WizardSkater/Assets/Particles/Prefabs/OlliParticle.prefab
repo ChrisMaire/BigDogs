@@ -43,7 +43,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   X: 4
   Pooled: 1
-  PoolName: Ollie
+  PoolName: Olli
 --- !u!198 &19859016
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1592,7 +1592,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: PoolName
-      value: Ollie
+      value: Olli
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: Pooled

@@ -307,7 +307,7 @@ GameObject:
   - 4: {fileID: 401532}
   - 114: {fileID: 11455232}
   m_Layer: 0
-  m_Name: Ollie
+  m_Name: Olli
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1507,7 +1507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ee2d3e363b64804b880d71a0c29b93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _poolName: Ollie
+  _poolName: Olli
   _prefab: {fileID: 451766, guid: 78b687c8c1651e94a8ffb4d599394f67, type: 2}
   _initialCount: 16
   _parentInstances: 1
