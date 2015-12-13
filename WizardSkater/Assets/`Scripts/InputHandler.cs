@@ -78,7 +78,7 @@ public class InputHandler : MonoBehaviour
         else
             inp_Push = false;
 
-        if (Input.GetButtonDown("Trick"))
+        if (Input.GetButtonDown("Trick") || Input.GetButton("Trick2"))
             inp_Trick = true;
         else
             inp_Trick = false;

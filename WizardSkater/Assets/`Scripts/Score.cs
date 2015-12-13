@@ -10,6 +10,9 @@ using JsonFx.Json;
 
 public class Score : MonoBehaviour
 {
+    public float m_scoreAmtTrick = 50f;
+    public float m_scoreMultiplierTime;
+
     public float m_levelScore;
 
     public List<float> m_levelTopScores;
@@ -85,18 +88,23 @@ public class Score : MonoBehaviour
         //}
     }
 
+    public void ScoreTrick()
+    {
+        m_levelScore += m_scoreAmtTrick;
+    }
+
     public void EvaluateLevelHighScore(int level)
     {
         float time = SystemsManager.m_Timer.GetTime();
 
         Debug.Log("Score is " + m_levelScore);
 
-        if (m_levelTopScores[level] == -1f || m_levelScore < m_levelTopScores[level])
-        {
-            //new record
-            m_levelTopScores[level] = m_levelScore;
-            SaveNewRecord(new Record(m_levelTopScores));
-        }
+        //if (m_levelTopScores[level] == -1f || m_levelScore < m_levelTopScores[level])
+        //{
+        //    //new record
+        //    m_levelTopScores[level] = m_levelScore;
+        //    SaveNewRecord(new Record(m_levelTopScores));
+        //}
     }
 
     public void SaveNewRecord(Record record)

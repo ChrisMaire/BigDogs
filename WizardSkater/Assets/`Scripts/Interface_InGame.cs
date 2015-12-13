@@ -10,8 +10,6 @@ public class Interface_InGame : MonoBehaviour {
 
 	float m_magicAmount;
 
-    private string m_emptyNum = "00.0";
-
     void Start ()
     {
         SystemsManager.m_Score.Init();
@@ -24,9 +22,14 @@ public class Interface_InGame : MonoBehaviour {
         {
 			Magic.value = SystemsManager.m_Player.m_magicCurrent / SystemsManager.m_Player.m_magicMax;
             
-			Time.text = SystemsManager.m_Timer.GetTime().ToString(m_emptyNum);
-            Debug.Log("time is " + SystemsManager.m_Timer.GetTime().ToString());
-			Score.text = SystemsManager.m_Score.m_levelScore.ToString(m_emptyNum);
+			Time.text = SystemsManager.m_Timer.GetTime().ToString("00.0");
+
+            Score.text = SystemsManager.m_Score.m_levelScore.ToString("000");
         }
 	}
+
+    public IEnumerator LevelComplete()
+    {
+        yield return null;
+    }
 }

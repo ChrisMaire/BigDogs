@@ -531,7 +531,7 @@ Animator:
   m_GameObject: {fileID: 156588}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: db55779d700b0b5449365858b3a30e89, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -664,6 +664,9 @@ MonoBehaviour:
   m_menuInputReady: 0
   m_menuInputTimer: 0
   m_menuInputDelayTime: .100000001
+  groupTitle: {fileID: 0}
+  groupLevelSelect: {fileID: 0}
+  groupAttractMode: {fileID: 0}
   m_state: 0
 --- !u!114 &11406042
 MonoBehaviour:

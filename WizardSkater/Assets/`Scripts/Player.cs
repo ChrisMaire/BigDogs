@@ -97,9 +97,10 @@ public class Player : MonoBehaviour
     [Header("MagicBar")]
 
     public float m_magicCurrent = 0f;
+    public float m_magicAmtPassive = 1f;
+    public float m_magicAmtTrick = 10f;
     public float m_magicMax = 100f;
-    public float m_magicAmtTrick = 3f;
-    public float m_magicAmtTurbo = 1f;
+    public float m_magicAmtTurbo = 3f;
     public float m_magicAmtRamp = 45f;
 
     void Init()
@@ -133,46 +134,13 @@ public class Player : MonoBehaviour
                 }
             }
 
-            m_tilesPassed = 1 + (int) ((transform.position.x + 2)/4);
-            int lane = (int) m_laneCurrent;
-            Lane.LaneType laneType = (Lane.LaneType) SystemsManager.m_Game.m_currentLevel.m_lanes[lane][m_tilesPassed];
-            if (laneType == Lane.LaneType.Patchy)
-            {
-                m_onClearIce = false;
-            }
-            else if (laneType == Lane.LaneType.FinishLine)
-            {
-                m_finishedLevel = true;
-            }
-            else
-            {
-                m_onClearIce = true;
-            }
+            CheckLaneType();
 
-            RaycastCheck();
+            CheckRaycastDirections();
 
             if (m_grounded)
             {
-                if(m_animationChangeReady)
-                { 
-                    m_animator.SetTrigger("skate");
-                    var animationSpeed = ((5+m_maxSpeedTotal) - m_moveSpeed)/5;
-                    //Debug.Log("animation speed=" + animationSpeed);
-                    m_animator.speed = animationSpeed;
-                    m_animationChangeReady = false;
-                }
-                else
-                {
-                    if (m_animationChangeTimer > m_animationChangeTime)
-                    {
-                        m_animationChangeTimer = 0f;
-                        m_animationChangeReady = true;
-                    }
-                    else
-                    {
-                        m_animationChangeTimer += Time.fixedDeltaTime;
-                    }
-                }
+                GroundAnimationLogic();
 
                 if (SystemsManager.m_Input.inp_Push && !m_inputFreeze)
                 {
@@ -207,25 +175,22 @@ public class Player : MonoBehaviour
 
                 CheckForJump();
 
-                //LANE CORRECTION
-                if (m_laneCurrent == Lane.LaneNumbers.One && m_laneDepthCurrent != m_laneDepth1)
-                    m_laneDepthCurrent = m_laneDepth1;
-                else if (m_laneCurrent == Lane.LaneNumbers.Two && m_laneDepthCurrent != m_laneDepth2)
-                    m_laneDepthCurrent = m_laneDepth2;
-                else if (m_laneCurrent == Lane.LaneNumbers.Three && m_laneDepthCurrent != m_laneDepth3)
-                    m_laneDepthCurrent = m_laneDepth3;
-                else if (m_laneCurrent == Lane.LaneNumbers.Four && m_laneDepthCurrent != m_laneDepth4)
-                    m_laneDepthCurrent = m_laneDepth4;
+                CheckForTrick();
+
+                MoveToCurrentLane();
             }
             else
             {
-                m_animator.speed = 0f;
+                if (m_animator.GetBool("grounded") == true)
+                    m_animator.SetBool("grounded", m_grounded);
+
+                //m_animator.speed = 0f;
                 m_animator.ResetTrigger("skate");
             }
 
-            //TURBO
-            if (SystemsManager.m_Input.inp_Turbo && !m_inputFreeze)
-                m_moveSpeed += m_speedTurbo;
+            Turbo();
+
+            UpdateMagic();
         }
         else
         {
@@ -233,31 +198,130 @@ public class Player : MonoBehaviour
         }
 
 
+        ValidateSpeed();
+
+        Falling();
+
+        Vector3 force = (transform.up * m_gravity) + (transform.right * m_moveSpeed);
+        
+        m_body.AddForce(force);
+
+        //Debug.Log("velocity is " + m_body.velocity);
+        //Debug.Log("adding force " + force);
+    }
+
+    private void UpdateMagic()
+    {
+        if (m_magicCurrent < 0)
+            m_magicCurrent = 0;
+
+        if (m_magicCurrent < m_magicMax)
+            m_magicCurrent += m_magicAmtPassive * Time.fixedDeltaTime;
+
+        if (m_magicCurrent > m_magicMax)
+            m_magicCurrent = m_magicMax;
+    }
+
+    private void CheckLaneType()
+    {
+        m_tilesPassed = 1 + (int) ((transform.position.x + 2)/4);
+        int lane = (int) m_laneCurrent;
+        Lane.LaneType laneType = (Lane.LaneType) SystemsManager.m_Game.m_currentLevel.m_lanes[lane][m_tilesPassed];
+        if (laneType == Lane.LaneType.Patchy)
+        {
+            m_onClearIce = false;
+        }
+        else if (laneType == Lane.LaneType.FinishLine)
+        {
+            FinishLevel();
+        }
+        else
+        {
+            m_onClearIce = true;
+        }
+    }
+
+    private void FinishLevel()
+    {
+        m_finishedLevel = true;
+        SystemsManager.m_Timer.SetTimePause(true);
+        SystemsManager.m_Game.setState(Game.GameState.Interlude);
+        SystemsManager.m_Score.EvaluateLevelHighScore(SystemsManager.m_Game.m_currentLevel.m_levelOrder - 1);
+        SystemsManager.m_interGame.StartCoroutine("LevelComplete");
+    }
+
+    private void Turbo()
+    {
+        if (SystemsManager.m_Input.inp_Turbo && !m_inputFreeze 
+            && m_magicCurrent > m_magicAmtTurbo)
+        {
+            m_moveSpeed += m_speedTurbo;
+            m_magicCurrent -= m_magicAmtTurbo;
+        }
+    }
+
+    private void Falling()
+    {
+        if (m_grounded == false && m_ramping == false)
+        {
+            m_gravity += Physics.gravity.y*m_gravityMultiplier;
+            if (m_gravity < m_gravityMax)
+                m_gravity = m_gravityMax;
+        }
+    }
+
+    private void ValidateSpeed()
+    {
         if (m_moveSpeed > m_maxSpeedTotal)
             m_moveSpeed = m_maxSpeedTotal;
         else if (m_moveSpeed < 0)
             m_moveSpeed = 0;
+    }
 
-        if (m_body.velocity.x < 0.5f)
+    private void MoveToCurrentLane()
+    {
+//LANE CORRECTION
+        if (m_laneCurrent == Lane.LaneNumbers.One && m_laneDepthCurrent != m_laneDepth1)
+            m_laneDepthCurrent = m_laneDepth1;
+        else if (m_laneCurrent == Lane.LaneNumbers.Two && m_laneDepthCurrent != m_laneDepth2)
+            m_laneDepthCurrent = m_laneDepth2;
+        else if (m_laneCurrent == Lane.LaneNumbers.Three && m_laneDepthCurrent != m_laneDepth3)
+            m_laneDepthCurrent = m_laneDepth3;
+        else if (m_laneCurrent == Lane.LaneNumbers.Four && m_laneDepthCurrent != m_laneDepth4)
+            m_laneDepthCurrent = m_laneDepth4;
+    }
+
+    private void GroundAnimationLogic()
+    {
+        if (m_animator.GetBool("grounded") == false)
+            m_animator.SetBool("grounded", true);
+
+        if (m_body.velocity.x < 0.1f)
         {
-            m_animator.speed = 0f;
             m_animator.ResetTrigger("skate");
             m_animator.SetTrigger("idle");
         }
-
-        if (m_grounded == false && m_ramping == false)
+        else if (m_animationChangeReady)
         {
-            m_gravity += Physics.gravity.y * m_gravityMultiplier;
-            if (m_gravity < m_gravityMax)
-                m_gravity = m_gravityMax;
+            m_animator.ResetTrigger("idle");
+            m_animator.SetTrigger("skate");
+            var animationSpeed = ((5 + m_maxSpeedTotal) - m_moveSpeed)/5;
+            //Debug.Log("animation speed=" + animationSpeed);
+            m_animator.speed = animationSpeed;
+            m_animationChangeReady = false;
         }
-
-        Vector3 force = (transform.up * m_gravity) + (transform.right * m_moveSpeed); ;
-
-        //Debug.Log("velocity is " + m_body.velocity);
-        //Debug.Log("adding force " + force);
-        
-        m_body.AddForce(force);
+        else
+        {
+            if (m_animationChangeTimer > m_animationChangeTime)
+            {
+                m_animationChangeTimer = 0f;
+                m_animationChangeReady = true;
+            }
+            else
+            {
+                m_animationChangeTimer += Time.fixedDeltaTime;
+            }
+        }
     }
 
     private void CorrectZDepth()
@@ -272,7 +336,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void RaycastCheck()
+    private void CheckRaycastDirections()
     {
         m_ramping = false;
         m_grounded = false;
@@ -298,7 +362,7 @@ public class Player : MonoBehaviour
                 m_moveSpeed += m_rampBoost;
                 if (m_body.velocity.x < 0.1f)
                     m_gravity += m_jump/10;
-                Debug.Log("x=" + m_body.velocity.x);
+                //Debug.Log("x=" + m_body.velocity.x);
             }
             else
             {
@@ -436,13 +500,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void CheckForTrick()
+    {
+        if (SystemsManager.m_Input.inp_Trick)
+        {
+            SystemsManager.m_Score.ScoreTrick();
+        }
+    }
+
     private void CheckForJump()
     {
         if (m_jumpReady)
         {
             if (SystemsManager.m_Input.inp_Jump && !m_inputFreeze)
             {
-                Jump();
+                StartCoroutine("Jump");
             }
         }
         else
@@ -458,11 +530,24 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Jump()
+    private IEnumerator Jump()
     {
+        m_animator.SetBool("jumping", true);
+        m_animator.ResetTrigger("idle");
+        //yield return new WaitForSeconds(0.01f);
+        m_animator.ResetTrigger("skate");
+        //yield return new WaitForSeconds(0.01f);
+        m_animator.SetTrigger("jump");
+
         m_gravity += m_jump;
+
         SystemsManager.m_SoundFX.OneShot_Jump();
 
         m_jumpReady = false;
+
+        yield return new WaitForSeconds(0.75f);
+
+        m_animator.ResetTrigger("jump");
+        m_animator.SetBool("jumping", false);
     }
 }

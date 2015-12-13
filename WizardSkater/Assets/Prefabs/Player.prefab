@@ -116,7 +116,7 @@ MonoBehaviour:
   m_moveSpeed: 0
   m_moveFriction: .0649999976
   m_maxSpeed: 7
-  m_maxSpeedTotal: 11
+  m_maxSpeedTotal: 15
   m_obstacleFreezeInputTime: .699999988
   m_obstacleHitPenaltyMultiplier: .150000006
   m_onClearIce: 0
@@ -145,8 +145,9 @@ MonoBehaviour:
   m_canShiftDown: 0
   m_laneCurrent: 1
   m_magicCurrent: 0
-  m_magicMax: 100
+  m_magicAmtPassive: 5
   m_magicAmtTrick: 3
+  m_magicMax: 100
   m_magicAmtTurbo: 1
   m_magicAmtRamp: 45
 --- !u!136 &13698930
@@ -339,7 +340,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_maxSpeedTotal
-      value: 11
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.x
@@ -384,6 +385,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_obstacleFreezeInputTime
       value: .699999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_magicAmtPassive
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
