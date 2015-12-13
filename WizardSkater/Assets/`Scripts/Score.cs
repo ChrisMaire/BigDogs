@@ -40,11 +40,11 @@ public class Score : MonoBehaviour
         m_filePath = Application.dataPath;
         if (Application.platform == RuntimePlatform.OSXDashboardPlayer || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXWebPlayer)
         {
-            m_filePath += "/Score/";
+            m_filePath += "/hudScore/";
         }
         else
         {
-            m_filePath += "\\Score\\";
+            m_filePath += "\\hudScore\\";
         }
 
         m_levelScore = 0f;
@@ -97,7 +97,11 @@ public class Score : MonoBehaviour
     {
         float time = SystemsManager.m_Timer.GetTime();
 
-        Debug.Log("Score is " + m_levelScore);
+        m_levelScore += 500 - time*time;
+
+
+
+        Debug.Log("hudScore is " + m_levelScore);
 
         //if (m_levelTopScores[level] == -1f || m_levelScore < m_levelTopScores[level])
         //{

@@ -26,7 +26,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: trick1
+  - m_Name: trick
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -39,6 +39,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: jumping
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: tricking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -464,14 +470,14 @@ AnimatorStateMachine:
     m_Position: {x: 528, y: 48, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110264664}
-    m_Position: {x: 288, y: 24, z: 0}
+    m_Position: {x: 264, y: 24, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -12, y: 12, z: 0}
-  m_EntryPosition: {x: -120, y: 120, z: 0}
+  m_EntryPosition: {x: -144, y: 84, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 110239764}

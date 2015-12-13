@@ -5,7 +5,7 @@ public class Game : MonoBehaviour
 {
     public enum GameState
     {
-        Interlude,
+        LevelComplete,
         Gameplay,
         Pause,
         Testing
@@ -27,7 +27,7 @@ public class Game : MonoBehaviour
 
         Time.timeScale = 1;
 
-        m_State = GameState.Interlude;
+        m_State = GameState.LevelComplete;
     }
 
     public void InitGame()

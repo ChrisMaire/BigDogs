@@ -19,7 +19,8 @@ public class InputHandler : MonoBehaviour
     public bool inp_Jump;
     public bool inp_Trick;
     public bool inp_Turbo;
-    public bool inp_Push;
+    public bool inp_Ramp;
+    public bool inp_Skate;
     
     void Update()
     {
@@ -74,9 +75,9 @@ public class InputHandler : MonoBehaviour
         else
             inp_Jump = false;
         if (Input.GetButton("Push") || Input.GetButton("Push2"))
-            inp_Push = true;
+            inp_Skate = true;
         else
-            inp_Push = false;
+            inp_Skate = false;
 
         if (Input.GetButtonDown("Trick") || Input.GetButton("Trick2"))
             inp_Trick = true;
@@ -87,6 +88,11 @@ public class InputHandler : MonoBehaviour
             inp_Turbo = true;
         else
             inp_Turbo = false;
+
+        if (Input.GetButtonDown("Ramp") || Input.GetButton("Ramp2"))
+            inp_Ramp = true;
+        else
+            inp_Ramp = false;
 
         if (Input.GetButtonDown("Pause"))
             inp_Pause = true;

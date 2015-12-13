@@ -19,7 +19,7 @@ public class Camera_Wizard : MonoBehaviour
         }
 
         if ((SystemsManager.m_Game.getState() == Game.GameState.Testing || SystemsManager.m_Game.getState() == Game.GameState.Gameplay ||
-            SystemsManager.m_Game.getState() == Game.GameState.Interlude) &&
+            SystemsManager.m_Game.getState() == Game.GameState.LevelComplete) &&
              m_player != null)
         {
             var target = m_player.transform.position + m_followDistance;

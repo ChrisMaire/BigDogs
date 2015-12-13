@@ -67,7 +67,12 @@ public class Player : MonoBehaviour
 
     public float m_rampBoost = 1.5F;
     public bool m_ramping = false;
-    
+
+    public bool m_tricking;
+    [Range(0.5f, 2.0f)]
+    public float m_trickTime = 1f;
+    private float m_trickTimer;
+
     public float m_jump = 8.0F;
     [Range(0.15f, 2.0f)]
     public float m_jumpAgainTime = 0.5f;
@@ -84,11 +89,14 @@ public class Player : MonoBehaviour
     public float m_laneDepth3;
     public float m_laneDepth4;
     public bool m_laneChangeReady = false;
-    [Range(0.05f, 0.35f)] public float m_laneChangeAgainTime = 0.1f;
+    [Range(0.05f, 0.35f)]
+    public float m_laneChangeAgainTime = 0.1f;
     private float m_laneChangeAgainTimer;
     public float m_laneChangePenaltyMultiplier = 0.75f;
     public bool m_canShiftUp = true;
     public bool m_canShiftDown = true;
+
+    public Lane m_laneCurrentlyOn;
 
     private int m_tilesPassed;
 
@@ -142,7 +150,7 @@ public class Player : MonoBehaviour
             {
                 GroundAnimationLogic();
 
-                if (SystemsManager.m_Input.inp_Push && !m_inputFreeze)
+                if (SystemsManager.m_Input.inp_Skate && !m_inputFreeze)
                 {
                     //ChangeTopSpeed();
                     m_moveSpeed += m_accel;
@@ -175,20 +183,26 @@ public class Player : MonoBehaviour
 
                 CheckForJump();
 
-                CheckForTrick();
-
                 MoveToCurrentLane();
             }
             else
             {
                 if (m_animator.GetBool("grounded") == true)
-                    m_animator.SetBool("grounded", m_grounded);
+                    m_animator.SetBool("grounded", false);
 
                 //m_animator.speed = 0f;
                 m_animator.ResetTrigger("skate");
+                m_animator.ResetTrigger("idle");
             }
 
-            Turbo();
+            CheckForTrick();
+
+            if (m_tricking == false)
+            { 
+                CheckForTurbo();
+
+                CheckForRampMagic();
+            }
 
             UpdateMagic();
         }
@@ -245,12 +259,12 @@ public class Player : MonoBehaviour
     {
         m_finishedLevel = true;
         SystemsManager.m_Timer.SetTimePause(true);
-        SystemsManager.m_Game.setState(Game.GameState.Interlude);
+        SystemsManager.m_Game.setState(Game.GameState.LevelComplete);
         SystemsManager.m_Score.EvaluateLevelHighScore(SystemsManager.m_Game.m_currentLevel.m_levelOrder - 1);
         SystemsManager.m_interGame.StartCoroutine("LevelComplete");
     }
 
-    private void Turbo()
+    private void CheckForTurbo()
     {
         if (SystemsManager.m_Input.inp_Turbo && !m_inputFreeze 
             && m_magicCurrent > m_magicAmtTurbo)
@@ -368,6 +382,9 @@ public class Player : MonoBehaviour
             {
                 //Debug.Log("g-round");
                 m_grounded = true;
+                m_laneCurrentlyOn = hit.transform.gameObject.GetComponent<Lane>();
+                if(m_laneCurrentlyOn != null)
+                    Debug.Log("lane is " + m_laneCurrentlyOn.gameObject.name);
             }
         }
     }
@@ -500,12 +517,66 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void CheckForRampMagic()
+    {
+        if (SystemsManager.m_Input.inp_Ramp)
+        {
+            StartCoroutine("RampMagic", (int)m_laneCurrent);
+        }
+    }
+
+    private IEnumerator RampMagic(int lane)
+    {
+        Debug.Log("placing ramp on lane " + lane);
+
+        m_magicCurrent -= m_magicAmtRamp;
+
+        //SystemsManager.m_Game.m_currentLevel.PlaceRampOnLane(lane);
+
+        yield return null;
+    }
+
     private void CheckForTrick()
     {
-        if (SystemsManager.m_Input.inp_Trick)
+        if (m_tricking == false && m_grounded == false)
         {
-            SystemsManager.m_Score.ScoreTrick();
+            if (SystemsManager.m_Input.inp_Trick)
+            {
+                StartCoroutine("Trick");
+            }
         }
+        else
+        {
+            m_trickTimer += Time.fixedDeltaTime;
+
+            if (m_trickTimer > m_trickTime)
+            {
+                m_trickTimer = 0f;
+                m_tricking = false;
+            }
+        }
+    }
+
+    private IEnumerator Trick()
+    {
+        m_animator.ResetTrigger("idle");
+        m_animator.ResetTrigger("jump");
+        m_animator.ResetTrigger("skate");
+        m_animator.SetTrigger("trick");
+        m_animator.SetBool("tricking", true);
+
+        m_tricking = true;
+
+        SystemsManager.m_Score.ScoreTrick();
+
+        m_magicCurrent += m_magicAmtTrick;
+
+        //SystemsManager.m_SoundFX.Trick();
+
+        yield return new WaitForSeconds(0.5f);
+
+        m_animator.ResetTrigger("trick");
+        m_animator.SetBool("tricking", false);
     }
 
     private void CheckForJump()
