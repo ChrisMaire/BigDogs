@@ -258,6 +258,7 @@ public class Player : MonoBehaviour
     private void FinishLevel()
     {
         m_finishedLevel = true;
+        m_animator.SetTrigger("idle");
         SystemsManager.m_Timer.SetTimePause(true);
         SystemsManager.m_Game.setState(Game.GameState.LevelComplete);
         SystemsManager.m_Score.EvaluateLevelHighScore(SystemsManager.m_Game.m_currentLevel.m_levelOrder - 1);
@@ -352,6 +353,7 @@ public class Player : MonoBehaviour
 
     private void CheckRaycastDirections()
     {
+        m_animator.SetBool("ramping", false);
         m_ramping = false;
         m_grounded = false;
 
@@ -372,6 +374,7 @@ public class Player : MonoBehaviour
             if (hit.collider.name != "GroundCollider")
             {
                 //Debug.Log("rampo!");
+                m_animator.SetBool("ramping", true);
                 m_ramping = true;
                 m_moveSpeed += m_rampBoost;
                 if (m_body.velocity.x < 0.1f)
@@ -611,17 +614,18 @@ public class Player : MonoBehaviour
         m_animator.ResetTrigger("skate");
         m_animator.SetTrigger("jump");
 
-        m_gravity += m_jump;
-
         Vector3 tempVect = transform.position;
         tempVect.y -= m_groundCheckLength;
+
         SystemsManager.m_Particles.Fire_Olli(tempVect);
 
         SystemsManager.m_SoundFX.OneShot_Jump();
 
         m_jumpReady = false;
 
-        yield return new WaitForSeconds(0.75f);
+        m_gravity += m_jump;
+
+        yield return new WaitForSeconds(0.7f);
 
         m_animator.ResetTrigger("jump");
         m_animator.SetBool("jumping", false);
