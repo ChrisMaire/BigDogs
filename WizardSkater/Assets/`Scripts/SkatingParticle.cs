@@ -19,7 +19,6 @@ public class SkatingParticle : MonoBehaviour {
 	
 	void Update () {
         float rate = startRate * playerBody.velocity.magnitude;
-        Debug.Log(rate);
         curve.constantMin = rate;
         curve.constantMax = rate;
         emission.rate = curve;
