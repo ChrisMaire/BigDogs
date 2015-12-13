@@ -310,7 +310,7 @@ public class Player : MonoBehaviour
         if (m_animator.GetBool("grounded") == false)
             m_animator.SetBool("grounded", true);
 
-        if (m_body.velocity.x < 0.1f)
+        if (m_body.velocity.x < 0.25f)
         {
             m_animator.ResetTrigger("skate");
             m_animator.SetTrigger("idle");
@@ -436,8 +436,14 @@ public class Player : MonoBehaviour
     public void HitObstacle()
     {
         //Debug.Log("lose mega-time");
+        m_animator.ResetTrigger("idle");
+        m_animator.ResetTrigger("skate");
+        m_animator.ResetTrigger("fall");
+        m_animator.SetTrigger("obstacle");
+
         m_body.mass = 6f;
         m_moveSpeed = 0f;
+        
         if (m_grounded)
             m_body.AddForce(transform.up * m_jump);
         StartCoroutine("FlashRenderer");
@@ -602,9 +608,7 @@ public class Player : MonoBehaviour
     {
         m_animator.SetBool("jumping", true);
         m_animator.ResetTrigger("idle");
-        //yield return new WaitForSeconds(0.01f);
         m_animator.ResetTrigger("skate");
-        //yield return new WaitForSeconds(0.01f);
         m_animator.SetTrigger("jump");
 
         m_gravity += m_jump;

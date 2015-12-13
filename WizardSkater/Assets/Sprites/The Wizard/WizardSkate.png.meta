@@ -22,7 +22,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -47,7 +47,7 @@ TextureImporter:
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
@@ -65,6 +65,13 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18, y: 32}
+        - {x: -23, y: 22}
+        - {x: -23, y: -32}
+        - {x: 18, y: -32}
+        - {x: 18, y: 30}
+        - {x: 13, y: 32}
     - name: WizardSkate_1
       rect:
         serializedVersion: 2
@@ -75,6 +82,14 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -22, y: 32}
+        - {x: -22, y: -28}
+        - {x: -11, y: -32}
+        - {x: 11, y: -32}
+        - {x: 18, y: -24}
+        - {x: 18, y: 27}
+        - {x: 4, y: 32}
     - name: WizardSkate_2
       rect:
         serializedVersion: 2
@@ -85,6 +100,21 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 18, y: 19}
+        - {x: 17, y: 26}
+        - {x: 2, y: 32}
+        - {x: -15, y: 32}
+        - {x: -16, y: 31}
+        - {x: -19, y: 16}
+        - {x: -22, y: -8}
+        - {x: -22, y: -21}
+        - {x: -15, y: -32}
+        - {x: 5, y: -32}
+        - {x: 15, y: -30}
+        - {x: 16, y: -24}
+        - {x: 16, y: -22}
+        - {x: 18, y: 14}
     - name: WizardSkate_3
       rect:
         serializedVersion: 2
@@ -95,6 +125,17 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18, y: 32}
+        - {x: -22, y: 24}
+        - {x: -22, y: -22}
+        - {x: -17, y: -31}
+        - {x: -16, y: -32}
+        - {x: 14, y: -32}
+        - {x: 17, y: -31}
+        - {x: 18, y: -25}
+        - {x: 18, y: 29}
+        - {x: 10, y: 32}
     - name: WizardSkate_4
       rect:
         serializedVersion: 2
@@ -105,6 +146,16 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 4, y: 32}
+        - {x: -18, y: 32}
+        - {x: -22, y: 24}
+        - {x: -22, y: -27}
+        - {x: -19, y: -31}
+        - {x: 11, y: -31}
+        - {x: 18, y: -27}
+        - {x: 18, y: 25}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

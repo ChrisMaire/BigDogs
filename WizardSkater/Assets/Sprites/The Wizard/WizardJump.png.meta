@@ -25,7 +25,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -50,7 +50,7 @@ TextureImporter:
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
@@ -68,6 +68,13 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18, y: 32}
+        - {x: -23, y: 22}
+        - {x: -23, y: -32}
+        - {x: 18, y: -32}
+        - {x: 18, y: 30}
+        - {x: 13, y: 32}
     - name: WizardJump_1
       rect:
         serializedVersion: 2
@@ -78,6 +85,14 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -22, y: 32}
+        - {x: -23, y: 27}
+        - {x: -23, y: -32}
+        - {x: 15, y: -32}
+        - {x: 22, y: -10}
+        - {x: 22, y: 27}
+        - {x: 10, y: 32}
     - name: WizardJump_2
       rect:
         serializedVersion: 2
@@ -88,6 +103,18 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 19, y: 31}
+        - {x: -6, y: 31}
+        - {x: -18, y: 20}
+        - {x: -21, y: 5}
+        - {x: -21, y: -27}
+        - {x: -11, y: -32}
+        - {x: 11, y: -32}
+        - {x: 15, y: -30}
+        - {x: 13, y: -22}
+        - {x: 29, y: 15}
+        - {x: 29, y: 19}
     - name: WizardJump_3
       rect:
         serializedVersion: 2
@@ -98,6 +125,12 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18, y: 32}
+        - {x: -20, y: 28}
+        - {x: -20, y: -30}
+        - {x: 21, y: -30}
+        - {x: 21, y: 32}
     - name: WizardJump_4
       rect:
         serializedVersion: 2
@@ -108,6 +141,13 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21, y: 32}
+        - {x: -21, y: -30}
+        - {x: 12, y: -30}
+        - {x: 14, y: -29}
+        - {x: 14, y: 29}
+        - {x: 1, y: 32}
     - name: WizardJump_5
       rect:
         serializedVersion: 2
@@ -118,6 +158,14 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: 32}
+        - {x: -21, y: 30}
+        - {x: -21, y: -28}
+        - {x: -16, y: -30}
+        - {x: 14, y: -30}
+        - {x: 14, y: 29}
+        - {x: 2, y: 32}
     - name: WizardJump_6
       rect:
         serializedVersion: 2
@@ -128,6 +176,13 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21, y: 32}
+        - {x: -21, y: -30}
+        - {x: 14, y: -30}
+        - {x: 15, y: -29}
+        - {x: 15, y: 21}
+        - {x: -3, y: 32}
     - name: WizardJump_7
       rect:
         serializedVersion: 2
@@ -138,6 +193,13 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 4, y: 32}
+        - {x: -19, y: 32}
+        - {x: -19, y: -31}
+        - {x: 17, y: -31}
+        - {x: 17, y: 20}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

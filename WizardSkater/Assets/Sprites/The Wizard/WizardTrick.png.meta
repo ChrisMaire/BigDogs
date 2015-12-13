@@ -1,9 +1,15 @@
 fileFormatVersion: 2
 guid: 57a7178029ce9314db8007730542bd5f
-timeCreated: 1450041581
+timeCreated: 1450044329
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: WizardTrick_0
+    21300002: WizardTrick_1
+    21300004: WizardTrick_2
+    21300006: WizardTrick_3
+    21300008: WizardTrick_4
+    21300010: WizardTrick_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -17,7 +23,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -38,18 +44,137 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: WizardTrick_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -1, y: 32}
+        - {x: -17, y: 32}
+        - {x: -21, y: 30}
+        - {x: -21, y: -18}
+        - {x: -20, y: -24}
+        - {x: -15, y: -29}
+        - {x: -10, y: -30}
+        - {x: 14, y: -30}
+        - {x: 14, y: 20}
+        - {x: 13, y: 27}
+    - name: WizardTrick_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32, y: -1}
+        - {x: 10, y: 28}
+        - {x: -32, y: 28}
+        - {x: -32, y: -4}
+        - {x: -7, y: -26}
+        - {x: 18, y: -26}
+        - {x: 21, y: -23}
+        - {x: 21, y: -22}
+        - {x: 32, y: -18}
+    - name: WizardTrick_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 30, y: 32}
+        - {x: -25, y: 32}
+        - {x: -25, y: 24}
+        - {x: -22, y: 15}
+        - {x: -14, y: -21}
+        - {x: 4, y: -32}
+        - {x: 17, y: -32}
+        - {x: 16, y: -29}
+        - {x: 26, y: -18}
+        - {x: 30, y: 7}
+    - name: WizardTrick_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28, y: 20}
+        - {x: -32, y: 1}
+        - {x: -32, y: -18}
+        - {x: -28, y: -25}
+        - {x: 32, y: -25}
+        - {x: 32, y: 20}
+    - name: WizardTrick_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 24}
+        - {x: -32, y: -21}
+        - {x: -11, y: -21}
+        - {x: 21, y: -16}
+        - {x: 32, y: 2}
+        - {x: 32, y: 20}
+        - {x: 31, y: 24}
+    - name: WizardTrick_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: 32}
+        - {x: 3, y: 23}
+        - {x: -26, y: -4}
+        - {x: -26, y: -19}
+        - {x: -23, y: -21}
+        - {x: -22, y: -32}
+        - {x: 1, y: -32}
+        - {x: 28, y: -2}
+        - {x: 28, y: 13}
+        - {x: 23, y: 32}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

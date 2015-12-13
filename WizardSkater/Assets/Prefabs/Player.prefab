@@ -169,7 +169,7 @@ MonoBehaviour:
   m_gravityGround: 0
   m_gravityMultiplier: 0.5
   m_gravityMax: -10
-  m_rampBoost: 2
+  m_rampBoost: 1.25
   m_ramping: 0
   m_tricking: 0
   m_trickTime: 1
@@ -1878,7 +1878,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_rampBoost
-      value: 2
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_maxSpeedTotal

@@ -1,9 +1,14 @@
 fileFormatVersion: 2
 guid: 2b24b72ef977df54a884e32f81582382
-timeCreated: 1450041581
+timeCreated: 1450044343
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: WizardBump_0
+    21300002: WizardBump_1
+    21300004: WizardBump_2
+    21300006: WizardBump_3
+    21300008: WizardBump_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -17,7 +22,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -38,18 +43,129 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: WizardBump_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 2, y: 32}
+        - {x: -24, y: 16}
+        - {x: -24, y: -32}
+        - {x: 13, y: -32}
+        - {x: 21, y: -27}
+        - {x: 29, y: 6}
+        - {x: 29, y: 18}
+        - {x: 22, y: 32}
+    - name: WizardBump_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 32}
+        - {x: -17, y: 23}
+        - {x: -22, y: -19}
+        - {x: -22, y: -23}
+        - {x: -15, y: -32}
+        - {x: 14, y: -32}
+        - {x: 14, y: 17}
+        - {x: 3, y: 32}
+    - name: WizardBump_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 2, y: 28}
+        - {x: 0, y: 30}
+        - {x: -3, y: 32}
+        - {x: -16, y: 32}
+        - {x: -22, y: 27}
+        - {x: -22, y: -28}
+        - {x: -14, y: -32}
+        - {x: 12, y: -32}
+        - {x: 12, y: -23}
+        - {x: 10, y: -19}
+        - {x: 12, y: -4}
+        - {x: 12, y: 13}
+    - name: WizardBump_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 18, y: 23}
+        - {x: 17, y: 24}
+        - {x: -1, y: 32}
+        - {x: -11, y: 32}
+        - {x: -12, y: 31}
+        - {x: -18, y: 29}
+        - {x: -22, y: -2}
+        - {x: -22, y: -25}
+        - {x: -13, y: -29}
+        - {x: 0, y: -32}
+        - {x: 9, y: -32}
+        - {x: 14, y: -29}
+        - {x: 17, y: -22}
+        - {x: 18, y: -19}
+    - name: WizardBump_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: 32}
+        - {x: -4, y: 32}
+        - {x: -6, y: 30}
+        - {x: -5, y: 27}
+        - {x: -10, y: 26}
+        - {x: -13, y: 19}
+        - {x: -22, y: -8}
+        - {x: -22, y: -29}
+        - {x: -15, y: -32}
+        - {x: 20, y: -32}
+        - {x: 24, y: -22}
+        - {x: 24, y: 23}
+        - {x: 7, y: 30}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
