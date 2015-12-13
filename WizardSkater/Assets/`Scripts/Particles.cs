@@ -2,20 +2,13 @@
 
 public class Particles : MonoBehaviour
 {
-    GameObjectPool poolSkate;
     GameObjectPool poolOlli;
     GameObjectPool poolLittleX;
 
     public void InitObjectPools()
     {
-        poolSkate = GameObjectPool.GetPool("Skate");
         poolOlli = GameObjectPool.GetPool("Olli");
         poolLittleX = GameObjectPool.GetPool("LittleX");
-    }
-
-    public void Fire_Skate(Vector3 pos)
-    {
-        poolSkate.GetInstance(pos);
     }
 
     public void Fire_Olli(Vector3 pos)

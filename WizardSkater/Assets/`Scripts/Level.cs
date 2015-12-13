@@ -12,7 +12,7 @@ public class Level : MonoBehaviour
     public int m_levelOrder = -1;
     private int m_lengths;
     protected GameObject m_ground;
-    protected List<Lane> m_laneObjects;
+    protected List<Lane> m_laneParents;
     
     private string m_filePath;
     public string m_fileName = "Level1.xml";
@@ -24,6 +24,12 @@ public class Level : MonoBehaviour
     protected List<int> m_lane2;
     protected List<int> m_lane3;
     protected List<int> m_lane4;
+
+    protected List<List<Lane>> m_laneObjects;
+    protected List<Lane> m_laneObjects1;
+    protected List<Lane> m_laneObjects2;
+    protected List<Lane> m_laneObjects3;
+    protected List<Lane> m_laneObjects4;
 
     public List<GameObject> m_laneTiles; 
 
@@ -86,25 +92,35 @@ public class Level : MonoBehaviour
             //Debug.Log("level is go");
         }
 
-        m_laneObjects = gameObject.GetComponentsInChildren<Lane>().ToList();
+        m_laneParents = gameObject.GetComponentsInChildren<Lane>().ToList();
         LayTrackTiles();
         LayGroundTiles();
+
+        m_laneObjects = new List<List<Lane>>();
+        m_laneObjects1 = m_laneParents[0].GetComponentsInChildren<Lane>().ToList();
+        m_laneObjects.Add(m_laneObjects1);
+        m_laneObjects2 = m_laneParents[1].GetComponentsInChildren<Lane>().ToList();
+        m_laneObjects.Add(m_laneObjects2);
+        m_laneObjects3 = m_laneParents[2].GetComponentsInChildren<Lane>().ToList();
+        m_laneObjects.Add(m_laneObjects3);
+        m_laneObjects4 = m_laneParents[3].GetComponentsInChildren<Lane>().ToList();
+        m_laneObjects.Add(m_laneObjects4);
     }
 
     private void LayTrackTiles()
     {
-        for (int i = 0; i < m_laneObjects.Count; i++)
+        for (int i = 0; i < m_laneParents.Count; i++)
         {
             for (int j = 0; j < m_lengths + 4; j++) 
             {
                 GameObject laneTile = Instantiate(SystemsManager.m_Prefabs.m_laneTile);
                 laneTile.name = "Lane" + (i + 1) + "." + j;
 
-                Vector3 tempVect = m_laneObjects[i].transform.position;
+                Vector3 tempVect = m_laneParents[i].transform.position;
                 tempVect.x = (j - 1)*laneTile.transform.localScale.x;
                 laneTile.transform.position = tempVect;
 
-                laneTile.transform.parent = m_laneObjects[i].transform;
+                laneTile.transform.parent = m_laneParents[i].transform;
 
 
                 Lane lane = laneTile.GetComponent<Lane>();
@@ -143,6 +159,31 @@ public class Level : MonoBehaviour
 
             groundTile.transform.parent = m_ground.transform;
         }
+    }
+
+    public void PlaceRampOnLane(int lane, int playerTile)
+    {
+        Lane target = m_laneObjects[lane][playerTile + 2];
+
+        GameObject rampCollider = Instantiate(SystemsManager.m_Prefabs.m_rampCollider);
+        
+        rampCollider.name = "Ramp";
+
+        Vector3 tempVect = target.transform.position;
+        tempVect.x += 2f;
+        //rampCollider.transform.position = tempVect;
+        Vector3 spriteVect = rampCollider.transform.position;
+        rampCollider.transform.position = tempVect;
+        rampCollider.transform.parent = target.transform.parent;
+
+        GameObject rampSprite = Instantiate(SystemsManager.m_Prefabs.m_empty);
+        rampSprite.name = "Sprite";
+        rampSprite.transform.parent = rampCollider.transform;
+        rampSprite.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Ramp;
+        spriteVect += m_laneObjects1[lane].m_rampSpriteOffset;
+        spriteVect.y -= 0.05f;
+        spriteVect.z += 0.05f;
+        rampSprite.transform.localPosition = spriteVect;
     }
 
     void LoadXML()

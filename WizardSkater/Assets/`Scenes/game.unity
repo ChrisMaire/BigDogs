@@ -85,11 +85,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &168766063 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 454516, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-  m_PrefabInternal: {fileID: 1808004687}
---- !u!1001 &1808004687
+--- !u!1001 &932355955
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -128,73 +124,29 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 22421652, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+    - target: {fileID: 22449932, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_AnchorMax.x
       value: 0.828
       objectReference: {fileID: 0}
-    - target: {fileID: 22421652, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+    - target: {fileID: 22449932, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 22471426, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+    - target: {fileID: 22487128, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_AnchorMin.x
       value: 0.828
       objectReference: {fileID: 0}
-    - target: {fileID: 22471426, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+    - target: {fileID: 22487128, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_AnchorMax.x
       value: 0.828
       objectReference: {fileID: 0}
-    - target: {fileID: 22471426, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+    - target: {fileID: 22487128, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1988946998
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 144100, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1988946999}
-  - 114: {fileID: 1988947000}
-  m_Layer: 0
-  m_Name: Ollie
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1988946999
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 401532, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1988946998}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 168766063}
-  m_RootOrder: 1
---- !u!114 &1988947000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11455232, guid: 776edc9ccea01f544b313e1d68a81161,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1988946998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ee2d3e363b64804b880d71a0c29b93f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _poolName: Ollie
-  _prefab: {fileID: 451766, guid: 78b687c8c1651e94a8ffb4d599394f67, type: 2}
-  _initialCount: 16
-  _parentInstances: 1
 --- !u!1001 &2110888483
 Prefab:
   m_ObjectHideFlags: 0
@@ -212,7 +164,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 448350, guid: b8d16499818b4d44685078c1222efba5, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -.5
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 448350, guid: b8d16499818b4d44685078c1222efba5, type: 2}
       propertyPath: m_LocalRotation.x

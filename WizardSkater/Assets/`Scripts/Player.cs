@@ -382,9 +382,6 @@ public class Player : MonoBehaviour
             {
                 //Debug.Log("g-round");
                 m_grounded = true;
-                m_laneCurrentlyOn = hit.transform.gameObject.GetComponent<Lane>();
-                if(m_laneCurrentlyOn != null)
-                    Debug.Log("lane is " + m_laneCurrentlyOn.gameObject.name);
             }
         }
     }
@@ -519,7 +516,7 @@ public class Player : MonoBehaviour
 
     private void CheckForRampMagic()
     {
-        if (SystemsManager.m_Input.inp_Ramp)
+        if (SystemsManager.m_Input.inp_Ramp && m_magicCurrent > m_magicAmtRamp)
         {
             StartCoroutine("RampMagic", (int)m_laneCurrent);
         }
@@ -527,18 +524,18 @@ public class Player : MonoBehaviour
 
     private IEnumerator RampMagic(int lane)
     {
-        Debug.Log("placing ramp on lane " + lane);
+        Debug.Log("placing ramp on lane " + lane+1);
 
         m_magicCurrent -= m_magicAmtRamp;
 
-        //SystemsManager.m_Game.m_currentLevel.PlaceRampOnLane(lane);
+        SystemsManager.m_Game.m_currentLevel.PlaceRampOnLane(lane, m_tilesPassed);
 
         yield return null;
     }
 
     private void CheckForTrick()
     {
-        if (m_tricking == false && m_grounded == false)
+        if (m_tricking == false && m_grounded == false && m_ramping == false)
         {
             if (SystemsManager.m_Input.inp_Trick)
             {
@@ -611,6 +608,10 @@ public class Player : MonoBehaviour
         m_animator.SetTrigger("jump");
 
         m_gravity += m_jump;
+
+        Vector3 tempVect = transform.position;
+        tempVect.y -= m_groundCheckLength;
+        SystemsManager.m_Particles.Fire_Olli(tempVect);
 
         SystemsManager.m_SoundFX.OneShot_Jump();
 

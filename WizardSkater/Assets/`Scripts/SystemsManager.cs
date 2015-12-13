@@ -63,7 +63,7 @@ public class SystemsManager : MonoBehaviour
     {
         if (m_interMain == null)
         {
-            //Particles.InitObjectPools();
+            Particles.InitObjectPools();
             Level = FindObjectOfType<Level>();
             m_Level = Level;
 

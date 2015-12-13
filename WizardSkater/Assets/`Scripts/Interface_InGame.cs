@@ -12,6 +12,9 @@ public class Interface_InGame : MonoBehaviour
     public Text hudScore;
     public Slider hudMagic;
 
+    public Text completeTime;
+    public Text completeScore;
+
     float m_magicAmount;
 
     void Awake()
@@ -63,25 +66,63 @@ public class Interface_InGame : MonoBehaviour
 
     public IEnumerator DecreaseHUDTexts()
     {
-        int score = (int)SystemsManager.m_Score.m_levelScore;
-        int time = (int)SystemsManager.m_Timer.GetTime();
+        float score = SystemsManager.m_Score.m_levelScore;
+        float time = SystemsManager.m_Timer.GetTime();
 
-        int highest = 0;
+        float highest = 0f;
         if (score > time)
             highest = score;
         else
             highest = time;
+
         for (int i = 0; i < highest; i++)
         {
-            if(score > 0)
-                score -= 1;
+            if (score > 0)
+                score -= 3;
+            else
+                score = 0;
 
-            hudScore.text = time.ToString("000");
+            hudScore.text = score.ToString("000");
 
             if (time > 0)
-                time -= 1;
-            
-            hudTime.text = score.ToString("00.0");
+                time -= Time.fixedDeltaTime*5f;
+            else
+                time= 0;
+
+            hudTime.text = time.ToString("00.0");
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    public IEnumerator IncreaseGameOverTexts()
+    {
+        float score = SystemsManager.m_Score.m_levelScore;
+        float time = SystemsManager.m_Timer.GetTime();
+
+        float highest = 0f;
+        if (score > time)
+            highest = score;
+        else
+            highest = time;
+
+        float scoreCurrent = 0f;
+        float timeCurrent = 0f;
+for (int i = 0; i < highest; i++)
+        {
+            if (scoreCurrent < score)
+                scoreCurrent += 3;
+            else
+                scoreCurrent = score;
+
+            completeScore.text = scoreCurrent.ToString("000");
+
+            if (timeCurrent < time)
+                timeCurrent += Time.fixedDeltaTime*5f;
+            else
+                timeCurrent = time;
+
+            completeTime.text = timeCurrent.ToString("00.0");
 
             yield return new WaitForEndOfFrame();
         }

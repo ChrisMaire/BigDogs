@@ -97,9 +97,7 @@ public class Score : MonoBehaviour
     {
         float time = SystemsManager.m_Timer.GetTime();
 
-        m_levelScore += 500 - time*time;
-
-
+        m_levelScore += 555 - (0.4f * (time*time));     
 
         Debug.Log("hudScore is " + m_levelScore);
 

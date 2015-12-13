@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class DebugReloadScene : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class DebugReloadScene : MonoBehaviour
         {
             if (Input.GetKeyUp("l"))
             {
-                Application.LoadLevel(Application.loadedLevel);
+                Application.LoadLevel(SceneManager.GetActiveScene().buildIndex);
             }
         }
     }
