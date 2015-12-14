@@ -6,8 +6,16 @@ public class SoundFX : MonoBehaviour
     public static AudioSource source;
 
     public AudioClip LevelStart;
+    public AudioClip Skate;
     public AudioClip Jump;
+    public AudioClip Trick;
+    public AudioClip Turbo;
+    public AudioClip ObstacleHit;
     public AudioClip LevelComplete;
+
+    public AudioClip uiMove;
+    public AudioClip uiSubmit;
+    public AudioClip uiCancel;
 
     void Awake()
     {
@@ -23,13 +31,42 @@ public class SoundFX : MonoBehaviour
     {
         source.PlayOneShot(LevelStart);
     }
+    public void OneShot_Skate()
+    {
+        source.PlayOneShot(Skate);
+    }
     public void OneShot_Jump()
     {
         source.PlayOneShot(Jump);
     }
-    public void OneShot_WorldComplete()
+    public void OneShot_Trick()
+    {
+        source.PlayOneShot(Trick);
+    }
+    public void OneShot_Turbo()
+    {
+        source.PlayOneShot(Turbo);
+    }
+    public void OneShot_ObstacleHit()
+    {
+        source.PlayOneShot(ObstacleHit);
+    }
+    public void OneShot_LevelComplete()
     {
         source.PlayOneShot(LevelComplete);
+    }
+
+    public void uiOneShot_Move()
+    {
+        source.PlayOneShot(uiMove);
+    }
+    public void uiOneShot_Submit()
+    {
+        source.PlayOneShot(uiSubmit);
+    }
+    public void uiOneShot_Cancel()
+    {
+        source.PlayOneShot(uiCancel);
     }
 
     //public float pitchStart = 0.85f;

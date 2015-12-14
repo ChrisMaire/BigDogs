@@ -14,6 +14,8 @@ public class Game : MonoBehaviour
     };
     private GameState m_State;
 
+    public LevelNumberMessenger m_levelNum;
+
     public bool m_startedTheGame;
     public bool m_finishedTheGame;
     public bool m_paused;
@@ -23,6 +25,8 @@ public class Game : MonoBehaviour
 
     private void Awake()
     {
+        m_levelNum = FindObjectOfType<LevelNumberMessenger>();
+
         m_startedTheGame = false;
 
         m_paused = false;
@@ -35,6 +39,46 @@ public class Game : MonoBehaviour
     public void InitGame()
     {
         m_currentLevel = SystemsManager.m_Level;
+
+        if (m_levelNum)
+        {
+            Debug.Log("level number " + m_levelNum.m_level);
+
+            switch (m_levelNum.m_level)
+            {
+                case 1:
+                {
+                    SystemsManager.m_interGame.ChangePalette(0);
+                    m_currentLevel.m_fileName = "Level1.xml";
+                }
+                    break;
+                case 2:
+                {
+                    SystemsManager.m_interGame.ChangePalette(1);
+                    m_currentLevel.m_fileName = "Level2.xml";
+                }
+                    break;
+                case 3:
+                {
+                    SystemsManager.m_interGame.ChangePalette(2);
+                    m_currentLevel.m_fileName = "Level3.xml";
+                }
+                    break;
+                case 4:
+                {
+                    int rando = Random.Range(0, 2);
+                    SystemsManager.m_interGame.ChangePalette(rando);
+                    m_currentLevel.m_fileName = "Level4.xml";
+                }
+                    break;
+                default:
+                {
+                    m_currentLevel.m_fileName = "Level1.xml";
+                }
+                    break;
+            }
+        }
+
         m_currentLevel.InitLevel();
 
         m_State = GameState.LevelIntro;
@@ -65,6 +109,11 @@ public class Game : MonoBehaviour
         }
         
         player.name = "Wizard!";
+    }
+
+    public bool CanPlay()
+    {
+        return (getState() == GameState.Gameplay || getState() == GameState.Testing);
     }
 
     public GameState getState()

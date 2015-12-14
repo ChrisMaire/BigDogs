@@ -88,9 +88,14 @@ public class Score : MonoBehaviour
         //}
     }
 
-    public void ScoreTrick()
+    public IEnumerator ScoreTrick()
     {
-        m_levelScore += m_scoreAmtTrick;
+        for(int i = 0; i < m_levelScore+m_scoreAmtTrick;i++)
+        { 
+            m_levelScore += 1;
+            yield return new WaitForEndOfFrame();
+        }
+        yield return null;
     }
 
     public void EvaluateLevelHighScore(int level)

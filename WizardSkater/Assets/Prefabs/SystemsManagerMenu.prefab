@@ -419,8 +419,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelStart: {fileID: 0}
+  Skate: {fileID: 0}
   Jump: {fileID: 0}
+  Trick: {fileID: 0}
+  Turbo: {fileID: 0}
+  ObstacleHit: {fileID: 0}
   LevelComplete: {fileID: 0}
+  uiMove: {fileID: 8300000, guid: 18a23c3ae3cb2da41ab7a0a93483c941, type: 3}
+  uiSubmit: {fileID: 8300000, guid: 5e79b00e0052dca48939245519c33068, type: 3}
+  uiCancel: {fileID: 0}
 --- !u!114 &11488150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -432,6 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d94efc1e259d714fab52c790ca5bdc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_levelNum: {fileID: 0}
   m_startedTheGame: 0
   m_finishedTheGame: 0
   m_paused: 0

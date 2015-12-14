@@ -5,7 +5,7 @@ public class Sprites : MonoBehaviour
 {
     public List<Sprite> m_LaneNormal;
     public Sprite m_Ramp;
-    public Sprite m_LanePatchy;
-    public Sprite m_Obstacle;
+    public List<Sprite> m_LanePatchy;
+    public List<Sprite> m_Obstacle;
     public Sprite m_FinishLine;
 }

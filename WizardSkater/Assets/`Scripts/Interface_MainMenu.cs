@@ -29,11 +29,11 @@ public class Interface_MainMenu : MonoBehaviour
 
     public CanvasGroup groupTitle;
     public CanvasGroup groupLevelSelect;
-    public CanvasGroup groupAttractMode;
+    public CanvasGroup groupSplashScreen;
 
     public enum MenuState
     {
-        AttractMode,
+        Splash,
         MainMenu,
         LevelSelect
     };
@@ -54,7 +54,17 @@ public class Interface_MainMenu : MonoBehaviour
     {
         SystemsManager.m_Score.Init();
 
-        m_state = MenuState.MainMenu;  
+        m_state = MenuState.Splash;
+        StartCoroutine("FadeSplash");
+    }
+
+    private IEnumerator FadeSplash()
+    {
+        m_animator.SetTrigger("FadeSplash");
+        yield return  new WaitForSeconds(0.7f);
+        groupSplashScreen.alpha = 0f;
+        groupSplashScreen.gameObject.SetActive(false);
+        m_state = MenuState.MainMenu;
         m_menuSelectButtons[0].Select();
     }
 
@@ -81,30 +91,27 @@ public class Interface_MainMenu : MonoBehaviour
                     if (getMenuSelector() == 0 && SystemsManager.m_Game.m_startedTheGame == false)
                     {
                         m_menuInputReady = false;
+                        SystemsManager.m_SoundFX.uiOneShot_Submit();
                         GoLevelSelect();
                     }
                     else if (getMenuSelector() == 1)
                     {
-                        Application.Quit();
+                        if (m_transitioning == false)
+                            StartCoroutine("QuitGame");
                     }
                 }
                 else if (m_state == MenuState.LevelSelect)
                 {
                     if (m_levelSelector != -1)
                     {
-                        m_levelNumber.m_level = m_levelSelector + 1;
-
-                        SceneManager.LoadScene(1);
+                        if(m_transitioning == false)
+                            StartCoroutine("StartGame");
                     }
                     else
                     {
+                        SystemsManager.m_SoundFX.uiOneShot_Submit();
                         GoMainMenu();
                     }
-                }
-                else if(m_state == MenuState.AttractMode)
-                {
-                    m_menuInputReady = false;
-                    GoMainMenu();
                 }
             }
             else
@@ -131,6 +138,23 @@ public class Interface_MainMenu : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator QuitGame()
+    {
+        m_transitioning = true;
+        SystemsManager.m_SoundFX.uiOneShot_Submit();
+        yield return new WaitForSeconds(0.15f);
+        Application.Quit();
+    }
+
+    private IEnumerator StartGame()
+    {
+        m_transitioning = true;
+        m_levelNumber.m_level = m_levelSelector + 1;
+        SystemsManager.m_SoundFX.uiOneShot_Submit();
+        yield return new WaitForSeconds(0.15f);
+        SceneManager.LoadScene(1);
     }
 
     public IEnumerator MenuTransitionMainMenu()
@@ -252,6 +276,7 @@ public class Interface_MainMenu : MonoBehaviour
                 if (m_levelSelector < 0)
                     m_levelSelector += 4;
                 m_levelSelectButtons[m_levelSelector].Select();
+                SystemsManager.m_SoundFX.uiOneShot_Move();
             }
         }
         else if (dir == "down")
@@ -274,6 +299,7 @@ public class Interface_MainMenu : MonoBehaviour
                 if (m_levelSelector > 3)
                     m_levelSelector -= 4;
                 m_levelSelectButtons[m_levelSelector].Select();
+                SystemsManager.m_SoundFX.uiOneShot_Move();
             }
         }
         else if (dir == "left")
@@ -293,6 +319,7 @@ public class Interface_MainMenu : MonoBehaviour
                 //    m_menuSelector = 1;
                 //}
                 m_menuSelectButtons[m_menuSelector].Select();
+                SystemsManager.m_SoundFX.uiOneShot_Move();
             }
             else if (m_state == MenuState.LevelSelect)
             {
@@ -303,17 +330,20 @@ public class Interface_MainMenu : MonoBehaviour
                         m_levelSelectButtons[m_levelSelector].Select();
                         m_levelSelectBackButton.Select();
                         m_levelSelector = -1;
+                        SystemsManager.m_SoundFX.uiOneShot_Move();
                     }
                     else
                     {
                         m_levelSelector--;
                         m_levelSelectButtons[m_levelSelector].Select();
+                        SystemsManager.m_SoundFX.uiOneShot_Move();
                     }
                 }
                 else
                 {
                     m_levelSelector = 1;
                     m_levelSelectButtons[m_levelSelector].Select();
+                    SystemsManager.m_SoundFX.uiOneShot_Move();
                 }
             }
         }
@@ -334,6 +364,7 @@ public class Interface_MainMenu : MonoBehaviour
                 //    m_menuSelector = 0;
                 //}
                 m_menuSelectButtons[m_menuSelector].Select();
+                SystemsManager.m_SoundFX.uiOneShot_Move();
             }
             else if (m_state == MenuState.LevelSelect)
             {
@@ -344,17 +375,20 @@ public class Interface_MainMenu : MonoBehaviour
                         m_levelSelectButtons[m_levelSelector].Select();
                         m_levelSelectBackButton.Select();
                         m_levelSelector = -1;
+                        SystemsManager.m_SoundFX.uiOneShot_Move();
                     }
                     else
                     {
                         m_levelSelector++;
                         m_levelSelectButtons[m_levelSelector].Select();
+                        SystemsManager.m_SoundFX.uiOneShot_Move();
                     }
                 }
                 else
                 {
                     m_levelSelector = 0;
                     m_levelSelectButtons[m_levelSelector].Select();
+                    SystemsManager.m_SoundFX.uiOneShot_Move();
                 }
             }
         }

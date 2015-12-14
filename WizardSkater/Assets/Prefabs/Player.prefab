@@ -172,7 +172,7 @@ MonoBehaviour:
   m_rampBoost: 1.25
   m_ramping: 0
   m_tricking: 0
-  m_trickTime: 1
+  m_trickTime: 0.4
   m_jump: 200
   m_jumpAgainTime: 1.016
   m_jumpReady: 0
@@ -1983,6 +1983,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_magicAmtRamp
       value: 44.4399986
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_trickTime
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

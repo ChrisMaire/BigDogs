@@ -42,7 +42,7 @@ public class Lane : MonoBehaviour
         {
             case LaneType.Patchy:
             {
-            m_sprite.sprite = SystemsManager.m_Sprites.m_LanePatchy;
+                m_sprite.sprite = SystemsManager.m_Sprites.m_LanePatchy[(int)m_number+1];
             }
             break;
             case LaneType.Obstacle:
@@ -72,7 +72,7 @@ public class Lane : MonoBehaviour
         GameObject finishLine = Instantiate(SystemsManager.m_Prefabs.m_empty);
         finishLine.transform.parent = transform;
         Vector3 tempVect = transform.position;
-        tempVect.y += 1;
+        //tempVect.y += 1;
         finishLine.transform.position = tempVect;
         finishLine.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_FinishLine;
     }
@@ -111,7 +111,8 @@ public class Lane : MonoBehaviour
         GameObject obstacleSprite = Instantiate(SystemsManager.m_Prefabs.m_empty);
         obstacleSprite.name = "Sprite";
         obstacleSprite.transform.parent = obstacleCollider.transform;
-        obstacleSprite.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Obstacle;
+        int rando = Random.Range(0, SystemsManager.m_Sprites.m_Obstacle.Count);
+        obstacleSprite.GetComponent<SpriteRenderer>().sprite = SystemsManager.m_Sprites.m_Obstacle[rando];
         spriteVect.y += m_obstacleSpriteOffset;
         obstacleSprite.transform.localPosition = spriteVect;
         

@@ -69,8 +69,8 @@ public class Player : MonoBehaviour
     public bool m_ramping = false;
 
     public bool m_tricking;
-    [Range(0.5f, 2.0f)]
-    public float m_trickTime = 1f;
+    [Range(0.15f, 1.0f)]
+    public float m_trickTime = 0.4f;
     private float m_trickTimer;
 
     public float m_jump = 8.0F;
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
             Init();
 
         CorrectZDepth();
-
+ 
         if (m_finishedLevel == false)
         {
             if (m_inputFreeze)
@@ -150,7 +150,7 @@ public class Player : MonoBehaviour
             {
                 GroundAnimationLogic();
 
-                if (SystemsManager.m_Input.inp_Skate && !m_inputFreeze)
+                if (SystemsManager.m_Input.inp_Skate && !m_inputFreeze && SystemsManager.m_Game.CanPlay())
                 {
                     //ChangeTopSpeed();
                     m_moveSpeed += m_accel;
@@ -184,6 +184,12 @@ public class Player : MonoBehaviour
                 CheckForJump();
 
                 MoveToCurrentLane();
+
+                if (m_tricking)
+                {
+                    StopAllCoroutines();
+                    HitObstacle();
+                }
             }
             else
             {
@@ -195,16 +201,19 @@ public class Player : MonoBehaviour
                 m_animator.ResetTrigger("idle");
             }
 
-            CheckForTrick();
+            if (SystemsManager.m_Game.CanPlay())
+            {
+                CheckForTrick();
 
-            if (m_tricking == false)
-            { 
-                CheckForTurbo();
+                if (m_tricking == false)
+                {
+                    CheckForTurbo();
 
-                CheckForRampMagic();
+                    CheckForRampMagic();
+                }
+
+                UpdateMagic();
             }
-
-            UpdateMagic();
         }
         else
         {
@@ -219,6 +228,7 @@ public class Player : MonoBehaviour
         Vector3 force = (transform.up * m_gravity) + (transform.right * m_moveSpeed);
         
         m_body.AddForce(force);
+
 
         //Debug.Log("velocity is " + m_body.velocity);
         //Debug.Log("adding force " + force);
@@ -441,16 +451,24 @@ public class Player : MonoBehaviour
         //Debug.Log("lose mega-time");
         m_animator.ResetTrigger("idle");
         m_animator.ResetTrigger("skate");
+        m_animator.ResetTrigger("trick");
         m_animator.ResetTrigger("fall");
+        m_animator.SetBool("tricking", false);
+
         m_animator.SetTrigger("obstacle");
+
+        SystemsManager.m_SoundFX.OneShot_ObstacleHit();
 
         m_body.mass = 6f;
         m_moveSpeed = 0f;
         
         if (m_grounded)
             m_body.AddForce(transform.up * m_jump);
+
         StartCoroutine("FlashRenderer");
+
         FreezeInput(m_obstacleFreezeInputTime);
+
         m_body.mass = 2f;
     }
 
@@ -573,13 +591,13 @@ public class Player : MonoBehaviour
 
         m_tricking = true;
 
-        SystemsManager.m_Score.ScoreTrick();
+        yield return new WaitForSeconds(m_trickTime);
+
+        SystemsManager.m_Score.StartCoroutine("ScoreTrick");
 
         m_magicCurrent += m_magicAmtTrick;
 
-        //SystemsManager.m_SoundFX.Trick();
-
-        yield return new WaitForSeconds(0.5f);
+        SystemsManager.m_SoundFX.OneShot_Trick();
 
         m_animator.ResetTrigger("trick");
         m_animator.SetBool("tricking", false);
@@ -589,7 +607,7 @@ public class Player : MonoBehaviour
     {
         if (m_jumpReady)
         {
-            if (SystemsManager.m_Input.inp_Jump && !m_inputFreeze)
+            if (SystemsManager.m_Input.inp_Jump && !m_inputFreeze && SystemsManager.m_Game.CanPlay())
             {
                 StartCoroutine("Jump");
             }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Interface_InGame : MonoBehaviour
 {
@@ -17,6 +18,14 @@ public class Interface_InGame : MonoBehaviour
     public Text completeTime;
     public Text completeScore;
 
+    public Renderer stageBG;
+    public Renderer stageSet;
+    public Renderer stageFG;
+
+    public List<Texture> stageBGTypes;
+    public List<Texture> stageSetTypes;
+    public List<Texture> stageFGTypes;
+
     void Awake()
     {
         m_animator = GetComponent<Animator>();
@@ -27,6 +36,13 @@ public class Interface_InGame : MonoBehaviour
     void Start ()
     {
         SystemsManager.m_Score.Init();
+    }
+
+    public void ChangePalette(int type)
+    {
+        stageBG.material.mainTexture = stageBGTypes[type];
+        stageSet.material.mainTexture = stageSetTypes[type];
+        stageFG.material.mainTexture = stageFGTypes[type];
     }
 
     IEnumerator StartingNewLevel()
