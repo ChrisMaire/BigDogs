@@ -5,9 +5,11 @@ public class Game : MonoBehaviour
 {
     public enum GameState
     {
-        LevelComplete,
+        LevelIntro,
         Gameplay,
         Pause,
+        LevelComplete,
+        PostOutro,
         Testing
     };
     private GameState m_State;
@@ -35,9 +37,16 @@ public class Game : MonoBehaviour
         m_currentLevel = SystemsManager.m_Level;
         m_currentLevel.InitLevel();
 
-        m_State = GameState.Gameplay;
+        m_State = GameState.LevelIntro;
 
         SpawnPlayer();
+
+        SystemsManager.m_interGame.StartCoroutine("LevelIntro");
+    }
+
+    public void StartGame()
+    {
+        m_State = GameState.Gameplay;
     }
 
     private void SpawnPlayer()

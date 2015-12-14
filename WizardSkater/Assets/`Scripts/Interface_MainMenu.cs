@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class Interface_MainMenu : MonoBehaviour
 {
+    public LevelNumberMessenger m_levelNumber;
     public EventSystem m_events;
     public Animator m_animator;
 
@@ -17,6 +19,7 @@ public class Interface_MainMenu : MonoBehaviour
     public Button[] m_menuSelectButtons;
 
     public int m_levelSelector;
+    public Button m_levelSelectBackButton;
     public Button[] m_levelSelectButtons;
     public List<Text> m_levelSelectBestTimes;
 
@@ -39,7 +42,12 @@ public class Interface_MainMenu : MonoBehaviour
 
     void Awake()
     {
-        m_animator = GetComponent<Animator>();
+        m_animator = GetComponentInChildren<Animator>();
+
+        m_levelNumber = FindObjectOfType<LevelNumberMessenger>();
+
+        //groupLevelSelect.alpha = 1f;
+        //groupLevelSelect.gameObject.SetActive(false);
     }
 
     void Start()
@@ -66,15 +74,37 @@ public class Interface_MainMenu : MonoBehaviour
         }
         else
         {
-            if (SystemsManager.m_Input.inp_Jump)
+            if (SystemsManager.m_Input.inp_Skate)
             {
-                if (getMenuSelector() == 0 && SystemsManager.m_Game.m_startedTheGame == false)
+                if (m_state == MenuState.MainMenu)
                 {
-                    GoLevelSelect(false);
+                    if (getMenuSelector() == 0 && SystemsManager.m_Game.m_startedTheGame == false)
+                    {
+                        m_menuInputReady = false;
+                        GoLevelSelect();
+                    }
+                    else if (getMenuSelector() == 1)
+                    {
+                        Application.Quit();
+                    }
                 }
-                else if (getMenuSelector() == 1)
+                else if (m_state == MenuState.LevelSelect)
                 {
-                    Application.Quit();
+                    if (m_levelSelector != -1)
+                    {
+                        m_levelNumber.m_level = m_levelSelector + 1;
+
+                        SceneManager.LoadScene(1);
+                    }
+                    else
+                    {
+                        GoMainMenu();
+                    }
+                }
+                else if(m_state == MenuState.AttractMode)
+                {
+                    m_menuInputReady = false;
+                    GoMainMenu();
                 }
             }
             else
@@ -103,136 +133,94 @@ public class Interface_MainMenu : MonoBehaviour
         }
     }
 
-    public IEnumerator MenuTransitionMainMenu(bool reverse)
+    public IEnumerator MenuTransitionMainMenu()
     {
         m_transitioning = true;
 
-        m_animator.ResetTrigger("FadeOutMainMenu");
-        m_animator.ResetTrigger("FadeOutLevelSelect");
-        m_animator.ResetTrigger("FadeOutHow");
+        Debug.Log("mm in");
 
-        if (reverse == false)
-        {
-            if (groupLevelSelect.gameObject)
-            {
-                //Debug.Log("mm in");
+        groupTitle.gameObject.SetActive(true);
+        groupTitle.alpha = 0f;
 
-                groupTitle.gameObject.SetActive(true);
-                groupTitle.alpha = 0f;
-                m_menuSelectButtons[m_menuSelector].Select();
+        m_menuSelectButtons[m_menuSelector].Select();
 
-                m_animator.SetTrigger("LevelSelectOut");
+        m_animator.SetTrigger("LevelSelectOut");
 
-                yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.25f);
 
-                groupLevelSelect.alpha = 0f;
-                groupLevelSelect.gameObject.SetActive(false);
+        groupTitle.alpha = 1f;
 
-                groupTitle.alpha = 1f;
-                m_state = MenuState.MainMenu;
-            }
-        }
-        else
-        {
-            Debug.Log("mm out");
-            m_animator.SetTrigger("LevelSelectIn");
-
-            yield return new WaitForSeconds(0.2f);
-
-            //yield return new WaitForSeconds(0.2f);
-
-            groupTitle.gameObject.SetActive(false);
-        }
+        groupLevelSelect.alpha = 0f;
+        groupLevelSelect.gameObject.SetActive(false);
+        
+        m_state = MenuState.MainMenu;
 
         m_transitioning = false;
     }
 
-    public void GoMainMenu(bool reverse = false)
+    public void GoMainMenu()
     {
         if (m_transitioning == false)
-            StartCoroutine("MenuTransitionMainMenu", reverse);
+            StartCoroutine("MenuTransitionMainMenu");
     }
 
-    public IEnumerator MenuTransitionLevelSelect(bool reverse)
+    public IEnumerator MenuTransitionLevelSelect()
     {
         m_transitioning = true;
 
-        //m_animator.ResetTrigger("FadeOutMainMenu");
-        //m_animator.ResetTrigger("FadeOutLevelSelect");
-        //m_animator.ResetTrigger("FadeOutHow");
+        groupLevelSelect.gameObject.SetActive(true);
+        groupLevelSelect.alpha = 0f;
 
-        if (reverse == false)
+        m_animator.SetTrigger("LevelSelectIn");
+
+        for (int i = 0; i < m_levelSelectButtons.Length; i++) //buttons
         {
-            Debug.Log("ls in");
-            groupLevelSelect.gameObject.SetActive(true);
-            groupLevelSelect.alpha = 0f;
-            m_levelSelectButtons[0].Select();
-
-            for (int i = 0; i < m_levelSelectButtons.Length; i++) //buttons
-            {
-                m_levelSelectButtons[i].enabled = true;
-            }
-
-            //for (int i = 0; i < m_levelSelectBestTimes.Count - 1; i += 1) //best times
-            //{
-            //    float top = SystemsManager.m_Score.m_levelTopScores[i];
-            //    string topS = top.ToString("0.00");
-            //    if (SystemsManager.m_Score.m_levelTopScores.Count >= i && top != -1)
-            //    {
-            //        m_levelSelectBestTimes[i].text = topS;
-            //        m_levelSelectBestTimesShadows[i].text = topS;
-            //    }
-            //}
-            //for (int i = 1; i < m_levelSelectBestPerfectTimes.Count - 1; i += 1) //best perfect time
-            //{
-            //    float top = SystemsManager.m_Score.BestLevelPerfectTimes[i];
-            //    string topS = top.ToString("0.00");
-            //    if (SystemsManager.m_Score.BestLevelPerfectTimes.Count >= i && top != -1)
-            //    {
-            //        m_levelSelectBestPerfectTimes[i].text = topS;
-            //        m_levelSelectBestPerfectTimesShadows[i].text = topS;
-            //    }
-            //}
-
-            m_animator.SetTrigger("LevelSelectIn");
-
-            yield return new WaitForSeconds(0.2f);
-
-            groupTitle.alpha = 0f;
-            groupTitle.gameObject.SetActive(false);
-
-            groupLevelSelect.alpha = 1f;
-            m_state = MenuState.LevelSelect;
+            m_levelSelectButtons[i].enabled = true;
         }
-        else
-        {
-            Debug.Log("ls out");
-            m_animator.SetTrigger("LevelSelectOut");
 
-            yield return new WaitForSeconds(0.2f);
+        m_levelSelectButtons[0].Select();
 
-            groupLevelSelect.alpha = 0f;
+        //for (int i = 0; i < m_levelSelectBestTimes.Count - 1; i += 1) //best times
+        //{
+        //    float top = SystemsManager.m_Score.m_levelTopScores[i];
+        //    string topS = top.ToString("0.00");
+        //    if (SystemsManager.m_Score.m_levelTopScores.Count >= i && top != -1)
+        //    {
+        //        m_levelSelectBestTimes[i].text = topS;
+        //        m_levelSelectBestTimesShadows[i].text = topS;
+        //    }
+        //}
+        //for (int i = 1; i < m_levelSelectBestPerfectTimes.Count - 1; i += 1) //best perfect time
+        //{
+        //    float top = SystemsManager.m_Score.BestLevelPerfectTimes[i];
+        //    string topS = top.ToString("0.00");
+        //    if (SystemsManager.m_Score.BestLevelPerfectTimes.Count >= i && top != -1)
+        //    {
+        //        m_levelSelectBestPerfectTimes[i].text = topS;
+        //        m_levelSelectBestPerfectTimesShadows[i].text = topS;
+        //    }
+        //}
 
-            if (SystemsManager.m_Game.m_currentLevel == null)
-            {
-                StartCoroutine("MenuTransitionMainMenu", false);
-            }
-            else
-            {
-                yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.25f);
 
-                groupLevelSelect.gameObject.SetActive(false);
-                groupTitle.gameObject.SetActive(false);
-            }
-        }
+        groupLevelSelect.alpha = 1f;
+
+        groupTitle.alpha = 0f;
+        groupTitle.gameObject.SetActive(false);
+
+        m_state = MenuState.LevelSelect;
+
+        Debug.Log("ls in");
+       
+        yield return null;
 
         m_transitioning = false;
     }
 
-    public void GoLevelSelect(bool reverse = false)
+    public void GoLevelSelect()
     {
         if (m_transitioning == false)
-            StartCoroutine("MenuTransitionLevelSelect", reverse);
+            StartCoroutine("MenuTransitionLevelSelect");
     }
 
     public int getMenuSelector()
@@ -283,7 +271,7 @@ public class Interface_MainMenu : MonoBehaviour
             else if (m_state == MenuState.LevelSelect)
             {
                 m_levelSelector += 2;
-                if (m_levelSelector > 4)
+                if (m_levelSelector > 3)
                     m_levelSelector -= 4;
                 m_levelSelectButtons[m_levelSelector].Select();
             }
@@ -308,10 +296,25 @@ public class Interface_MainMenu : MonoBehaviour
             }
             else if (m_state == MenuState.LevelSelect)
             {
-                m_levelSelector--;
-                if (m_levelSelector < 0)
-                    m_levelSelector += 4;
-                m_levelSelectButtons[m_levelSelector].Select();
+                if(m_levelSelector != -1)
+                { 
+                    if (m_levelSelector-1 < 0 || m_levelSelector-1 == 1)
+                    {
+                        m_levelSelectButtons[m_levelSelector].Select();
+                        m_levelSelectBackButton.Select();
+                        m_levelSelector = -1;
+                    }
+                    else
+                    {
+                        m_levelSelector--;
+                        m_levelSelectButtons[m_levelSelector].Select();
+                    }
+                }
+                else
+                {
+                    m_levelSelector = 1;
+                    m_levelSelectButtons[m_levelSelector].Select();
+                }
             }
         }
         else if (dir == "right")
@@ -334,10 +337,25 @@ public class Interface_MainMenu : MonoBehaviour
             }
             else if (m_state == MenuState.LevelSelect)
             {
-                m_levelSelector++;
-                if (m_levelSelector > 4)
-                    m_levelSelector -= 4;
-                m_levelSelectButtons[m_levelSelector].Select();
+                if (m_levelSelector != -1)
+                {
+                    if (m_levelSelector + 1 > 3 || m_levelSelector + 1 == 2)
+                    {
+                        m_levelSelectButtons[m_levelSelector].Select();
+                        m_levelSelectBackButton.Select();
+                        m_levelSelector = -1;
+                    }
+                    else
+                    {
+                        m_levelSelector++;
+                        m_levelSelectButtons[m_levelSelector].Select();
+                    }
+                }
+                else
+                {
+                    m_levelSelector = 0;
+                    m_levelSelectButtons[m_levelSelector].Select();
+                }
             }
         }
 

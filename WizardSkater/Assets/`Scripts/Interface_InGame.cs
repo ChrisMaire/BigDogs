@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Interface_InGame : MonoBehaviour
 {
+    public Animator m_animator;
+
     public CanvasGroup groupHUD;
     public CanvasGroup groupLevelStart;
     public CanvasGroup groupLevelComplete;
@@ -15,10 +17,9 @@ public class Interface_InGame : MonoBehaviour
     public Text completeTime;
     public Text completeScore;
 
-    float m_magicAmount;
-
     void Awake()
     {
+        m_animator = GetComponent<Animator>();
         groupLevelStart.gameObject.SetActive(false);
         groupLevelComplete.gameObject.SetActive(false);
     }
@@ -51,17 +52,40 @@ public class Interface_InGame : MonoBehaviour
         }
 	}
 
+    public IEnumerator LevelIntro()
+    {
+        groupLevelStart.gameObject.SetActive(true);
+        groupLevelStart.alpha = 1f;
+
+        m_animator.SetTrigger("LevelIntro");
+        //animate text coming down
+
+        yield return  new WaitForSeconds(3f);
+        
+        SystemsManager.m_Game.StartGame();
+
+        groupLevelStart.alpha = 0f;
+        groupLevelStart.gameObject.SetActive(false);
+    }
+
     public IEnumerator LevelComplete()
     {
         groupLevelComplete.gameObject.SetActive(true);
+
         groupLevelComplete.alpha = 1f;
+
+        m_animator.SetTrigger("LevelComplete");
+        yield return null;
+
         //animate congrats & score text moving up
         //animate score adding up
         StartCoroutine("DecreaseHUDTexts");
 
         StartCoroutine("IncreaseGameOverTexts");
-        //put game in state where it will return to main or restart level
         yield return null;
+
+        //put game in state where it will return to main or restart level
+        SystemsManager.m_Game.setState(Game.GameState.PostOutro);
     }
 
     public IEnumerator DecreaseHUDTexts()
