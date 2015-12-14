@@ -43,9 +43,13 @@ public class SoundFX : MonoBehaviour
     {
         source.PlayOneShot(Trick);
     }
-    public void OneShot_Turbo()
+    public void PlayTurbo()
     {
-        source.PlayOneShot(Turbo);
+        float randomStart = Random.Range(0f, Turbo.length);
+        source.clip = Turbo;
+        source.time = randomStart;
+        source.Play();
+        //source.PlayOneShot(Turbo);
     }
     public void OneShot_ObstacleHit()
     {

@@ -280,6 +280,10 @@ public class Player : MonoBehaviour
         if (SystemsManager.m_Input.inp_Turbo && !m_inputFreeze 
             && m_magicCurrent > m_magicAmtTurbo)
         {
+            //if (SystemsManager.m_SoundFX.GetComponent<AudioSource>().isPlaying == false)
+            //{
+            //    SystemsManager.m_SoundFX.
+            //}
             m_moveSpeed += m_speedTurbo;
             m_magicCurrent -= m_magicAmtTurbo;
         }
@@ -587,7 +591,7 @@ public class Player : MonoBehaviour
         m_animator.ResetTrigger("jump");
         m_animator.ResetTrigger("skate");
         m_animator.SetTrigger("trick");
-        m_animator.SetBool("tricking", true);
+        m_animator.SetBool("tricking", true); 
 
         m_tricking = true;
 

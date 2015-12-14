@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Interface_InGame : MonoBehaviour
 {
@@ -66,6 +67,17 @@ public class Interface_InGame : MonoBehaviour
 
             hudScore.text = SystemsManager.m_Score.m_levelScore.ToString("000");
         }
+        else if (SystemsManager.m_Game.getState() == Game.GameState.PostOutro)
+        {
+            if (SystemsManager.m_Input.inp_Skate)
+            {
+                SceneManager.LoadScene(0);
+            }
+            if (SystemsManager.m_Input.inp_Jump)
+            {
+                SceneManager.LoadScene(1);
+            }
+        }
 	}
 
     public IEnumerator LevelIntro()
@@ -98,7 +110,7 @@ public class Interface_InGame : MonoBehaviour
         StartCoroutine("DecreaseHUDTexts");
 
         StartCoroutine("IncreaseGameOverTexts");
-        yield return null;
+        yield return new WaitForSeconds(2f);
 
         //put game in state where it will return to main or restart level
         SystemsManager.m_Game.setState(Game.GameState.PostOutro);
@@ -118,7 +130,7 @@ public class Interface_InGame : MonoBehaviour
         for (int i = 0; i < highest; i++)
         {
             if (score > 0)
-                score -= 3;
+                score -= 5;
             else
                 score = 0;
 
@@ -151,7 +163,7 @@ public class Interface_InGame : MonoBehaviour
 for (int i = 0; i < highest; i++)
         {
             if (scoreCurrent < score)
-                scoreCurrent += 3;
+                scoreCurrent += 5;
             else
                 scoreCurrent = score;
 
