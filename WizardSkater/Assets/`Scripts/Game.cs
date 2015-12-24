@@ -42,7 +42,8 @@ public class Game : MonoBehaviour
 
         if (m_levelNum)
         {
-            Debug.Log("level number " + m_levelNum.m_level);
+            m_currentLevel.m_levelOrder = m_levelNum.m_level;
+            Debug.Log("starting up level number " + m_levelNum.m_level);
 
             switch (m_levelNum.m_level)
             {

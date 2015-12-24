@@ -150,7 +150,7 @@ public class Player : MonoBehaviour
             {
                 GroundAnimationLogic();
 
-                if (SystemsManager.m_Input.inp_Skate && !m_inputFreeze && SystemsManager.m_Game.CanPlay())
+                if (SystemsManager.m_Input.inp_Skate && SystemsManager.m_Game.CanPlay() && !m_inputFreeze)
                 {
                     //ChangeTopSpeed();
                     m_moveSpeed += m_accel;
@@ -184,12 +184,6 @@ public class Player : MonoBehaviour
                 CheckForJump();
 
                 MoveToCurrentLane();
-
-                if (m_tricking)
-                {
-                    StopAllCoroutines();
-                    HitObstacle();
-                }
             }
             else
             {
@@ -410,7 +404,7 @@ public class Player : MonoBehaviour
         RaycastHit hit;
 
         Debug.DrawRay(checkFrom, checkTo, Color.cyan);
-        if (Physics.Raycast(checkFrom, checkTo, out hit, 1, mask))
+        if (Physics.Raycast(checkFrom, checkTo - transform.up, out hit, 1, mask))
         {
             //Debug.Log("Deteceted a thing on the next lane up");
             m_canShiftUp = false;
@@ -421,9 +415,9 @@ public class Player : MonoBehaviour
         }
 
         Debug.DrawRay(checkFrom, -checkTo, Color.cyan);
-        if (Physics.Raycast(checkFrom, -checkTo, out hit, 1, mask))
+        if (Physics.Raycast(checkFrom, -checkTo - transform.up, out hit, 1, mask))
         {
-            //Debug.Log("Deteceted a thing on the next lane down");
+            //Debug.Log("Detected a thing on the next lane down");
             m_canShiftDown = false;
         }
         else
@@ -452,13 +446,17 @@ public class Player : MonoBehaviour
 
     public void HitObstacle()
     {
-        //Debug.Log("lose mega-time");
+        StopAllCoroutines();
+
+        FreezeInput(m_obstacleFreezeInputTime);
+
         m_animator.ResetTrigger("idle");
         m_animator.ResetTrigger("skate");
         m_animator.ResetTrigger("trick");
-        m_animator.ResetTrigger("fall");
+        m_animator.ResetTrigger("jump");
+        m_animator.SetBool("grounded", false);
+        m_animator.SetBool("jumping", false);
         m_animator.SetBool("tricking", false);
-
         m_animator.SetTrigger("obstacle");
 
         SystemsManager.m_SoundFX.OneShot_ObstacleHit();
@@ -470,8 +468,6 @@ public class Player : MonoBehaviour
             m_body.AddForce(transform.up * m_jump);
 
         StartCoroutine("FlashRenderer");
-
-        FreezeInput(m_obstacleFreezeInputTime);
 
         m_body.mass = 2f;
     }
@@ -547,7 +543,7 @@ public class Player : MonoBehaviour
 
     private void CheckForRampMagic()
     {
-        if (SystemsManager.m_Input.inp_Ramp && m_magicCurrent > m_magicAmtRamp)
+        if (SystemsManager.m_Input.inp_Ramp && m_magicCurrent > m_magicAmtRamp && !m_inputFreeze)
         {
             StartCoroutine("RampMagic", (int)m_laneCurrent);
         }
@@ -568,8 +564,10 @@ public class Player : MonoBehaviour
     {
         if (m_tricking == false && m_grounded == false && m_ramping == false)
         {
-            if (SystemsManager.m_Input.inp_Trick)
+            if (SystemsManager.m_Input.inp_Trick && !m_inputFreeze)
             {
+                SystemsManager.m_Input.inp_Trick = false;
+                m_tricking = true;
                 StartCoroutine("Trick");
             }
         }
@@ -592,26 +590,43 @@ public class Player : MonoBehaviour
         m_animator.ResetTrigger("skate");
         m_animator.SetTrigger("trick");
         m_animator.SetBool("tricking", true); 
-
-        m_tricking = true;
-
+        
         yield return new WaitForSeconds(m_trickTime);
 
-        SystemsManager.m_Score.StartCoroutine("ScoreTrick");
-
-        m_magicCurrent += m_magicAmtTrick;
-
-        SystemsManager.m_SoundFX.OneShot_Trick();
+        ValidateTrick();
 
         m_animator.ResetTrigger("trick");
         m_animator.SetBool("tricking", false);
+    }
+
+    private void ValidateTrick()
+    {
+        if (m_grounded == false && m_ramping == false)
+        {
+            m_magicCurrent += m_magicAmtTrick;
+            SystemsManager.m_SoundFX.OneShot_Trick();
+            SystemsManager.m_Score.StartCoroutine("ScoreTrick");
+        }
+        else
+        {
+            TrickFail();
+        }
+    }
+
+    private void TrickFail()
+    {
+        StopAllCoroutines();
+        m_tricking = false;
+        m_animator.ResetTrigger("trick");
+        m_animator.SetBool("tricking", false);
+        HitObstacle();
     }
 
     private void CheckForJump()
     {
         if (m_jumpReady)
         {
-            if (SystemsManager.m_Input.inp_Jump && !m_inputFreeze && SystemsManager.m_Game.CanPlay())
+            if (SystemsManager.m_Input.inp_Jump && SystemsManager.m_Game.CanPlay() && !m_inputFreeze)
             {
                 StartCoroutine("Jump");
             }
@@ -631,10 +646,15 @@ public class Player : MonoBehaviour
 
     private IEnumerator Jump()
     {
-        m_animator.SetBool("jumping", true);
+        m_animator.SetBool("ramping", false);
+        m_animator.SetBool("tricking", false);
+        m_animator.SetBool("grounded", false);
         m_animator.ResetTrigger("idle");
+        m_animator.ResetTrigger("trick");
+        m_animator.ResetTrigger("obstacle");
         m_animator.ResetTrigger("skate");
         m_animator.SetTrigger("jump");
+        m_animator.SetBool("jumping", true);
 
         Vector3 tempVect = transform.position;
         tempVect.y -= m_groundCheckLength;

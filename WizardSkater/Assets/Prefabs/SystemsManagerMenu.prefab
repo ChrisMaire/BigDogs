@@ -391,12 +391,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inp_DeadZone: 0.4
-  AxisInUse_1X: 0
-  AxisInUse_1Y: 0
-  AxisInUse_2X: 0
-  AxisInUse_2Y: 0
-  AxisInUse_TriggerL: 0
-  AxisInUse_TriggerR: 0
   inp_D_Down: 0
   inp_D_Left: 0
   inp_D_Right: 0

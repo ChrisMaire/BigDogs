@@ -40,11 +40,11 @@ public class Score : MonoBehaviour
         m_filePath = Application.dataPath;
         if (Application.platform == RuntimePlatform.OSXDashboardPlayer || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXWebPlayer)
         {
-            m_filePath += "/hudScore/";
+            m_filePath += "/Score/";
         }
         else
         {
-            m_filePath += "\\hudScore\\";
+            m_filePath += "\\Score\\";
         }
 
         m_levelScore = 0f;
@@ -52,78 +52,88 @@ public class Score : MonoBehaviour
 
     public void Init()
     {
-        //var levels = 4;
+        var levels = 4;
 
-        //if (!File.Exists(m_filePath + m_fileName))
-        //{
-        //    Hashtable hash = new Hashtable();
-        //    string data = JsonWriter.Serialize(hash);
-        //    StreamWriter sw = new StreamWriter(m_filePath + m_fileName);
-        //    sw.Write(data);
-        //    sw.Close();
-        //}
-        //else
-        //{
-        //    StreamReader stream = new StreamReader(m_filePath + m_fileName);
-        //    var str = stream.ReadToEnd();
+        if (!File.Exists(m_filePath + m_fileName))
+        {
+            Hashtable hash = new Hashtable();
+            string data = JsonWriter.Serialize(hash);
+            StreamWriter sw = new StreamWriter(m_filePath + m_fileName);
+            sw.Write(data);
+            sw.Close();
+        }
+        else
+        {
+            StreamReader stream = new StreamReader(m_filePath + m_fileName);
+            var str = stream.ReadToEnd();
 
-        //    Dictionary<string, object> scores;
-        //    scores = JsonReader.Deserialize(str, typeof(Dictionary<string, object>)) as Dictionary<string, object>;
-        //    object[] scoreThings = scores["LevelScores"] as object[];
-        //    List<float> levelScores = new List<float>();
-        //    foreach (object f in scoreThings)
-        //    {
-        //        string sf = f.ToString();
-        //        float newF = float.Parse(sf);
-        //        levelScores.Add(newF);
-        //    }
+            Dictionary<string, object> scores;
+            scores = JsonReader.Deserialize(str, typeof(Dictionary<string, object>)) as Dictionary<string, object>;
+            int[] scoreThings = scores.Values.First() as int[];
+            List<float> levelScores = new List<float>();
+            foreach (object f in scoreThings)
+            {
+                string sf = f.ToString();
+                float newF = float.Parse(sf);
+                levelScores.Add(newF);
+            }
 
-        //    for (int i = 0; i < levels; i++)
-        //    {
-        //        if (levelScores[i] != -1f)
-        //            m_levelTopScores.Add(levelScores[i]);
-        //        else
-        //            m_levelTopScores.Add(-1f);
-        //    }
-        //}
+            for (int i = 0; i < levels; i++)
+            {
+                if (levelScores[i] != -1f)
+                    m_levelTopScores.Add(levelScores[i]);
+                else
+                    m_levelTopScores.Add(-1f);
+            }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (m_levelScore < 0)
+            m_levelScore = 0;
     }
 
     public IEnumerator ScoreTrick()
     {
-        //int target = (int)(m_levelScore + m_scoreAmtTrick);
-        //for (int i = 0; i < target;i++)
-        //{ 
-        //m_levelScore += 1;
         m_levelScore += m_scoreAmtTrick;
         yield return new WaitForEndOfFrame();
-        //}
-        //yield return null;
     }
 
     public void EvaluateLevelHighScore(int level)
     {
         float time = SystemsManager.m_Timer.GetTime();
 
-        m_levelScore += 555 - (0.4f * (time*time));     
+        int TimeScoreMultiplied = (int) (555 - (0.4f*(time*time)));
+        if (TimeScoreMultiplied < 0)
+            TimeScoreMultiplied = 0;
+
+        m_levelScore += TimeScoreMultiplied;     
 
         Debug.Log("hudScore is " + m_levelScore);
 
-        //if (m_levelTopScores[level] == -1f || m_levelScore < m_levelTopScores[level])
-        //{
-        //    //new record
-        //    m_levelTopScores[level] = m_levelScore;
-        //    SaveNewRecord(new Record(m_levelTopScores));
-        //}
+        if (m_levelTopScores[level] == -1f || m_levelScore < m_levelTopScores[level])
+        {
+            //new record
+            m_levelTopScores[level] = m_levelScore;
+            SaveNewRecord(new Record(m_levelTopScores));
+        }
     }
 
     public void SaveNewRecord(Record record)
     {
         if (!Directory.Exists(m_filePath))
         {
+            Debug.Log("can't find directory, creating...");
             Directory.CreateDirectory(m_filePath);
         }
-        //if (!File.Exists(m_filePath + m_fileName))
-        //{
+        else
+        {
+            Debug.Log("found directory, all good for file");
+        }
+        if (!File.Exists(m_filePath + m_fileName))
+        {
+            Debug.Log("saving file... creating file");
             Hashtable hash = new Hashtable();
             hash.Add("LevelScores", record.LevelScores);
             string data = JsonWriter.Serialize(hash);
@@ -131,7 +141,18 @@ public class Score : MonoBehaviour
             Debug.Log("saving out " + data);
             sw.Write(data);
             sw.Close();
-        //}
+        }
+        else
+        {
+            Debug.Log("saving file... found file");
+            Hashtable hash = new Hashtable();
+            hash.Add("LevelScores", record.LevelScores);
+            string data = JsonWriter.Serialize(hash);
+            StreamWriter sw = new StreamWriter(m_filePath + m_fileName);
+            Debug.Log("saving out " + data);
+            sw.Write(data);
+            sw.Close();
+        }
     }
 }
 

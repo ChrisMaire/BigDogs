@@ -54,6 +54,14 @@ public class Interface_MainMenu : MonoBehaviour
     {
         SystemsManager.m_Score.Init();
 
+        for (int i = 0; i < m_levelSelectBestTimes.Count; i++)
+        {
+            if (SystemsManager.m_Score.m_levelTopScores[i] != -1)
+                m_levelSelectBestTimes[i].text = SystemsManager.m_Score.m_levelTopScores[i].ToString();
+            else
+                m_levelSelectBestTimes[i].text = " ";
+        }
+
         m_state = MenuState.Splash;
         StartCoroutine("FadeSplash");
     }

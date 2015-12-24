@@ -85,11 +85,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!23 &281429323 stripped
-MeshRenderer:
-  m_PrefabParentObject: {fileID: 2348680, guid: 776edc9ccea01f544b313e1d68a81161,
-    type: 2}
-  m_PrefabInternal: {fileID: 922520365}
 --- !u!1001 &922520365
 Prefab:
   m_ObjectHideFlags: 0
@@ -97,18 +92,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageBGTypes.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageFGTypes.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageSetTypes.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 463966, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -142,118 +125,16 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22449932, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0.828
-      objectReference: {fileID: 0}
-    - target: {fileID: 22449932, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22487128, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: m_AnchorMin.x
-      value: 0.828
-      objectReference: {fileID: 0}
-    - target: {fileID: 22487128, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0.828
-      objectReference: {fileID: 0}
-    - target: {fileID: 22487128, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11412130, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: ObstacleHit
-      value: 
-      objectReference: {fileID: 8300000, guid: 4d903d43edef0f5488fb14d5ab6e197f, type: 3}
-    - target: {fileID: 11412130, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: Trick
-      value: 
-      objectReference: {fileID: 8300000, guid: d360d83807639a1438f69f6ff7838e14, type: 3}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageBG
-      value: 
-      objectReference: {fileID: 2083093641}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageSet
-      value: 
-      objectReference: {fileID: 2080007541}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageFG
-      value: 
-      objectReference: {fileID: 281429323}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageBGTypes.Array.data[0]
-      value: 
-      objectReference: {fileID: 2800000, guid: 44d6b9209d0acec498a462d2bc7cf469, type: 3}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageBGTypes.Array.data[1]
-      value: 
-      objectReference: {fileID: 2800000, guid: ad9e180e355611b46b2e34f1b6fa6a80, type: 3}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageBGTypes.Array.data[2]
-      value: 
-      objectReference: {fileID: 2800000, guid: a0eed897d2f124344993671d31297fdd, type: 3}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageFGTypes.Array.data[0]
-      value: 
-      objectReference: {fileID: 2800000, guid: 5c532a8d3524a7947b50c5005cd1c07b, type: 3}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageFGTypes.Array.data[1]
-      value: 
-      objectReference: {fileID: 2800000, guid: 3139b9ea018f5a642927247e52434ed0, type: 3}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageFGTypes.Array.data[2]
-      value: 
-      objectReference: {fileID: 2800000, guid: 91bfeb267c8ea0f4aa91c72d9ea3e76f, type: 3}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageSetTypes.Array.data[0]
-      value: 
-      objectReference: {fileID: 2800000, guid: 65b7095daa310da47b9c3672e4560cc5, type: 3}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageSetTypes.Array.data[1]
-      value: 
-      objectReference: {fileID: 2800000, guid: ee4e4f81499d3394f967ea31f75f4e91, type: 3}
-    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: stageSetTypes.Array.data[2]
-      value: 
-      objectReference: {fileID: 2800000, guid: 07601445dbf26b64b8f00bf457e46f53, type: 3}
-    - target: {fileID: 8285264, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: d1ebd0438bc079a4fa2b9cf8d2260997, type: 3}
-    - target: {fileID: 8285264, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: m_Volume
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8285264, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: Loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11412130, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: Skate
-      value: 
-      objectReference: {fileID: 8300000, guid: 80eb294cfd6b0f14eb09a65d901d8495, type: 3}
-    - target: {fileID: 11412130, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: Turbo
-      value: 
-      objectReference: {fileID: 8300000, guid: 494c63d551d9358439c8e31a9aae5f85, type: 3}
-    - target: {fileID: 8289968, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
-      propertyPath: m_Volume
-      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
   m_IsPrefabParent: 0
---- !u!23 &2080007541 stripped
-MeshRenderer:
-  m_PrefabParentObject: {fileID: 2393822, guid: 776edc9ccea01f544b313e1d68a81161,
-    type: 2}
-  m_PrefabInternal: {fileID: 922520365}
---- !u!23 &2083093641 stripped
-MeshRenderer:
-  m_PrefabParentObject: {fileID: 2396202, guid: 776edc9ccea01f544b313e1d68a81161,
-    type: 2}
-  m_PrefabInternal: {fileID: 922520365}
 --- !u!1001 &2110888483
 Prefab:
   m_ObjectHideFlags: 0

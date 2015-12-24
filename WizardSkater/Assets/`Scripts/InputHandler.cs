@@ -4,12 +4,6 @@ using System.Collections;
 public class InputHandler : MonoBehaviour
 {
     public float inp_DeadZone = 0.4f;
-    public bool AxisInUse_1X;
-    public bool AxisInUse_1Y;
-    public bool AxisInUse_2X;
-    public bool AxisInUse_2Y;
-    public bool AxisInUse_TriggerL;
-    public bool AxisInUse_TriggerR;
     public bool inp_D_Down;
     public bool inp_D_Left;
     public bool inp_D_Right;
@@ -24,13 +18,13 @@ public class InputHandler : MonoBehaviour
     
     void Update()
     {
-        InputCheck(); ;
+        InputCheck();
     }
 
     void InputCheck()
     {
-        if (Input.GetAxis("Vertical") > inp_DeadZone || Input.GetAxis("DPad-Vert") > inp_DeadZone)
-            AxisInUse_1Y = true;
+        if (Input.GetAxis("Vertical") < -inp_DeadZone || Input.GetAxis("DPad-Vert") < -inp_DeadZone)
+            inp_D_Up = true;
         else
         {
             if (Input.GetButton("Keyb-Up"))
@@ -38,8 +32,9 @@ public class InputHandler : MonoBehaviour
             else
                 inp_D_Up = false;
         }
-        if (Input.GetAxis("Vertical") < -inp_DeadZone || Input.GetAxis("DPad-Vert") < -inp_DeadZone)
-            AxisInUse_1Y = true;
+
+        if (Input.GetAxis("Vertical") > inp_DeadZone || Input.GetAxis("DPad-Vert") > inp_DeadZone)
+            inp_D_Down = true;
         else
         {
             if (Input.GetButton("Keyb-Down"))
@@ -48,11 +43,8 @@ public class InputHandler : MonoBehaviour
                 inp_D_Down = false;
         }
 
-        if (Input.GetAxis("Horizontal") > inp_DeadZone || Input.GetAxis("DPad-Horiz") > inp_DeadZone)
-        {
-            AxisInUse_1X = true;
-
-        }
+        if (Input.GetAxis("Horizontal") < -inp_DeadZone || Input.GetAxis("DPad-Horiz") < -inp_DeadZone)
+            inp_D_Right = true;
         else
         {
             if (Input.GetButton("Keyb-Right"))
@@ -60,8 +52,9 @@ public class InputHandler : MonoBehaviour
             else
                 inp_D_Right = false;
         }
-        if (Input.GetAxis("Horizontal") < -inp_DeadZone || Input.GetAxis("DPad-Horiz") < -inp_DeadZone)
-            AxisInUse_1X = true;
+
+        if (Input.GetAxis("Horizontal") > inp_DeadZone || Input.GetAxis("DPad-Horiz") > inp_DeadZone)
+            inp_D_Left = true;
         else
         {
             if (Input.GetButton("Keyb-Left"))
@@ -70,7 +63,7 @@ public class InputHandler : MonoBehaviour
                 inp_D_Left = false;
         }
 
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") || Input.GetButton("Jump2"))
             inp_Jump = true;
         else
             inp_Jump = false;
@@ -84,10 +77,15 @@ public class InputHandler : MonoBehaviour
         else
             inp_Trick = false;
 
-        if (Input.GetButtonDown("Turbo") || Input.GetButton("Turbo2"))
+        if (Input.GetAxis("Turbo3") > inp_DeadZone || Input.GetAxis("Turbo3") < -inp_DeadZone)
             inp_Turbo = true;
         else
-            inp_Turbo = false;
+        {
+            if (Input.GetButtonDown("Turbo") || Input.GetButton("Turbo2"))
+                inp_Turbo = true;
+            else
+                inp_Turbo = false;
+        }
 
         if (Input.GetButtonDown("Ramp") || Input.GetButton("Ramp2"))
             inp_Ramp = true;

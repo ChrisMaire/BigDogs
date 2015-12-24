@@ -27,6 +27,8 @@ public class Interface_InGame : MonoBehaviour
     public List<Texture> stageSetTypes;
     public List<Texture> stageFGTypes;
 
+    public float m_animIntroTime = 3.35f;
+
     void Awake()
     {
         m_animator = GetComponent<Animator>();
@@ -73,7 +75,7 @@ public class Interface_InGame : MonoBehaviour
             {
                 SceneManager.LoadScene(0);
             }
-            if (SystemsManager.m_Input.inp_Jump)
+            if (SystemsManager.m_Input.inp_Turbo)
             {
                 SceneManager.LoadScene(1);
             }
@@ -88,7 +90,7 @@ public class Interface_InGame : MonoBehaviour
         m_animator.SetTrigger("LevelIntro");
         //animate text coming down
 
-        yield return  new WaitForSeconds(3f);
+        yield return  new WaitForSeconds(m_animIntroTime);
         
         SystemsManager.m_Game.StartGame();
 

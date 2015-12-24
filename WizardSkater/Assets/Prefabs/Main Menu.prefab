@@ -205,6 +205,7 @@ GameObject:
   - 222: {fileID: 22246386}
   - 114: {fileID: 11414904}
   - 114: {fileID: 11454448}
+  - 95: {fileID: 9574748}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -262,7 +263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &154076
 GameObject:
   m_ObjectHideFlags: 1
@@ -378,7 +379,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &168522
 GameObject:
   m_ObjectHideFlags: 1
@@ -706,6 +707,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &9574748
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141162}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e94736a24a502c84faccd05972c98041, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11403460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -792,13 +810,17 @@ MonoBehaviour:
   - {fileID: 11427814}
   - {fileID: 11446996}
   - {fileID: 11460390}
-  m_levelSelectBestTimes: []
+  m_levelSelectBestTimes:
+  - {fileID: 11483426}
+  - {fileID: 11440384}
+  - {fileID: 11475178}
+  - {fileID: 11409042}
   m_menuInputReady: 0
   m_menuInputTimer: 0
   m_menuInputDelayTime: 0.2
   groupTitle: {fileID: 22553794}
   groupLevelSelect: {fileID: 22583196}
-  groupAttractMode: {fileID: 22535614}
+  groupSplashScreen: {fileID: 22535614}
   m_state: 0
 --- !u!114 &11408864
 MonoBehaviour:
@@ -1033,7 +1055,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 45c4530c79be78d42b58509a0c868d99, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5140cb3f7b37a43409a4e5f588adc005, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1266,7 +1288,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}

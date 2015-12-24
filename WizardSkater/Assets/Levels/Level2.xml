@@ -89,10 +89,10 @@
     </LaneData>
     <LaneData>
       <Number>12</Number>
-      <Lane1Contents>3</Lane1Contents>
+      <Lane1Contents>0</Lane1Contents>
       <Lane2Contents>1</Lane2Contents>
       <Lane3Contents>1</Lane3Contents>
-      <Lane4Contents>3</Lane4Contents>
+      <Lane4Contents>0</Lane4Contents>
     </LaneData>
     <LaneData>
       <Number>13</Number>
@@ -118,7 +118,7 @@
     <LaneData>
       <Number>16</Number>
       <Lane1Contents>2</Lane1Contents>
-      <Lane2Contents>2</Lane2Contents>
+      <Lane2Contents>0</Lane2Contents>
       <Lane3Contents>3</Lane3Contents>
       <Lane4Contents>2</Lane4Contents>
     </LaneData>
@@ -146,7 +146,7 @@
     <LaneData>
       <Number>20</Number>
       <Lane1Contents>2</Lane1Contents>
-      <Lane2Contents>2</Lane2Contents>
+      <Lane2Contents>0</Lane2Contents>
       <Lane3Contents>1</Lane3Contents>
       <Lane4Contents>2</Lane4Contents>
     </LaneData>

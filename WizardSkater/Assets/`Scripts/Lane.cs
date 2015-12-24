@@ -57,7 +57,8 @@ public class Lane : MonoBehaviour
             break;
             case LaneType.FinishLine:
             {
-                LayFinishLineTile();
+                m_sprite.sprite = SystemsManager.m_Sprites.m_FinishLine;
+                //LayFinishLineTile();
             }
             break;
             default:
