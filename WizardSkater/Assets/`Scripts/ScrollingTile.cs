@@ -18,12 +18,17 @@ public class ScrollingTile : MonoBehaviour
  
     void Update()
     {
-        if(m_targetToTrack == null)
-            m_targetToTrack = SystemsManager.m_Player.GetComponent<Rigidbody>();
+        if (SystemsManager.m_Game.getState() != Game.GameState.Create)
+        {
+            if (m_targetToTrack == null)
+                m_targetToTrack = SystemsManager.m_Player.GetComponent<Rigidbody>();
 
-        m_scrollSpeed = m_scrollSpeedBase * m_scrollMultiplier * m_targetToTrack.velocity.x;
-        m_offset += (Time.deltaTime * m_scrollSpeed) / 10.0f;
-        m_renderer.material.SetTextureOffset("_MainTex", new Vector2(m_offset, 0));
+            m_scrollSpeed = m_scrollSpeedBase * m_scrollMultiplier * m_targetToTrack.velocity.x;
+            m_offset += (Time.deltaTime * m_scrollSpeed) / 10.0f;
+            m_renderer.material.SetTextureOffset("_MainTex", new Vector2(m_offset, 0));
+        }
+
+        
 
     }
 }

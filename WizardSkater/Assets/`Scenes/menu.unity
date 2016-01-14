@@ -306,10 +306,6 @@ Prefab:
       propertyPath: m_Name
       value: SystemsManager
       objectReference: {fileID: 0}
-    - target: {fileID: 183094, guid: 7af7bd15f6c04054aa7f9079f261c7a1, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7af7bd15f6c04054aa7f9079f261c7a1, type: 2}
   m_IsPrefabParent: 0

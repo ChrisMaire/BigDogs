@@ -100,23 +100,33 @@ public class Score : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
+    public IEnumerator FailTrick()
+    {
+        m_levelScore -= m_scoreAmtTrick/2;
+        yield return new WaitForEndOfFrame();
+    }
+
     public void EvaluateLevelHighScore(int level)
     {
-        float time = SystemsManager.m_Timer.GetTime();
-
-        int TimeScoreMultiplied = (int) (555 - (0.4f*(time*time)));
-        if (TimeScoreMultiplied < 0)
-            TimeScoreMultiplied = 0;
-
-        m_levelScore += TimeScoreMultiplied;     
-
-        Debug.Log("hudScore is " + m_levelScore);
-
-        if (m_levelTopScores[level] == -1f || m_levelScore < m_levelTopScores[level])
+        if (level != -1)
         {
-            //new record
-            m_levelTopScores[level] = m_levelScore;
-            SaveNewRecord(new Record(m_levelTopScores));
+            float time = SystemsManager.m_Timer.GetTime();
+
+            int TimeScoreMultiplied = (int) (555 - (0.4f*(time*time)));
+            if (TimeScoreMultiplied < 0)
+                TimeScoreMultiplied = 0;
+
+            m_levelScore += TimeScoreMultiplied;
+
+            Debug.Log("hudScore is " + m_levelScore + ", top score is " + m_levelTopScores[level]);
+
+            if (m_levelTopScores[level] == -1f || m_levelScore > m_levelTopScores[level])
+            {
+                //new record
+                Debug.Log("Saving new record...");
+                m_levelTopScores[level] = m_levelScore;
+                SaveNewRecord(new Record(m_levelTopScores));
+            }
         }
     }
 

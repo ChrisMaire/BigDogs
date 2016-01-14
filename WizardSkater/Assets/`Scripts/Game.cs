@@ -10,7 +10,8 @@ public class Game : MonoBehaviour
         Pause,
         LevelComplete,
         PostOutro,
-        Testing
+        Testing,
+        Create
     };
     private GameState m_State;
 
@@ -32,8 +33,14 @@ public class Game : MonoBehaviour
         m_paused = false;
 
         Time.timeScale = 1;
+    }
 
-        m_State = GameState.LevelComplete;
+    public void Start()
+    {
+        if (SystemsManager.m_interCreate == null)
+            setState(GameState.LevelComplete);
+        else
+            setState(GameState.Create);
     }
 
     public void InitGame()
@@ -82,7 +89,7 @@ public class Game : MonoBehaviour
 
         m_currentLevel.InitLevel();
 
-        m_State = GameState.LevelIntro;
+        setState(GameState.LevelIntro);
 
         SpawnPlayer();
 
@@ -91,7 +98,7 @@ public class Game : MonoBehaviour
 
     public void StartGame()
     {
-        m_State = GameState.Gameplay;
+        setState(GameState.Gameplay);
     }
 
     private void SpawnPlayer()
@@ -110,6 +117,20 @@ public class Game : MonoBehaviour
         }
         
         player.name = "Wizard!";
+    }
+
+    public void Pause()
+    {
+        setState(GameState.Pause);
+        Time.timeScale = 0F;
+        SystemsManager.m_interGame.Pause();
+    }
+
+    public void UnPause()
+    {
+        setState(GameState.Gameplay);
+        Time.timeScale = 1F;
+        SystemsManager.m_interGame.UnPause();
     }
 
     public bool CanPlay()

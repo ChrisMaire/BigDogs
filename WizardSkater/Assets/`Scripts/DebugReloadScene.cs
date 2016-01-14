@@ -10,7 +10,7 @@ public class DebugReloadScene : MonoBehaviour
         {
             if (Input.GetKeyUp("l"))
             {
-                Application.LoadLevel(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
     }

@@ -32,6 +32,8 @@ public class SystemsManager : MonoBehaviour
     public Interface_MainMenu MainMenu;
     public static Interface_InGame m_interGame;
     public Interface_InGame HUD;
+    public static Interface_InCreate m_interCreate;
+    public Interface_InCreate CreateMode;
 
     private Player Player;
     public static Player m_Player;
@@ -55,13 +57,15 @@ public class SystemsManager : MonoBehaviour
         m_Input = InputHandler;
         if (MainMenu)
             m_interMain = MainMenu;
-        else
+        else if(HUD)
             m_interGame = HUD;
+        else if (CreateMode)
+            m_interCreate = CreateMode;
     }
 
     void Start()
     {
-        if (m_interMain == null)
+        if (m_interGame != null)
         {
             Particles.InitObjectPools();
             Level = FindObjectOfType<Level>();
@@ -76,7 +80,7 @@ public class SystemsManager : MonoBehaviour
 
     void Update()
     {
-        if (m_interMain == null)
+        if (m_interGame != null)
         {
             m_SoundFX.transform.position = m_Camera.transform.position;
             m_Music.transform.position = m_Camera.transform.position;

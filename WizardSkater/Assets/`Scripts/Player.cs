@@ -120,6 +120,23 @@ public class Player : MonoBehaviour
         m_body = GetComponent<Rigidbody>();
     }
 
+    void Update()
+    {
+        if (SystemsManager.m_Input.inp_Pause && m_finishedLevel == false && (SystemsManager.m_Game.getState() == Game.GameState.Gameplay|| SystemsManager.m_Game.getState() == Game.GameState.Pause))
+        {
+            if (SystemsManager.m_Game.m_paused == false)
+            {
+                SystemsManager.m_Game.m_paused = true;
+                SystemsManager.m_Game.Pause();
+            }
+            else if (SystemsManager.m_Game.m_paused == true)
+            {
+                SystemsManager.m_Game.m_paused = false;
+                SystemsManager.m_Game.UnPause();
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         if(m_animator == null || m_collider == null || m_body == null || m_renderer == null)
@@ -163,23 +180,27 @@ public class Player : MonoBehaviour
 
                 m_moveSpeed -= m_moveFriction;
 
-                if (m_laneChangeReady)
+                m_gravity = m_gravityGround;
+
+                if (SystemsManager.m_Game.getState() == Game.GameState.Gameplay ||
+                    SystemsManager.m_Game.getState() == Game.GameState.Testing)
                 {
-                    CheckForLaneChange();
-                }
-                else
-                {
-                    //lane spam prevention
-                    if (m_laneChangeAgainTimer < m_laneChangeAgainTime)
-                        m_laneChangeAgainTimer += Time.deltaTime;
-                    else if (SystemsManager.m_Input.inp_D_Up == false && SystemsManager.m_Input.inp_D_Down == false)
+                    if (m_laneChangeReady)
                     {
-                        m_laneChangeReady = true;
-                        m_laneChangeAgainTimer = 0;
+                        CheckForLaneChange();
+                    }
+                    else
+                    {
+                        //lane spam prevention
+                        if (m_laneChangeAgainTimer < m_laneChangeAgainTime)
+                            m_laneChangeAgainTimer += Time.deltaTime;
+                        else if (SystemsManager.m_Input.inp_D_Up == false && SystemsManager.m_Input.inp_D_Down == false)
+                        {
+                            m_laneChangeReady = true;
+                            m_laneChangeAgainTimer = 0;
+                        }
                     }
                 }
-
-                m_gravity = m_gravityGround;
 
                 CheckForJump();
 
@@ -261,10 +282,10 @@ public class Player : MonoBehaviour
 
     private void FinishLevel()
     {
+        SystemsManager.m_Game.setState(Game.GameState.LevelComplete);
         m_finishedLevel = true;
         m_animator.SetTrigger("idle");
         SystemsManager.m_Timer.SetTimePause(true);
-        SystemsManager.m_Game.setState(Game.GameState.LevelComplete);
         SystemsManager.m_Score.EvaluateLevelHighScore(SystemsManager.m_Game.m_currentLevel.m_levelOrder - 1);
         SystemsManager.m_interGame.StartCoroutine("LevelComplete");
     }
@@ -619,6 +640,7 @@ public class Player : MonoBehaviour
         m_tricking = false;
         m_animator.ResetTrigger("trick");
         m_animator.SetBool("tricking", false);
+        SystemsManager.m_Score.StartCoroutine("FailTrick");
         HitObstacle();
     }
 

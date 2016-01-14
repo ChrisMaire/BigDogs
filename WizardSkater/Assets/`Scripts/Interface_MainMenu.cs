@@ -42,9 +42,14 @@ public class Interface_MainMenu : MonoBehaviour
 
     void Awake()
     {
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+
         m_animator = GetComponentInChildren<Animator>();
 
         m_levelNumber = FindObjectOfType<LevelNumberMessenger>();
+
+        m_events = EventSystem.current;
 
         //groupLevelSelect.alpha = 1f;
         //groupLevelSelect.gameObject.SetActive(false);
@@ -74,10 +79,17 @@ public class Interface_MainMenu : MonoBehaviour
         groupSplashScreen.gameObject.SetActive(false);
         m_state = MenuState.MainMenu;
         m_menuSelectButtons[0].Select();
+        m_events.firstSelectedGameObject = m_menuSelectButtons[0].gameObject;
     }
 
     void Update()
     {
+        if (m_events.currentSelectedGameObject == null)
+        {
+            Debug.Log("Reselecting first input");
+            m_events.SetSelectedGameObject(m_events.firstSelectedGameObject);
+        }
+
         if (m_menuInputReady == false)
         {
             if (m_menuInputTimer < m_menuInputDelayTime)
@@ -86,8 +98,11 @@ public class Interface_MainMenu : MonoBehaviour
             }
             else
             {
-                m_menuInputReady = true;
-                m_menuInputTimer = 0;
+                if(SystemsManager.m_Input.IsInputClear())
+                {
+                    m_menuInputReady = true;
+                    m_menuInputTimer = 0;
+                }
             }
         }
         else
@@ -96,16 +111,19 @@ public class Interface_MainMenu : MonoBehaviour
             {
                 if (m_state == MenuState.MainMenu)
                 {
-                    if (getMenuSelector() == 0 && SystemsManager.m_Game.m_startedTheGame == false)
+                    if (m_menuSelector == 0 && SystemsManager.m_Game.m_startedTheGame == false)
                     {
                         m_menuInputReady = false;
                         SystemsManager.m_SoundFX.uiOneShot_Submit();
                         GoLevelSelect();
                     }
-                    else if (getMenuSelector() == 1)
+                    else if (m_menuSelector == 1 && Application.isEditor == false)
                     {
                         if (m_transitioning == false)
+                        {
+                            SystemsManager.m_SoundFX.uiOneShot_Submit();
                             StartCoroutine("QuitGame");
+                        }
                     }
                 }
                 else if (m_state == MenuState.LevelSelect)
@@ -117,6 +135,7 @@ public class Interface_MainMenu : MonoBehaviour
                     }
                     else
                     {
+                        m_menuInputReady = false;
                         SystemsManager.m_SoundFX.uiOneShot_Submit();
                         GoMainMenu();
                     }
@@ -150,9 +169,11 @@ public class Interface_MainMenu : MonoBehaviour
 
     private IEnumerator QuitGame()
     {
+        groupLevelSelect.gameObject.SetActive(false);
+        groupSplashScreen.gameObject.SetActive(false);
         m_transitioning = true;
-        SystemsManager.m_SoundFX.uiOneShot_Submit();
-        yield return new WaitForSeconds(0.15f);
+        m_animator.SetTrigger("QuitGame");
+        yield return new WaitForSeconds(0.5f);
         Application.Quit();
     }
 
@@ -160,21 +181,23 @@ public class Interface_MainMenu : MonoBehaviour
     {
         m_transitioning = true;
         m_levelNumber.m_level = m_levelSelector + 1;
+        m_animator.SetTrigger("StartGame");
         SystemsManager.m_SoundFX.uiOneShot_Submit();
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.2f);
         SceneManager.LoadScene(1);
     }
 
-    public IEnumerator MenuTransitionMainMenu()
+    public IEnumerator MenuTransitionMainMenu(bool fromLS)
     {
         m_transitioning = true;
 
-        Debug.Log("mm in");
+        m_levelSelector = 0;
 
         groupTitle.gameObject.SetActive(true);
         groupTitle.alpha = 0f;
 
         m_menuSelectButtons[m_menuSelector].Select();
+        m_events.firstSelectedGameObject = m_menuSelectButtons[m_menuSelector].gameObject;
 
         m_animator.SetTrigger("LevelSelectOut");
 
@@ -193,7 +216,7 @@ public class Interface_MainMenu : MonoBehaviour
     public void GoMainMenu()
     {
         if (m_transitioning == false)
-            StartCoroutine("MenuTransitionMainMenu");
+            StartCoroutine("MenuTransitionMainMenu", true);
     }
 
     public IEnumerator MenuTransitionLevelSelect()
@@ -211,6 +234,7 @@ public class Interface_MainMenu : MonoBehaviour
         }
 
         m_levelSelectButtons[0].Select();
+        m_events.firstSelectedGameObject = m_levelSelectButtons[0].gameObject;
 
         //for (int i = 0; i < m_levelSelectBestTimes.Count - 1; i += 1) //best times
         //{
@@ -255,15 +279,8 @@ public class Interface_MainMenu : MonoBehaviour
             StartCoroutine("MenuTransitionLevelSelect");
     }
 
-    public int getMenuSelector()
-    {
-        return m_menuSelector;
-    }
-
     public IEnumerator ChangeMenuSelector(string dir)
     {
-        m_events.SetSelectedGameObject(null);
-
         if (dir == "up")
         {
             if (m_state == MenuState.MainMenu)
@@ -280,11 +297,15 @@ public class Interface_MainMenu : MonoBehaviour
             }
             else if (m_state == MenuState.LevelSelect)
             {
-                m_levelSelector -= 2;
-                if (m_levelSelector < 0)
-                    m_levelSelector += 4;
-                m_levelSelectButtons[m_levelSelector].Select();
-                SystemsManager.m_SoundFX.uiOneShot_Move();
+                if (m_levelSelector != -1)
+                {
+                    m_levelSelector -= 2;
+                    if (m_levelSelector < 0)
+                        m_levelSelector += 4;
+                    m_levelSelectButtons[m_levelSelector].Select();
+                    m_events.firstSelectedGameObject = m_levelSelectButtons[m_levelSelector].gameObject;
+                    SystemsManager.m_SoundFX.uiOneShot_Move();
+                }
             }
         }
         else if (dir == "down")
@@ -303,11 +324,15 @@ public class Interface_MainMenu : MonoBehaviour
             }
             else if (m_state == MenuState.LevelSelect)
             {
-                m_levelSelector += 2;
-                if (m_levelSelector > 3)
-                    m_levelSelector -= 4;
-                m_levelSelectButtons[m_levelSelector].Select();
-                SystemsManager.m_SoundFX.uiOneShot_Move();
+                if (m_levelSelector != -1)
+                {
+                    m_levelSelector += 2;
+                    if (m_levelSelector > 3)
+                        m_levelSelector -= 4;
+                    m_levelSelectButtons[m_levelSelector].Select();
+                    m_events.firstSelectedGameObject = m_levelSelectButtons[m_levelSelector].gameObject;
+                    SystemsManager.m_SoundFX.uiOneShot_Move();
+                }
             }
         }
         else if (dir == "left")
@@ -327,6 +352,7 @@ public class Interface_MainMenu : MonoBehaviour
                 //    m_menuSelector = 1;
                 //}
                 m_menuSelectButtons[m_menuSelector].Select();
+                m_events.firstSelectedGameObject = m_menuSelectButtons[m_menuSelector].gameObject;
                 SystemsManager.m_SoundFX.uiOneShot_Move();
             }
             else if (m_state == MenuState.LevelSelect)
@@ -336,6 +362,7 @@ public class Interface_MainMenu : MonoBehaviour
                     if (m_levelSelector-1 < 0 || m_levelSelector-1 == 1)
                     {
                         m_levelSelectButtons[m_levelSelector].Select();
+                        m_events.firstSelectedGameObject = m_levelSelectBackButton.gameObject;
                         m_levelSelectBackButton.Select();
                         m_levelSelector = -1;
                         SystemsManager.m_SoundFX.uiOneShot_Move();
@@ -344,6 +371,7 @@ public class Interface_MainMenu : MonoBehaviour
                     {
                         m_levelSelector--;
                         m_levelSelectButtons[m_levelSelector].Select();
+                        m_events.firstSelectedGameObject = m_levelSelectButtons[m_levelSelector].gameObject;
                         SystemsManager.m_SoundFX.uiOneShot_Move();
                     }
                 }
@@ -351,6 +379,7 @@ public class Interface_MainMenu : MonoBehaviour
                 {
                     m_levelSelector = 1;
                     m_levelSelectButtons[m_levelSelector].Select();
+                    m_events.firstSelectedGameObject = m_levelSelectButtons[m_levelSelector].gameObject;
                     SystemsManager.m_SoundFX.uiOneShot_Move();
                 }
             }
@@ -372,6 +401,7 @@ public class Interface_MainMenu : MonoBehaviour
                 //    m_menuSelector = 0;
                 //}
                 m_menuSelectButtons[m_menuSelector].Select();
+                m_events.firstSelectedGameObject = m_menuSelectButtons[m_menuSelector].gameObject;
                 SystemsManager.m_SoundFX.uiOneShot_Move();
             }
             else if (m_state == MenuState.LevelSelect)
@@ -382,6 +412,7 @@ public class Interface_MainMenu : MonoBehaviour
                     {
                         m_levelSelectButtons[m_levelSelector].Select();
                         m_levelSelectBackButton.Select();
+                        m_events.firstSelectedGameObject = m_levelSelectBackButton.gameObject;
                         m_levelSelector = -1;
                         SystemsManager.m_SoundFX.uiOneShot_Move();
                     }
@@ -389,6 +420,7 @@ public class Interface_MainMenu : MonoBehaviour
                     {
                         m_levelSelector++;
                         m_levelSelectButtons[m_levelSelector].Select();
+                        m_events.firstSelectedGameObject = m_levelSelectButtons[m_levelSelector].gameObject;
                         SystemsManager.m_SoundFX.uiOneShot_Move();
                     }
                 }
@@ -396,6 +428,7 @@ public class Interface_MainMenu : MonoBehaviour
                 {
                     m_levelSelector = 0;
                     m_levelSelectButtons[m_levelSelector].Select();
+                    m_events.firstSelectedGameObject = m_levelSelectButtons[m_levelSelector].gameObject;
                     SystemsManager.m_SoundFX.uiOneShot_Move();
                 }
             }

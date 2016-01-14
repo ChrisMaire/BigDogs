@@ -126,11 +126,112 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22449932, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22487128, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498990, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11468304, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11412652, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11479198, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9555346, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9573362, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9522890, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9547464, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9522890, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 37a2f424103b6dc459aaf63264967ee6, type: 2}
+    - target: {fileID: 9555346, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 37a2f424103b6dc459aaf63264967ee6, type: 2}
+    - target: {fileID: 9547464, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 37a2f424103b6dc459aaf63264967ee6, type: 2}
+    - target: {fileID: 11471292, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_pauseInputDelayTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11467902, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_FontData.m_FontStyle
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11468658, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499738, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11481402, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11431798, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22569172, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11467902, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Text
+      value: "( \u2191 / \u2193 ) change lane\r\n( z ) skate\r :-: ( x ) jump\n( c
+        ) turbo\r :-: ( v ) trick\r :-: ( b ) build ramp"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11468658, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Text
+      value: "( \u2191 / \u2193 ) change lane\r\n( z ) skate\r :-: ( x ) jump\n( c
+        ) turbo\r :-: ( v ) trick\r :-: ( b ) build ramp"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499738, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Text
+      value: "( \u2191 / \u2193 ) change lane\r\n( z ) skate\r :-: ( x ) jump\n( c
+        ) turbo\r :-: ( v ) trick\r :-: ( b ) build ramp"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11481402, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Text
+      value: "( \u2191 / \u2193 ) change lane\r\n( z ) skate\r :-: ( x ) jump\n( c
+        ) turbo\r :-: ( v ) trick\r :-: ( b ) build ramp"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11431798, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_Text
+      value: "( \u2191 / \u2193 ) change lane\r\n( z ) skate\r :-: ( x ) jump\n( c
+        ) turbo\r :-: ( v ) trick\r :-: ( b ) build ramp"
+      objectReference: {fileID: 0}
+    - target: {fileID: 22495524, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 367
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 776edc9ccea01f544b313e1d68a81161, type: 2}

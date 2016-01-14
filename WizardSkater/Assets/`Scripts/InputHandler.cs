@@ -21,6 +21,13 @@ public class InputHandler : MonoBehaviour
         InputCheck();
     }
 
+    public bool IsInputClear()
+    {
+        bool ret =
+        !(inp_Jump || inp_Skate || inp_Pause || inp_Ramp || inp_Trick || inp_Turbo);
+        return ret;
+    }
+
     void InputCheck()
     {
         if (Input.GetAxis("Vertical") < -inp_DeadZone || Input.GetAxis("DPad-Vert") < -inp_DeadZone)
@@ -92,7 +99,7 @@ public class InputHandler : MonoBehaviour
         else
             inp_Ramp = false;
 
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetButtonUp("Pause"))
             inp_Pause = true;
         else
             inp_Pause = false;
